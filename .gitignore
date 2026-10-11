@@ -6,3 +6,5 @@ __pycache__/
 node_modules/
 outputs/
 *.log
+browser-*.tmp/
+*.tmp.json

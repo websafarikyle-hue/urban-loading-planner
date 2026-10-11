@@ -5,6 +5,14 @@ const EPS=1e-6,copy=x=>JSON.parse(JSON.stringify(x)),sum=(a,f=x=>x)=>a.reduce((s
 const defaults={endpoint:"return",unload:"direct",max_vehicles:3,objective:"time",max_rehandles:2,
   loading_setup:10,loading_per_box:1,setup_minutes:3,per_box_minutes:1,fragile_extra_minutes:.5,
   heavy_extra_minutes:.5,heavy_threshold_kg:30,move_out_minutes:1,move_in_minutes:1,speed_kmh:28};
+const skus=[
+ {code:'HOOD',sku:'模拟烟机箱',length:80,width:60,height:55,weight:22,fragile:true,stackable:false,rotate:true,max_top_weight:0},
+ {code:'HOB',sku:'模拟灶具箱',length:80,width:50,height:25,weight:15,fragile:true,stackable:false,rotate:true,max_top_weight:0},
+ {code:'DISH',sku:'模拟洗碗机箱',length:65,width:65,height:90,weight:48,fragile:false,stackable:true,rotate:true,max_top_weight:25},
+ {code:'PIPE',sku:'模拟烟管配件箱',length:60,width:40,height:35,weight:12,fragile:false,stackable:true,rotate:true,max_top_weight:25},
+ {code:'KIT',sku:'模拟安装辅料箱',length:40,width:30,height:25,weight:8,fragile:false,stackable:true,rotate:true,max_top_weight:16}
+];
+const vehicleRates=[{fixed_cost:160,cost_per_km:1.2,labor_per_hour:30},{fixed_cost:220,cost_per_km:1.6,labor_per_hour:35},{fixed_cost:300,cost_per_km:2.1,labor_per_hour:40}];
 function assert(ok,message){if(!ok)throw Error(message);}
 function number(n,label,min=0,max=100000){assert(typeof n==="number"&&Number.isFinite(n)&&n>=min&&n<=max,label+"超出范围或不是有效数字");}
 function validate(d){
@@ -101,7 +109,7 @@ function packAttempt(route,v,c,strategy=0){
    options.push(a);
   }
   if(!options.length)return {feasible:false,reason:"装箱启发式未找到符合支撑及取货要求的位置"};
-  options.sort((a,b)=>a.z-b.z||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
+   options.sort((a,b)=>(strategy?Number(b.z>EPS)-Number(a.z>EPS):a.z-b.z)||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
   const a=options[0];placed.push(a);points.push([a.x,a.y,a.z],[a.x+a.dx,a.y+a.dy,a.z],[a.x+a.dx,a.y,a.z+a.dz]);
  }
  const unloading=unloadPlan(placed,route,v,c);if(!unloading.feasible)return unloading;
@@ -111,7 +119,7 @@ function packAttempt(route,v,c,strategy=0){
  const loading=removal.reverse().map((b,i)=>({step:i+1,box_id:b.id,order_id:b.order_id,position:[b.x,b.y,b.z]}));
  return {feasible:true,layout:placed,loading,unloading};
 }
-function pack(route,v,c){let last;for(const strategy of (c.unload==="limited"?[0,1,2]:[0,1])){last=packAttempt(route,v,c,strategy);if(last.feasible)return last;}return last;}
+function pack(route,v,c){let last,best;const floor=p=>sum(p.layout.filter(b=>b.z<EPS),b=>b.dx*b.dy);for(const strategy of (c.unload==="limited"?[0,1,2]:[0,1])){last=packAttempt(route,v,c,strategy);if(last.feasible&&(!best||last.unloading.rehandles<best.unloading.rehandles||(last.unloading.rehandles===best.unloading.rehandles&&floor(last)<floor(best)-EPS)))best=last;}return best||last;}
 function service(o,c,step){const components={setup:c.setup_minutes,boxes:o.boxes.length*c.per_box_minutes,fragile:o.boxes.filter(b=>b.fragile).length*c.fragile_extra_minutes,heavy:o.boxes.filter(b=>b.weight>c.heavy_threshold_kg).length*c.heavy_extra_minutes,rehandle:step.rehandles*(c.move_out_minutes+c.move_in_minutes)};return {minutes:Math.ceil(sum(Object.values(components))*2)/2,components};}
 function travel(a,b,d,c){
  if(d.travel){const t=d.travel,i=t.points.findIndex(p=>p.id===(a.store_id||a.id)),j=t.points.findIndex(p=>p.id===(b.store_id||b.id));const km=t.distances[i][j],minutes=t.durations[i][j];return km===null||minutes===null?null:{km,minutes};}
@@ -137,6 +145,7 @@ function schedule(route,v,d,c,packing){
 // Output verifier replays operations rather than trusting the packing search.
 function verify(result,d){
  const c=validate(d),seen=new Set(),source=new Map(d.orders.flatMap(o=>o.boxes.map(b=>[b.id,{...b,order_id:o.id}])));
+ assert(JSON.stringify(result.config)===JSON.stringify(c),"方案条件与输入不一致");
  assert(result.routes.length<=c.max_vehicles,"出车数超上限");const vehicles=new Set();
  function inspect(layout,v){const ids=new Set();let mass=0;for(const b of layout){const original=source.get(b.id);assert(original&&!ids.has(b.id),"箱件未知或重复");ids.add(b.id);mass+=b.weight;
   for(const k of ["weight","fragile","stackable","max_top_weight","order_id"])assert(b[k]===original[k],"箱件属性不一致");
@@ -174,6 +183,9 @@ function verify(result,d){
  }
  assert(result.metrics.assigned===seen.size&&result.metrics.orders===d.orders.length&&result.metrics.vehicles===vehicles.size,"服务量不一致");
  for(const k of ["cost","km","work_minutes"])assert(Math.abs(result.metrics[k]-round(sum(result.routes,r=>r[k])))<.001,"汇总指标不一致");
+ const finish=result.routes.length?Math.max(...result.routes.map(r=>r.end)):d.start;
+ assert(Math.abs(result.metrics.finish-finish)<.001&&Math.abs(result.metrics.elapsed_minutes-round(finish-d.start))<.001,"任务历时不一致");
+ assert(result.metrics.stacked_boxes===sum(result.routes,r=>r.packing.layout.filter(b=>b.z>EPS).length),"上层箱件汇总不一致");
  assert(result.unassigned.length===d.orders.length-seen.size&&new Set(result.unassigned.map(o=>o.order_id)).size===result.unassigned.length&&result.unassigned.every(o=>!seen.has(o.order_id)&&d.orders.some(x=>x.id===o.order_id)),"未安排清单不一致");return true;
 }
 function solve(d,mode="optimized"){
@@ -198,8 +210,11 @@ function solve(d,mode="optimized"){
   if(!options.length)return false;if(!baseline)options.sort((a,b)=>a.delta-b.delta||a.i-b.i||a.p-b.p);const chosen=options[0];routes[chosen.i]=chosen.trial;return true;
  }
  function construct(sequence,baseline=false,vehicleOrder){const routes=vehicles.map(()=>[]);sequence.forEach(o=>insert(routes,o,baseline,vehicleOrder));return routes;}
- const baseline=construct(orders,true);let best=baseline;
- if(mode!=="baseline"){
+ const nearest=[];let cursor=d.depot,remainingOrders=orders.slice();while(remainingOrders.length){remainingOrders.sort((a,b)=>(travel(cursor,a,d,c)?.minutes??Infinity)-(travel(cursor,b,d,c)?.minutes??Infinity)||a.id.localeCompare(b.id));cursor=remainingOrders.shift();nearest.push(cursor);}
+ const sequence=mode==='nearest'?nearest:mode==='deadline'?orders.slice().sort((a,b)=>a.due-b.due||a.id.localeCompare(b.id)):orders;
+ const baseline=construct(sequence,true);let best=baseline;
+ if(!['baseline','nearest','deadline'].includes(mode)){
+  for(const ordered of [nearest,orders.slice().sort((a,b)=>a.due-b.due||a.id.localeCompare(b.id))]){const trial=construct(ordered,true);if(better(score(trial),score(best)))best=trial;}
   const seeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
   for(const sequence of seeds){let routes=construct(sequence,false,vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width*vehicles[b].height-vehicles[a].length*vehicles[a].width*vehicles[a].height));
    for(let pass=0;pass<2&&!budgetHit;pass++){
@@ -256,19 +271,21 @@ function solve(d,mode="optimized"){
  const metrics={orders:orders.length,assigned:served.size,vehicles:routes.length,km:round(sum(routes,r=>r.km)),cost:round(sum(routes,r=>r.cost)),work_minutes:round(sum(routes,r=>r.work_minutes)),finish:routes.length?Math.max(...routes.map(r=>r.end)):d.start,rehandles:sum(routes,r=>r.rehandles),on_time_rate:served.size/orders.length,
   volume_utilization:routes.length?sum(routes,r=>sum(r.packing.layout,b=>b.dx*b.dy*b.dz))/sum(routes,r=>r.vehicle.length*r.vehicle.width*r.vehicle.height):0,
   time_parts:Object.fromEntries(["loading","driving","waiting","unloading"].map(k=>[k,round(sum(routes,r=>r.time_parts[k]))]))};
- const result={version:"0.3",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
+ metrics.stacked_boxes=sum(routes,r=>r.packing.layout.filter(b=>b.z>EPS).length);
+ metrics.elapsed_minutes=round(metrics.finish-d.start);
+ const result={version:"0.9",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
  verify(result,d);return result;
 }
 function popcount(n){let c=0;while(n){n&=n-1;c++;}return c;}
 function simulate(catalog,seed=42,date="2026-10-12"){
  let state=Number(seed)>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
  const stores=catalog.stores.slice();for(let i=stores.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[stores[i],stores[j]]=[stores[j],stores[i]];}
- const count=12+Math.floor(random()*5),skus=[{sku:"模拟烟机",length:80,width:60,height:55,weight:22,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟灶具",length:80,width:50,height:25,weight:15,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟洗碗机",length:65,width:65,height:90,weight:48,fragile:false,stackable:true,rotate:true,max_top_weight:25}];
+ const count=12+Math.floor(random()*5);
  const orders=stores.slice(0,count).map((s,i)=>{const id="O"+String(i+1).padStart(2,"0"),n=2+Math.floor(random()*3),ready=540+Math.floor(random()*4)*30,due=ready+240+Math.floor(random()*3)*60;return {id,store_id:s.id,name:s.name,address:s.address,lon:s.lon,lat:s.lat,ready,due,boxes:Array.from({length:n},(_,j)=>({...skus[Math.floor(random()*skus.length)],id:id+"-B"+(j+1)}))};});
  const types=[[280,155,180,1200,"小型厢车"],[420,185,205,2500,"中型厢车"],[520,220,220,4500,"大型厢车"]];
- const vehicles=Array.from({length:6},(_,i)=>{const [length,width,height,capacity_kg,name]=types[i%3];return {id:"V"+String(i+1).padStart(2,"0"),name,length,width,height,capacity_kg,fixed_cost:200,cost_per_km:1.5,labor_per_hour:30,shift_end:1140,enabled:true};});
+ const vehicles=Array.from({length:6},(_,i)=>{const [length,width,height,capacity_kg,name]=types[i%3];return {id:"V"+String(i+1).padStart(2,"0"),name,length,width,height,capacity_kg,...vehicleRates[i%3],shift_end:1140,enabled:true};});
  return {version:3,date,seed,orders,vehicles,start:480,depot:copy(catalog.depot),end_point:copy(catalog.parking),config:copy(defaults),provenance:catalog.note,travel:catalog.travel?copy(catalog.travel):undefined};
 }
-const api={defaults,validate,solve,verify,pack,unloadPlan,simulate,travel,service};
+const api={defaults,skus,vehicleRates,validate,solve,verify,pack,unloadPlan,simulate,travel,service,schedule,blockers};
 if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.UrbanEngine=api;
 })(typeof self!=="undefined"?self:globalThis);

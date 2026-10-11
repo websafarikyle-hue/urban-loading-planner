@@ -1,0 +1,770 @@
+{
+  "version": "0.9",
+  "query_date": "2026-10-11T15:14:35.834Z",
+  "records": [
+    {
+      "kind": "normal",
+      "mode": "baseline",
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 552.52,
+        "cost": 2096.99,
+        "work_minutes": 835.1,
+        "finish": 811.9716666666668,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.1776531686721122,
+        "time_parts": {
+          "loading": 78,
+          "driving": 497.42,
+          "waiting": 147.18,
+          "unloading": 112.5
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 331.97
+      },
+      "diagnostics": {
+        "packing_checks": 32,
+        "packing_rejections": 16,
+        "local_search_improvements": 0,
+        "route_pool_columns": 16,
+        "evaluation_limit_hit": false,
+        "duration_ms": 97,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "normal",
+      "mode": "nearest",
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 420.8,
+        "cost": 1843.58,
+        "work_minutes": 775.49,
+        "finish": 750.0733333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.1776531686721122,
+        "time_parts": {
+          "loading": 78,
+          "driving": 389.58,
+          "waiting": 195.41,
+          "unloading": 112.5
+        },
+        "stacked_boxes": 10,
+        "elapsed_minutes": 270.07
+      },
+      "diagnostics": {
+        "packing_checks": 31,
+        "packing_rejections": 15,
+        "local_search_improvements": 0,
+        "route_pool_columns": 16,
+        "evaluation_limit_hit": false,
+        "duration_ms": 74,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "normal",
+      "mode": "deadline",
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 491.2,
+        "cost": 1919.83,
+        "work_minutes": 744.02,
+        "finish": 748.9316666666666,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.1776531686721122,
+        "time_parts": {
+          "loading": 78,
+          "driving": 447.61,
+          "waiting": 105.9,
+          "unloading": 112.5
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 268.93
+      },
+      "diagnostics": {
+        "packing_checks": 32,
+        "packing_rejections": 16,
+        "local_search_improvements": 0,
+        "route_pool_columns": 16,
+        "evaluation_limit_hit": false,
+        "duration_ms": 75,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "normal",
+      "mode": "optimized",
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 2,
+        "km": 346.74,
+        "cost": 1673.57,
+        "work_minutes": 518.13,
+        "finish": 791.3516666666668,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17261502701843612,
+        "time_parts": {
+          "loading": 68,
+          "driving": 318.85,
+          "waiting": 18.77,
+          "unloading": 112.5
+        },
+        "stacked_boxes": 13,
+        "elapsed_minutes": 311.35
+      },
+      "diagnostics": {
+        "packing_checks": 1463,
+        "packing_rejections": 701,
+        "local_search_improvements": 11,
+        "route_pool_columns": 332,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 10530,
+        "duration_ms": 11011,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "stack",
+      "mode": "baseline",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 127.74,
+        "cost": 535.43,
+        "work_minutes": 190.37,
+        "finish": 670.3716666666666,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 120.37,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 190.37
+      },
+      "diagnostics": {
+        "packing_checks": 4,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 4,
+        "evaluation_limit_hit": false,
+        "duration_ms": 21,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "stack",
+      "mode": "nearest",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 136.01,
+        "cost": 551.73,
+        "work_minutes": 195.62,
+        "finish": 675.6183333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 125.62,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 195.62
+      },
+      "diagnostics": {
+        "packing_checks": 4,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 4,
+        "evaluation_limit_hit": false,
+        "duration_ms": 17,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "stack",
+      "mode": "deadline",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 127.74,
+        "cost": 535.43,
+        "work_minutes": 190.37,
+        "finish": 670.3716666666666,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 120.37,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 190.37
+      },
+      "diagnostics": {
+        "packing_checks": 4,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 4,
+        "evaluation_limit_hit": false,
+        "duration_ms": 20,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "stack",
+      "mode": "optimized",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 126.66,
+        "cost": 533.38,
+        "work_minutes": 189.82,
+        "finish": 669.8233333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 119.82,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 189.82
+      },
+      "diagnostics": {
+        "packing_checks": 24,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 9,
+        "evaluation_limit_hit": false,
+        "pool_pruned": false,
+        "pool_states_peak": 10,
+        "duration_ms": 157,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "rehandle",
+      "mode": "baseline",
+      "metrics": {
+        "orders": 2,
+        "assigned": 2,
+        "vehicles": 1,
+        "km": 100.16,
+        "cost": 547.41,
+        "work_minutes": 286.53,
+        "finish": 766.5333333333333,
+        "rehandles": 1,
+        "on_time_rate": 1,
+        "volume_utilization": 0.38125,
+        "time_parts": {
+          "loading": 15,
+          "driving": 92.48,
+          "waiting": 166.06,
+          "unloading": 13
+        },
+        "stacked_boxes": 1,
+        "elapsed_minutes": 286.53
+      },
+      "diagnostics": {
+        "packing_checks": 2,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 2,
+        "evaluation_limit_hit": false,
+        "duration_ms": 2,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "rehandle",
+      "mode": "nearest",
+      "metrics": {
+        "orders": 2,
+        "assigned": 2,
+        "vehicles": 1,
+        "km": 100.16,
+        "cost": 547.41,
+        "work_minutes": 286.53,
+        "finish": 766.5333333333333,
+        "rehandles": 1,
+        "on_time_rate": 1,
+        "volume_utilization": 0.38125,
+        "time_parts": {
+          "loading": 15,
+          "driving": 92.48,
+          "waiting": 166.06,
+          "unloading": 13
+        },
+        "stacked_boxes": 1,
+        "elapsed_minutes": 286.53
+      },
+      "diagnostics": {
+        "packing_checks": 2,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 2,
+        "evaluation_limit_hit": false,
+        "duration_ms": 1,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "rehandle",
+      "mode": "deadline",
+      "metrics": {
+        "orders": 2,
+        "assigned": 2,
+        "vehicles": 1,
+        "km": 100.16,
+        "cost": 547.41,
+        "work_minutes": 286.53,
+        "finish": 766.5333333333333,
+        "rehandles": 1,
+        "on_time_rate": 1,
+        "volume_utilization": 0.38125,
+        "time_parts": {
+          "loading": 15,
+          "driving": 92.48,
+          "waiting": 166.06,
+          "unloading": 13
+        },
+        "stacked_boxes": 1,
+        "elapsed_minutes": 286.53
+      },
+      "diagnostics": {
+        "packing_checks": 2,
+        "packing_rejections": 0,
+        "local_search_improvements": 0,
+        "route_pool_columns": 2,
+        "evaluation_limit_hit": false,
+        "duration_ms": 2,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "rehandle",
+      "mode": "optimized",
+      "metrics": {
+        "orders": 2,
+        "assigned": 2,
+        "vehicles": 1,
+        "km": 100.16,
+        "cost": 547.41,
+        "work_minutes": 286.53,
+        "finish": 766.5333333333333,
+        "rehandles": 1,
+        "on_time_rate": 1,
+        "volume_utilization": 0.38125,
+        "time_parts": {
+          "loading": 15,
+          "driving": 92.48,
+          "waiting": 166.06,
+          "unloading": 13
+        },
+        "stacked_boxes": 1,
+        "elapsed_minutes": 286.53
+      },
+      "diagnostics": {
+        "packing_checks": 4,
+        "packing_rejections": 1,
+        "local_search_improvements": 0,
+        "route_pool_columns": 3,
+        "evaluation_limit_hit": false,
+        "pool_pruned": false,
+        "pool_states_peak": 4,
+        "duration_ms": 3,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      }
+    },
+    {
+      "kind": "additional-seed",
+      "seed": 7,
+      "input_orders": 8,
+      "metrics": {
+        "orders": 8,
+        "assigned": 8,
+        "vehicles": 1,
+        "km": 210.47,
+        "cost": 719.49,
+        "work_minutes": 278.99,
+        "finish": 758.9850000000001,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.26225005493298176,
+        "time_parts": {
+          "loading": 33,
+          "driving": 191.49,
+          "waiting": 0,
+          "unloading": 54.5
+        },
+        "stacked_boxes": 7,
+        "elapsed_minutes": 278.99
+      }
+    },
+    {
+      "kind": "additional-seed",
+      "seed": 43,
+      "input_orders": 8,
+      "metrics": {
+        "orders": 8,
+        "assigned": 8,
+        "vehicles": 1,
+        "km": 166.68,
+        "cost": 634.83,
+        "work_minutes": 253.94,
+        "finish": 733.9400000000002,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.19275198543491226,
+        "time_parts": {
+          "loading": 29,
+          "driving": 163.64,
+          "waiting": 11.8,
+          "unloading": 49.5
+        },
+        "stacked_boxes": 3,
+        "elapsed_minutes": 253.94
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "return",
+      "unload": "direct",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 126.66,
+        "cost": 533.38,
+        "work_minutes": 189.82,
+        "finish": 669.8233333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 119.82,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 189.82
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "return",
+      "unload": "direct",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 126.66,
+        "cost": 533.38,
+        "work_minutes": 189.82,
+        "finish": 669.8233333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 119.82,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 189.82
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "return",
+      "unload": "limited",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 126.66,
+        "cost": 533.38,
+        "work_minutes": 189.82,
+        "finish": 669.8233333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 119.82,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 189.82
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "return",
+      "unload": "limited",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 126.66,
+        "cost": 533.38,
+        "work_minutes": 189.82,
+        "finish": 669.8233333333335,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 119.82,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 189.82
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "open",
+      "unload": "direct",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 70.31,
+        "cost": 415.13,
+        "work_minutes": 141.65,
+        "finish": 621.6549999999999,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 71.66,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 141.65
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "open",
+      "unload": "direct",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 70.31,
+        "cost": 415.13,
+        "work_minutes": 141.65,
+        "finish": 621.6549999999999,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 71.66,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 141.65
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "open",
+      "unload": "limited",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 70.31,
+        "cost": 415.13,
+        "work_minutes": 141.65,
+        "finish": 621.6549999999999,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 71.66,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 141.65
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "open",
+      "unload": "limited",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 70.31,
+        "cost": 415.13,
+        "work_minutes": 141.65,
+        "finish": 621.6549999999999,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 71.66,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 141.65
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "parking",
+      "unload": "direct",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 93.56,
+        "cost": 464.43,
+        "work_minutes": 162.39,
+        "finish": 642.3933333333332,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 92.39,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 162.39
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "parking",
+      "unload": "direct",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 93.24,
+        "cost": 464.22,
+        "work_minutes": 162.91,
+        "finish": 642.9100000000001,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 92.91,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 162.91
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "parking",
+      "unload": "limited",
+      "objective": "time",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 93.56,
+        "cost": 464.43,
+        "work_minutes": 162.39,
+        "finish": 642.3933333333332,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 92.39,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 162.39
+      }
+    },
+    {
+      "kind": "condition-combination",
+      "endpoint": "parking",
+      "unload": "limited",
+      "objective": "cost",
+      "metrics": {
+        "orders": 4,
+        "assigned": 4,
+        "vehicles": 1,
+        "km": 93.24,
+        "cost": 464.22,
+        "work_minutes": 162.91,
+        "finish": 642.9100000000001,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.08588379320086637,
+        "time_parts": {
+          "loading": 34,
+          "driving": 92.91,
+          "waiting": 0,
+          "unloading": 36
+        },
+        "stacked_boxes": 12,
+        "elapsed_minutes": 162.91
+      }
+    }
+  ]
+}

@@ -4,8 +4,8 @@ import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'frontend/v03'
-FILES = ('index.html', 'app.js', 'engine.js', 'worker.js', 'catalog.js', 'style.css')
+FILES = ('index.html', 'app.js', 'engine.js', 'worker.js', 'catalog.js', 'product.js', 'roads.js', 'style.css')
 for name in FILES:
     shutil.copy2(SOURCE / name, ROOT / name)
 (ROOT / '.nojekyll').write_text('', encoding="utf-8")
-print('GitHub Pages root prepared: 6 shared assets and .nojekyll')
+print('GitHub Pages root prepared: 8 shared assets and .nojekyll')
