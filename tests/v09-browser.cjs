@@ -14,6 +14,34 @@ async function waitFor(expression,timeout=50000){const until=Date.now()+timeout;
  await waitFor('!!window.UrbanUI',10000);await evaluate("document.getElementById('solve').click()");await waitFor('!!window.UrbanUI.getPlan()');
  assert.equal(await evaluate('window.UrbanUI.getPlan().metrics.assigned'),16);assert.equal(await evaluate('Object.keys(window.UrbanUI.getGeometry()).length'),2);assert.equal(await evaluate('window.UrbanUI.getComparisons().length'),3);
  assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth'));fs.writeFileSync(path.join(artifacts,'v09-desktop.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
+
+ // Inspect the revised comparison and the exact button spacing reported by the user.
+ await evaluate("document.querySelector('[data-tab=compare]').click()");
+ assert.equal(await evaluate('document.querySelectorAll(".bar-row").length'),8);
+ assert.ok(await evaluate('document.querySelectorAll(".timeline-segment").length>10'));
+ assert.ok(await evaluate('document.getElementById("comparison-insights").textContent.includes("结束")'));
+ const overlaps=()=>evaluate(`(()=>{const groups=[...document.querySelectorAll('.button-row,.map-actions,.simulator,.tabs,.fields')];for(const group of groups){const controls=[...group.children].filter(e=>['BUTTON','SELECT','INPUT','LABEL'].includes(e.tagName)).map(e=>({r:e.getBoundingClientRect(),text:e.textContent})).filter(e=>e.r.width&&e.r.height);for(let i=0;i<controls.length;i++)for(let j=i+1;j<controls.length;j++){const a=controls[i].r,b=controls[j].r;if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>.5&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>.5)return controls[i].text+' / '+controls[j].text;}}return '';})()`);
+ for(const width of [1366,1024,768,390,320]){
+  await command('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<700});
+  await evaluate('window.scrollTo(0,0)');await sleep(100);assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'no horizontal overflow at '+width);
+  assert.equal(await overlaps(),'','no overlapping controls at '+width);
+ }
+ await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1100,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.getElementById("compare-panel").scrollIntoView()');
+ fs.writeFileSync(path.join(artifacts,'v091-comparison-desktop.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
+ await evaluate('document.getElementById("compare-reference").value="2";document.getElementById("compare-reference").onchange()');
+ assert.ok(await evaluate('document.getElementById("comparison-insights").textContent.includes("最早截止")'));
+ await evaluate('document.querySelector(".timeline-segment").click()');assert.ok(await evaluate('document.getElementById("timeline-detail").textContent.includes("min")'));
+ await evaluate("document.querySelector('[data-tab=help]').click();window.scrollTo(0,0)");
+ assert.ok(await evaluate('["settings-panel","storage-panel","methods-panel"].every(id=>getComputedStyle(document.getElementById(id)).display==="none")'));
+ fs.writeFileSync(path.join(artifacts,'v091-help.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
+ await evaluate("document.querySelector('[data-tab=plan]').click()");await evaluate('document.getElementById("vehicle-tabs").scrollIntoView()');
+ assert.ok(await evaluate('document.getElementById("map-actions").getBoundingClientRect().top-document.getElementById("vehicle-tabs").getBoundingClientRect().bottom>=16'));
+ assert.equal(await overlaps(),'');fs.writeFileSync(path.join(artifacts,'v091-map-buttons.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
+ await command('Emulation.setDeviceMetricsOverride',{width:390,height:1000,deviceScaleFactor:1,mobile:true});
+ await evaluate("document.querySelector('[data-tab=compare]').click();document.getElementById('compare-panel').scrollIntoView()");assert.equal(await overlaps(),'');
+ fs.writeFileSync(path.join(artifacts,'v091-comparison-mobile.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
+ await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
  await evaluate("document.querySelector('[data-tab=cargo]').click()");assert.ok(await evaluate('document.getElementById("cargo-canvas").width>0'));await evaluate('document.getElementById("cargo-panel").scrollIntoView()');fs.writeFileSync(path.join(artifacts,'v09-cargo.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
  await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate("document.querySelector('[data-tab=plan]').click()");await sleep(300);assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
  fs.writeFileSync(path.join(artifacts,'v09-mobile.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
@@ -21,5 +49,5 @@ async function waitFor(expression,timeout=50000){const until=Date.now()+timeout;
  await evaluate("document.querySelector('[data-tab=cargo]').click();let e=document.getElementById('operation-mode');e.value='unloading';e.onchange()");assert.equal(await evaluate('window.UrbanUI.cargoState().ops.length'),6);await evaluate("document.getElementById('op-all').click();document.getElementById('next-stop').click()");assert.equal(await evaluate('window.UrbanUI.cargoState().stop'),1);
  await evaluate("document.querySelector('[data-tab=help]').click()");assert.ok(await evaluate('!document.getElementById("help-panel").hidden'));assert.equal(errors.length,0);
  await command('Page.navigate',{url:'http://127.0.0.1:8768/standalone-demo.html'});await waitFor('!!window.UrbanUI',10000);await evaluate("document.getElementById('example-stack').click();document.getElementById('solve').click()");await waitFor('!!window.UrbanUI.getPlan()');assert.equal(await evaluate('window.UrbanUI.getPlan().metrics.stacked_boxes'),12);assert.equal(await evaluate('Object.keys(window.UrbanUI.getGeometry()).length'),1);assert.equal(errors.length,0);
- console.log('PASS real Chrome browser: default Worker, road shapes, three comparisons, desktop/mobile width, 3D canvas, rehandle playback, next stop and help');
+ console.log('PASS v0.9.1 real Chrome browser: analyses, time/cost charts, interactive timeline, help isolation, control overlap and widths 320–1440; default Worker, road shapes, three comparisons, desktop/mobile width, 3D canvas, rehandle playback, next stop and help');
 })().catch(e=>{console.error(e.message);process.exitCode=1;}).finally(()=>{ws?.close();child.kill();server.close();});

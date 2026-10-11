@@ -1,10 +1,12 @@
-# 城市共配 / Urban Flow — v0.9
+# 城市共配 / Urban Flow — v0.9.1
 
 杭州方太门店次日补货的派车、道路路线、三维装载与逐站装卸工作台。公开门店和模拟业务参数分别标注，大模型助手暂缓。
 
 **[直接打开配送工作台](https://websafarikyle-hue.github.io/urban-loading-planner/)**。电脑和手机浏览器均可访问，无需登录ChatGPT。计算在浏览器Worker中完成。
 
 ## 使用
+
+v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指南。方案分析增加四种方案的时间、费用构成图，可切换对照方案的差异解读、交互车辆时间轴，以及装载率和收货余量。总工时与整批结束时刻分别展示；服务订单集合一致时才显示节省百分比。详细验证见 [v0.9.1 检查记录](docs/v091-validation.md)。
 
 1. 点击模拟次日订单，在20家公开门店中生成12～16家门店的订单；也可下载CSV模板，填写门店编号、时间窗、箱型及数量后导入。
 2. 核对订单及车辆，设置最多出车数、三种终点、两种卸货规则、时间或费用目标。全部费用和作业系数可调。
@@ -35,7 +37,7 @@
 
 打开standalone-demo.html即可使用内置算法、门店及道路缓存；手机文件预览器可能禁用JavaScript，请用系统浏览器打开。
 
-Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9。
+Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9.1。
 
 ```sh
 python scripts/build_standalone.py
@@ -54,6 +56,7 @@ node tests/ui-smoke.mjs
 node tests/v03-engine.cjs
 node tests/v03-ui.mjs
 node tests/v09-product.cjs
+node tests/v091-analysis.cjs
 node tests/v09-browser.cjs
 ```
 

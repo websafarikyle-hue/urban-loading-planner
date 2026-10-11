@@ -1,6 +1,6 @@
 // DOM logic test only. Native touch/visual QA remains a separate check.
 import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire} from 'node:module';
-const require=createRequire(import.meta.url),E=require('../frontend/v03/engine.js'),C=require('../data/hangzhou-fotile-store-catalog.json'),P=require('../frontend/v03/product.js');
+const require=createRequire(import.meta.url),E=require('../frontend/v03/engine.js'),C=require('../data/hangzhou-fotile-store-catalog.json'),P=require('../frontend/v03/product.js'),A=require('../frontend/v03/analysis.js');
 const nodes=new Map();let calls=0;const context=new Proxy({},{get:(o,k)=>o[k]??(()=>{}),set:(o,k,v)=>(o[k]=v,true)});
 class Element{
  constructor(id,tag='div',attrs=''){this.id=id;this.tag=tag;this.hidden=false;this.disabled=false;this.value='';this.checked=false;this.dataset={};this.classList={toggle(){}};this.children=[];this._html='';for(const m of attrs.matchAll(/([\w-]+)(?:="([^"]*)")?/g)){const k=m[1],v=m[2]||'';if(k.startsWith('data-'))this.dataset[k.slice(5).replace(/-([a-z])/g,(_,a)=>a.toUpperCase())]=v;else if(k==='value')this.value=v;else if(k==='type')this.type=v;else if(k==='checked')this.checked=true;}}
@@ -14,7 +14,7 @@ const tabs=[...html.matchAll(/<button([^>]*data-tab[^>]*)>/g)].map(m=>new Elemen
 const document={getElementById:id=>{if(id==='embedded-worker')return null;assert.ok(nodes.has(id),'existing HTML id '+id);return nodes.get(id);},querySelectorAll:s=>s==='[data-tab]'?tabs:s==='[data-route]'?[...nodes.values()].flatMap(n=>n.querySelectorAll(s)):s==='input,select,button'?[...nodes.values(),...nodes.values()].flatMap(n=>[n,...n.children]).filter(n=>['input','select','button'].includes(n.tag)):[],createElement:()=>new Element('anchor','a')};
 class Worker{postMessage(p){calls++;queueMicrotask(()=>{if(this.stopped)return;try{this.onmessage({data:{request_id:p.request_id,result:{baseline:E.solve(p.data,'baseline'),nearest:E.solve(p.data,'nearest'),deadline:E.solve(p.data,'deadline'),optimized:E.solve(p.data)}}});}catch(e){this.onmessage({data:{request_id:p.request_id,error:e.message}});}});}terminate(){this.stopped=true;}}
 const localStorage={data:{},getItem(k){return this.data[k]||null;},setItem(k,v){this.data[k]=v;}};
-const window={UrbanEngine:E,UrbanProduct:P,FOTILE_CATALOG:C,devicePixelRatio:1,addEventListener(){}};
+const window={UrbanEngine:E,UrbanProduct:P,UrbanAnalysis:A,FOTILE_CATALOG:C,devicePixelRatio:1,addEventListener(){}};
 const sandbox={window,document,Worker,localStorage,console,URL,Blob,setTimeout,clearTimeout,Date,AbortController,fetch:async()=>{throw Error('test network failure');}};vm.createContext(sandbox);vm.runInContext(fs.readFileSync('frontend/v03/app.js','utf8'),sandbox);
 const $=id=>nodes.get(id),ui=window.UrbanUI,tick=()=>new Promise(r=>setTimeout(r,5));
 assert.equal(ui.getPlan(),null);assert.ok($('status').textContent.includes('20家'));assert.equal((html.match(/data-tab=/g)||[]).length,5);assert.ok($('order-list').innerHTML.includes(C.stores[19].name));
@@ -35,7 +35,7 @@ await $('road-query').onclick();assert.equal(JSON.stringify(ui.getDraft()),old);
 $('seed').value='42';$('date').value='2026-10-12';$('simulate').click();assert.equal(ui.getDraft().orders.length,16);assert.equal(ui.getDraft().vehicles[0].fixed_cost,550);assert.equal(ui.getDraft().config.endpoint,'open');
 $('solve').click();$('cancel-solve').click();await tick();assert.equal(ui.getPlan(),null);assert.equal($('solve').disabled,false);
 // Product input, help and rule samples are wired to the actual draft and plan.
-tabs.find(t=>t.dataset.tab==='help').click();assert.equal($('help-panel').hidden,false);
+tabs.find(t=>t.dataset.tab==='help').click();assert.equal($('help-panel').hidden,false);assert.equal($('settings-panel').hidden,true);assert.equal($('storage-panel').hidden,true);assert.equal($('methods-panel').hidden,true);tabs.find(t=>t.dataset.tab==='compare').click();assert.equal($('settings-panel').hidden,false);assert.equal($('methods-panel').hidden,false);
 $('csv-file').files=[{size:500,text:async()=>P.template(C)}];await $('csv-file').onchange();assert.equal(ui.getDraft().orders.length,2);assert.equal(ui.getDraft().orders[0].boxes.length,3);
 const imported=JSON.stringify(ui.getDraft());$('csv-file').files=[{size:8,text:async()=>'bad,csv'}];await $('csv-file').onchange();assert.equal(JSON.stringify(ui.getDraft()),imported);
 $('example-rehandle').click();$('solve').click();await tick();assert.equal(ui.getPlan().metrics.rehandles,1);assert.equal(ui.getComparisons().length,3);
