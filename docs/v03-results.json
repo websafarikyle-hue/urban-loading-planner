@@ -1,0 +1,900 @@
+{
+  "date": "2026-10-11",
+  "engine": "0.3",
+  "scenarios": [
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "return",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 465.68,
+        "cost": 1637.81,
+        "work_minutes": 678.58,
+        "finish": 709.0983333333332,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 424.23,
+          "waiting": 56.36,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 461.67,
+        "cost": 1710.82,
+        "work_minutes": 836.63,
+        "finish": 834.5133333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 424.23,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1155,
+        "packing_rejections": 710,
+        "local_search_improvements": 6,
+        "route_pool_columns": 202,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 10764,
+        "duration_ms": 2646,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "return",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 381.82,
+        "cost": 1546.71,
+        "work_minutes": 747.97,
+        "finish": 751.6316666666667,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 363.7,
+          "waiting": 186.27,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 461.67,
+        "cost": 1710.82,
+        "work_minutes": 836.63,
+        "finish": 834.5133333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 424.23,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1171,
+        "packing_rejections": 808,
+        "local_search_improvements": 7,
+        "route_pool_columns": 181,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 10328,
+        "duration_ms": 2350,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "return",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 474.12,
+        "cost": 1647.47,
+        "work_minutes": 672.57,
+        "finish": 713.8933333333334,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 435.36,
+          "waiting": 39.21,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 461.67,
+        "cost": 1710.82,
+        "work_minutes": 836.63,
+        "finish": 834.5133333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 424.23,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1199,
+        "packing_rejections": 716,
+        "local_search_improvements": 6,
+        "route_pool_columns": 210,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 10699,
+        "duration_ms": 3817,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "return",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 381.82,
+        "cost": 1546.71,
+        "work_minutes": 747.97,
+        "finish": 751.6316666666667,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 363.7,
+          "waiting": 186.27,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 461.67,
+        "cost": 1710.82,
+        "work_minutes": 836.63,
+        "finish": 834.5133333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 424.23,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1163,
+        "packing_rejections": 796,
+        "local_search_improvements": 6,
+        "route_pool_columns": 181,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 10328,
+        "duration_ms": 3735,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "open",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 305.47,
+        "cost": 1333.37,
+        "work_minutes": 550.34,
+        "finish": 690.7416666666667,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 291.15,
+          "waiting": 61.19,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 325.97,
+        "cost": 1446.98,
+        "work_minutes": 716.04,
+        "finish": 800.2733333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 303.63,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1111,
+        "packing_rejections": 638,
+        "local_search_improvements": 7,
+        "route_pool_columns": 221,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 12137,
+        "duration_ms": 2302,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "open",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 280.62,
+        "cost": 1308.39,
+        "work_minutes": 574.92,
+        "finish": 676.9383333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 262.72,
+          "waiting": 114.2,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 325.97,
+        "cost": 1446.98,
+        "work_minutes": 716.04,
+        "finish": 800.2733333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 303.63,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1096,
+        "packing_rejections": 663,
+        "local_search_improvements": 6,
+        "route_pool_columns": 209,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 11222,
+        "duration_ms": 2175,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "open",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 325.53,
+        "cost": 1366.69,
+        "work_minutes": 556.79,
+        "finish": 707.3733333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 307.17,
+          "waiting": 51.62,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 325.97,
+        "cost": 1446.98,
+        "work_minutes": 716.04,
+        "finish": 800.2733333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 303.63,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1101,
+        "packing_rejections": 617,
+        "local_search_improvements": 6,
+        "route_pool_columns": 223,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 11991,
+        "duration_ms": 3841,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "open",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 280.62,
+        "cost": 1308.39,
+        "work_minutes": 574.92,
+        "finish": 676.9383333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 262.72,
+          "waiting": 114.2,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 325.97,
+        "cost": 1446.98,
+        "work_minutes": 716.04,
+        "finish": 800.2733333333334,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 303.63,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1096,
+        "packing_rejections": 659,
+        "local_search_improvements": 6,
+        "route_pool_columns": 209,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 11222,
+        "duration_ms": 3024,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "parking",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 375.66,
+        "cost": 1457.44,
+        "work_minutes": 587.89,
+        "finish": 726.6883333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 351.27,
+          "waiting": 38.63,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 388.5,
+        "cost": 1570.71,
+        "work_minutes": 775.94,
+        "finish": 819.2283333333335,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 363.54,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1135,
+        "packing_rejections": 707,
+        "local_search_improvements": 5,
+        "route_pool_columns": 228,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 11887,
+        "duration_ms": 2202,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "parking",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 289.3,
+        "cost": 1358.73,
+        "work_minutes": 649.57,
+        "finish": 722.4283333333334,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 283.26,
+          "waiting": 168.3,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 388.5,
+        "cost": 1570.71,
+        "work_minutes": 775.94,
+        "finish": 819.2283333333335,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 363.54,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1333,
+        "packing_rejections": 889,
+        "local_search_improvements": 10,
+        "route_pool_columns": 217,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 13225,
+        "duration_ms": 2475,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "parking",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 375.66,
+        "cost": 1457.44,
+        "work_minutes": 587.89,
+        "finish": 726.6883333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 351.27,
+          "waiting": 38.63,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 388.5,
+        "cost": 1570.71,
+        "work_minutes": 775.94,
+        "finish": 819.2283333333335,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 363.54,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1126,
+        "packing_rejections": 694,
+        "local_search_improvements": 4,
+        "route_pool_columns": 228,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 11887,
+        "duration_ms": 3318,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 42,
+      "config": {
+        "endpoint": "parking",
+        "unload": "limited",
+        "max_vehicles": 3,
+        "objective": "cost",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 289.3,
+        "cost": 1358.73,
+        "work_minutes": 649.57,
+        "finish": 722.4283333333334,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17372046872759925,
+        "time_parts": {
+          "loading": 78,
+          "driving": 283.26,
+          "waiting": 168.3,
+          "unloading": 120
+        }
+      },
+      "baseline": {
+        "orders": 16,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 388.5,
+        "cost": 1570.71,
+        "work_minutes": 775.94,
+        "finish": 819.2283333333335,
+        "rehandles": 0,
+        "on_time_rate": 0.875,
+        "volume_utilization": 0.2052659558154513,
+        "time_parts": {
+          "loading": 71,
+          "driving": 363.54,
+          "waiting": 237.9,
+          "unloading": 103.5
+        }
+      },
+      "diagnostics": {
+        "packing_checks": 1333,
+        "packing_rejections": 880,
+        "local_search_improvements": 10,
+        "route_pool_columns": 219,
+        "evaluation_limit_hit": false,
+        "pool_pruned": true,
+        "pool_states_peak": 13334,
+        "duration_ms": 3957,
+        "optimality": "有限启发式搜索；无联合全局最优证明"
+      },
+      "verification": true
+    },
+    {
+      "seed": 7,
+      "config": {
+        "endpoint": "return",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 16,
+        "assigned": 16,
+        "vehicles": 3,
+        "km": 361.66,
+        "cost": 1457.25,
+        "work_minutes": 629.51,
+        "finish": 710.2783333333333,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.17771959344747187,
+        "time_parts": {
+          "loading": 76,
+          "driving": 351.41,
+          "waiting": 85.1,
+          "unloading": 117
+        }
+      },
+      "verification": true
+    },
+    {
+      "seed": 99,
+      "config": {
+        "endpoint": "return",
+        "unload": "direct",
+        "max_vehicles": 3,
+        "objective": "time",
+        "max_rehandles": 2,
+        "loading_setup": 10,
+        "loading_per_box": 1,
+        "setup_minutes": 3,
+        "per_box_minutes": 1,
+        "fragile_extra_minutes": 0.5,
+        "heavy_extra_minutes": 0.5,
+        "heavy_threshold_kg": 30,
+        "move_out_minutes": 1,
+        "move_in_minutes": 1,
+        "speed_kmh": 28
+      },
+      "metrics": {
+        "orders": 14,
+        "assigned": 14,
+        "vehicles": 3,
+        "km": 348.53,
+        "cost": 1421.67,
+        "work_minutes": 597.74,
+        "finish": 719.7266666666666,
+        "rehandles": 0,
+        "on_time_rate": 1,
+        "volume_utilization": 0.15548672366048186,
+        "time_parts": {
+          "loading": 72,
+          "driving": 329.22,
+          "waiting": 91.52,
+          "unloading": 105
+        }
+      },
+      "verification": true
+    }
+  ]
+}

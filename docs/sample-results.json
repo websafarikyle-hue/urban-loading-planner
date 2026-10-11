@@ -1,0 +1,46 @@
+{
+  "sample": {
+    "baseline": {
+      "vehicles": 3,
+      "km": 183.35,
+      "cost": 1089.94,
+      "assigned": 10,
+      "orders": 10,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.35,
+      "rehandles": 0
+    },
+    "optimized": {
+      "vehicles": 3,
+      "km": 173.82,
+      "cost": 1053.47,
+      "assigned": 10,
+      "orders": 10,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.35,
+      "rehandles": 0
+    }
+  },
+  "hangzhou-road-demo": {
+    "baseline": {
+      "vehicles": 3,
+      "km": 294.25,
+      "cost": 1504.41,
+      "assigned": 10,
+      "orders": 10,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.35,
+      "rehandles": 0
+    },
+    "optimized": {
+      "vehicles": 3,
+      "km": 289.06,
+      "cost": 1483.66,
+      "assigned": 10,
+      "orders": 10,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.35,
+      "rehandles": 0
+    }
+  }
+}

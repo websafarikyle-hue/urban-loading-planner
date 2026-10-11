@@ -1,0 +1,626 @@
+{
+  "depot": {
+    "id": "DEPOT",
+    "name": "钱塘区假设发货点",
+    "lon": 120.4,
+    "lat": 30.3
+  },
+  "start": 480,
+  "orders": [
+    {
+      "id": "O01",
+      "name": "下沙北·演示点",
+      "lon": 120.36,
+      "lat": 30.34,
+      "ready": 480,
+      "due": 600,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O01-B1",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": true,
+          "stackable": false,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O01-B2",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O01-B3",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O01-B4",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C01",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O02",
+      "name": "下沙南·演示点",
+      "lon": 120.34,
+      "lat": 30.28,
+      "ready": 480,
+      "due": 630,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O02-B1",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O02-B2",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O02-B3",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O02-B4",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C02",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O03",
+      "name": "九堡·演示点",
+      "lon": 120.28,
+      "lat": 30.31,
+      "ready": 480,
+      "due": 660,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O03-B1",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O03-B2",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O03-B3",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O03-B4",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C03",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O04",
+      "name": "笕桥·演示点",
+      "lon": 120.23,
+      "lat": 30.32,
+      "ready": 480,
+      "due": 690,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O04-B1",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O04-B2",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O04-B3",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O04-B4",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C01",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O05",
+      "name": "城东·演示点",
+      "lon": 120.21,
+      "lat": 30.29,
+      "ready": 480,
+      "due": 720,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O05-B1",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O05-B2",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O05-B3",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O05-B4",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": true,
+          "stackable": false,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C02",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O06",
+      "name": "拱墅·演示点",
+      "lon": 120.16,
+      "lat": 30.33,
+      "ready": 480,
+      "due": 780,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O06-B1",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O06-B2",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O06-B3",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": true,
+          "stackable": false,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O06-B4",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C03",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O07",
+      "name": "城西·演示点",
+      "lon": 120.12,
+      "lat": 30.3,
+      "ready": 540,
+      "due": 810,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O07-B1",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O07-B2",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": true,
+          "stackable": false,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O07-B3",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O07-B4",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C01",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O08",
+      "name": "上城·演示点",
+      "lon": 120.18,
+      "lat": 30.25,
+      "ready": 540,
+      "due": 840,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O08-B1",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": true,
+          "stackable": false,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O08-B2",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O08-B3",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O08-B4",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C02",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O09",
+      "name": "滨江·演示点",
+      "lon": 120.2,
+      "lat": 30.2,
+      "ready": 540,
+      "due": 870,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O09-B1",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O09-B2",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O09-B3",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O09-B4",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C03",
+      "service_mode": "estimate"
+    },
+    {
+      "id": "O10",
+      "name": "萧山·演示点",
+      "lon": 120.28,
+      "lat": 30.18,
+      "ready": 540,
+      "due": 900,
+      "service": 8,
+      "boxes": [
+        {
+          "id": "O10-B1",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O10-B2",
+          "length": 80,
+          "width": 60,
+          "height": 50,
+          "weight": 80,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O10-B3",
+          "length": 100,
+          "width": 70,
+          "height": 60,
+          "weight": 100,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        },
+        {
+          "id": "O10-B4",
+          "length": 60,
+          "width": 40,
+          "height": 40,
+          "weight": 60,
+          "fragile": false,
+          "stackable": true,
+          "rotate": true,
+          "max_top_weight": 120
+        }
+      ],
+      "customer_id": "SIM-C01",
+      "service_mode": "estimate"
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "V01",
+      "name": "城配 01 · 小厢车",
+      "length": 260,
+      "width": 170,
+      "height": 170,
+      "capacity_kg": 1200,
+      "fixed_cost": 100,
+      "cost_per_km": 3.5,
+      "shift_end": 1080
+    },
+    {
+      "id": "V02",
+      "name": "城配 02 · 中厢车",
+      "length": 360,
+      "width": 180,
+      "height": 180,
+      "capacity_kg": 1800,
+      "fixed_cost": 150,
+      "cost_per_km": 4.2,
+      "shift_end": 1080
+    },
+    {
+      "id": "V03",
+      "name": "城配 03 · 标准厢车",
+      "length": 300,
+      "width": 170,
+      "height": 180,
+      "capacity_kg": 1400,
+      "fixed_cost": 125,
+      "cost_per_km": 3.8,
+      "shift_end": 1080
+    }
+  ],
+  "provenance": {
+    "orders": "模拟",
+    "vehicles": "模拟",
+    "boxes": "模拟",
+    "locations": "按杭州区域设置的示意坐标；非核验 POI、非传化客户、非传化实际仓库",
+    "travel": "球面距离 × 1.28 绕行系数，平均 28 km/h；非道路 API、非货车限行可行性证明",
+    "date": "2026-10-11",
+    "units": "尺寸 cm；重量 kg；费用元；时间为当日零点起分钟",
+    "service": "准备3分钟＋每箱1分钟＋每件易碎0.5分钟＋每件超过30kg重货0.5分钟，向上取整至半分钟；可配置的演示假设。"
+  }
+}

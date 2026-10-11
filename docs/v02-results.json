@@ -1,0 +1,419 @@
+{
+  "scope": "10 seeded simulated cases, one 30-order case and a service-priority counterexample; not statistical or real-road validation",
+  "rows": [
+    {
+      "seed": 0,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 232.19,
+        "cost": 1264.78,
+        "assigned": 9,
+        "orders": 10,
+        "on_time_rate": 0.9,
+        "volume_utilization": 0.3199,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 184.93,
+        "cost": 1084.93,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 711.7
+    },
+    {
+      "seed": 1,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 251.99,
+        "cost": 1362.41,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 208.62,
+        "cost": 1181.54,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 1060.9
+    },
+    {
+      "seed": 2,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 235.29,
+        "cost": 1271.03,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 178.11,
+        "cost": 1065.57,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 913.7
+    },
+    {
+      "seed": 3,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 253.31,
+        "cost": 1331.07,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 166.15,
+        "cost": 1019.95,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 640.5
+    },
+    {
+      "seed": 4,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 233.1,
+        "cost": 1286.81,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 183.2,
+        "cost": 1084.53,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 500.5
+    },
+    {
+      "seed": 5,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 213.1,
+        "cost": 1192.21,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 175.88,
+        "cost": 1050.94,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 642.3
+    },
+    {
+      "seed": 6,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 218.41,
+        "cost": 1222.5,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 168.29,
+        "cost": 1024.35,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 526.1
+    },
+    {
+      "seed": 7,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 223.88,
+        "cost": 1238.99,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 171.26,
+        "cost": 1034.67,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 510.5
+    },
+    {
+      "seed": 8,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 251.63,
+        "cost": 1352.88,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 155.4,
+        "cost": 979.47,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 624.7
+    },
+    {
+      "seed": 9,
+      "orders": 10,
+      "boxes": 40,
+      "available_vehicles": 3,
+      "baseline": {
+        "vehicles": 3,
+        "km": 236.98,
+        "cost": 1305.33,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 3,
+        "km": 196.8,
+        "cost": 1137.94,
+        "assigned": 10,
+        "orders": 10,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 511.4
+    },
+    {
+      "seed": 42,
+      "orders": 30,
+      "boxes": 120,
+      "available_vehicles": 9,
+      "baseline": {
+        "vehicles": 9,
+        "km": 680.8,
+        "cost": 3777.28,
+        "assigned": 30,
+        "orders": 30,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized": {
+        "vehicles": 9,
+        "km": 547.19,
+        "cost": 3221.49,
+        "assigned": 30,
+        "orders": 30,
+        "on_time_rate": 1.0,
+        "volume_utilization": 0.35,
+        "rehandles": 0
+      },
+      "optimized_ms": 3778.2
+    }
+  ],
+  "counterexample": {
+    "name": "early_small_order_occupies_only_large_truck",
+    "data": {
+      "depot": {
+        "id": "DEPOT",
+        "name": "钱塘区假设发货点",
+        "lon": 120.4,
+        "lat": 30.3
+      },
+      "start": 480,
+      "orders": [
+        {
+          "id": "A02",
+          "name": "下沙南·演示点",
+          "lon": 120.4,
+          "lat": 30.3,
+          "ready": 480,
+          "due": 900,
+          "service": 8,
+          "boxes": [
+            {
+              "id": "LARGE",
+              "length": 150,
+              "width": 50,
+              "height": 50,
+              "weight": 20,
+              "fragile": false,
+              "stackable": true,
+              "rotate": false,
+              "max_top_weight": 120
+            }
+          ],
+          "customer_id": "SIM-C02",
+          "service_mode": "estimate"
+        },
+        {
+          "id": "A01",
+          "name": "下沙北·演示点",
+          "lon": 120.4,
+          "lat": 30.3,
+          "ready": 480,
+          "due": 600,
+          "service": 8,
+          "boxes": [
+            {
+              "id": "SMALL",
+              "length": 50,
+              "width": 50,
+              "height": 50,
+              "weight": 10,
+              "fragile": false,
+              "stackable": true,
+              "rotate": false,
+              "max_top_weight": 120
+            }
+          ],
+          "customer_id": "SIM-C01",
+          "service_mode": "estimate"
+        }
+      ],
+      "vehicles": [
+        {
+          "id": "V01",
+          "name": "城配 01 · 小厢车",
+          "length": 200,
+          "width": 100,
+          "height": 100,
+          "capacity_kg": 20,
+          "fixed_cost": 1,
+          "cost_per_km": 3.5,
+          "shift_end": 1080
+        },
+        {
+          "id": "V02",
+          "name": "城配 01 · 小厢车",
+          "length": 100,
+          "width": 100,
+          "height": 100,
+          "capacity_kg": 10,
+          "fixed_cost": 100,
+          "cost_per_km": 3.5,
+          "shift_end": 1080
+        }
+      ],
+      "provenance": {
+        "orders": "模拟",
+        "vehicles": "模拟",
+        "boxes": "模拟",
+        "locations": "按杭州区域设置的示意坐标；非核验 POI、非传化客户、非传化实际仓库",
+        "travel": "球面距离 × 1.28 绕行系数，平均 28 km/h；非道路 API、非货车限行可行性证明",
+        "date": "2026-10-11",
+        "units": "尺寸 cm；重量 kg；费用元；时间为当日零点起分钟",
+        "service": "准备3分钟＋每箱1分钟＋每件易碎0.5分钟＋每件超过30kg重货0.5分钟，向上取整至半分钟；可配置的演示假设。"
+      }
+    },
+    "baseline": {
+      "vehicles": 2,
+      "km": 0.0,
+      "cost": 101.0,
+      "assigned": 2,
+      "orders": 2,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.1667,
+      "rehandles": 0
+    },
+    "optimized": {
+      "vehicles": 2,
+      "km": 0.0,
+      "cost": 101.0,
+      "assigned": 2,
+      "orders": 2,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.1667,
+      "rehandles": 0
+    },
+    "unassigned": []
+  }
+}

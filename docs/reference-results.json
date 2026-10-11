@@ -1,0 +1,127 @@
+[
+  {
+    "seed": 0,
+    "orders": 4,
+    "optimized": {
+      "vehicles": 2,
+      "km": 107.2,
+      "cost": 662.68,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.2021,
+      "rehandles": 0
+    },
+    "reference": {
+      "vehicles": 1,
+      "km": 98.48,
+      "cost": 563.62,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "scope": "仅在发现的可行路线池内选择；状态截断可能遗漏更优组合，无联合全局最优证明"
+  },
+  {
+    "seed": 1,
+    "orders": 4,
+    "optimized": {
+      "vehicles": 2,
+      "km": 84.99,
+      "cost": 553.48,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.2021,
+      "rehandles": 0
+    },
+    "reference": {
+      "vehicles": 1,
+      "km": 80.02,
+      "cost": 486.07,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "scope": "仅在发现的可行路线池内选择；状态截断可能遗漏更优组合，无联合全局最优证明"
+  },
+  {
+    "seed": 2,
+    "orders": 4,
+    "optimized": {
+      "vehicles": 2,
+      "km": 93.0,
+      "cost": 604.99,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.2021,
+      "rehandles": 0
+    },
+    "reference": {
+      "vehicles": 2,
+      "km": 93.0,
+      "cost": 604.99,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.2021,
+      "rehandles": 0
+    },
+    "scope": "仅在发现的可行路线池内选择；状态截断可能遗漏更优组合，无联合全局最优证明"
+  },
+  {
+    "seed": 3,
+    "orders": 4,
+    "optimized": {
+      "vehicles": 1,
+      "km": 93.62,
+      "cost": 543.19,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "reference": {
+      "vehicles": 1,
+      "km": 91.42,
+      "cost": 533.95,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "scope": "仅在发现的可行路线池内选择；状态截断可能遗漏更优组合，无联合全局最优证明"
+  },
+  {
+    "seed": 4,
+    "orders": 4,
+    "optimized": {
+      "vehicles": 1,
+      "km": 81.36,
+      "cost": 491.71,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "reference": {
+      "vehicles": 1,
+      "km": 81.36,
+      "cost": 491.71,
+      "assigned": 4,
+      "orders": 4,
+      "on_time_rate": 1.0,
+      "volume_utilization": 0.3323,
+      "rehandles": 0
+    },
+    "scope": "仅在发现的可行路线池内选择；状态截断可能遗漏更优组合，无联合全局最优证明"
+  }
+]

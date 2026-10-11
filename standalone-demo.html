@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123d38"><title>城市共配 · 方太门店配送工作台</title><style>:root{--ink:#173b36;--muted:#70837e;--green:#157b65;--bg:#f2f4ee;--line:#dce5dc;--gold:#b47d39;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC",sans-serif;color:var(--ink);background:var(--bg)}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-size:13px;min-height:42px;transition:background .15s}button:disabled{opacity:.5;cursor:wait}button:focus-visible,input:focus,select:focus{outline:2px solid #65ad95;outline-offset:2px}.primary{background:var(--green);color:white;font-weight:650}.secondary{background:#e9f0e8;color:var(--ink)}.top{height:82px;padding:0 max(24px,calc((100vw - 1280px)/2));display:flex;align-items:center;gap:20px;background:#103e35;color:white}.brand{font-size:30px;color:#d7f2d4;text-decoration:none;display:flex;gap:12px;align-items:center}.brand span{font-size:18px;font-weight:700}.brand small{display:block;font-size:10px;letter-spacing:3px;margin-top:3px;color:#afc9bc}.badge{margin-left:auto;font-size:12px;background:#275348;padding:8px 12px;border-radius:30px}.version{font-size:12px;color:#a9c2b5}main{max-width:1280px;margin:auto;padding:30px 24px}.intro{display:flex;align-items:center;gap:20px;padding:6px 0 22px}.intro h1{font-size:32px;margin:7px 0 12px;letter-spacing:-1px}.intro p{color:var(--muted);font-size:14px}.eyebrow{font-size:10px!important;letter-spacing:1.7px;font-weight:700;color:var(--gold)!important}.status{margin-left:auto;max-width:270px;font-size:12px;color:var(--green);background:#e5eee1;border-radius:10px;padding:12px;line-height:1.8}.tabs{display:flex;border-bottom:1px solid var(--line);gap:8px;margin-bottom:22px}.tabs button{border-radius:9px 9px 0 0;background:transparent;color:var(--muted);min-width:125px}.tabs button.active{background:white;color:var(--green);box-shadow:inset 0 -3px var(--green);font-weight:700}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px #153b3604}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:15px}h2{font-size:18px;margin:0 0 10px}h3{font-size:15px;margin:10px 0}.section-head h2{margin:4px 0}.tag{font-size:11px;white-space:nowrap;border:1px solid #bcd8c3;padding:6px 9px;border-radius:20px;color:var(--green)}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;margin:15px 0}label{display:block;font-size:12px;color:var(--muted)}input,select{display:block;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fafbf8;margin-top:6px;min-width:0;font-size:13px}input[type=checkbox]{display:inline;width:auto;margin-right:8px}details{border-top:1px solid var(--line);padding-top:12px;margin-top:15px}summary{cursor:pointer;font-size:13px;font-weight:650;line-height:1.8}.muted{color:var(--muted);font-size:12px;line-height:1.9}.simulator,.button-row{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.simulator{border-top:1px solid var(--line);margin-top:17px;padding-top:17px;align-items:flex-end}.simulator label{width:145px}.simulator .primary{margin-left:auto}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}.kpi{border:1px solid var(--line);border-radius:12px;background:white;padding:20px}.kpi span{font-size:12px;color:var(--muted)}.kpi strong{display:block;font-size:28px;margin:12px 0 7px;font-weight:650}.kpi small{font-size:11px;color:var(--muted)}.grid-two{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}#map svg{width:100%;display:block;border-radius:10px;background:#f1f4ee;margin-bottom:14px}.route-stop{border-left:2px solid #d6e4d9;padding:10px 0 10px 15px;margin-left:9px}.route-stop b{font-size:13px;display:block}.route-stop p{font-size:12px;color:var(--muted);margin:7px 0}.breakdown{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;background:#f2f6ee;border-radius:10px;padding:12px;margin-top:12px;font-size:12px}.breakdown strong{display:block;font-size:16px;margin-top:5px}.order-card,.fleet-card{border:1px solid var(--line);border-radius:10px;margin:13px 0;padding:15px}.order-head{display:flex;gap:10px;align-items:center}.order-head b{font-size:13px}.order-head button{margin-left:auto;padding:7px 12px;min-height:32px;color:#a9503a}.order-card .fields{margin:10px 0}.order-card details{font-size:12px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-weight:600;color:var(--muted);background:#f5f8f2}.table-scroll{overflow:auto}.table-scroll input{width:75px}.table-scroll input[type=checkbox]{width:auto}canvas{width:100%;height:330px;display:block;background:linear-gradient(#f5f7f0,#eef2e9);border-radius:10px;margin:15px 0;touch-action:none}.operation{padding:12px;border-bottom:1px solid var(--line);font-size:12px;line-height:1.8}.operation.done{background:#edf5e9;color:var(--green)}.operation.current{border-left:3px solid var(--gold);background:#faf4e9}.operation small{color:var(--muted)}.notice,#notice{border-radius:10px;padding:13px 15px;margin:15px 0;font-size:13px;line-height:1.8;background:#e7f1e3;color:var(--ink)}.warning,#notice.error{background:#fff1df;color:#8d5b25}.empty{padding:35px 12px;text-align:center;color:var(--muted);font-size:13px}.vehicle-pill.active{color:white;background:var(--green)}.methods p{font-size:12px;color:var(--muted);line-height:1.9}.methods a{color:var(--green)}footer{font-size:11px;text-align:center;color:var(--muted);padding:8px 0 30px}.storage select{width:auto;max-width:240px;margin:0}.busy{opacity:.8}[hidden]{display:none!important}@media(max-width:850px){.grid-two{grid-template-columns:1fr}.intro{display:block}.status{margin:15px 0 0;max-width:none}.kpis{grid-template-columns:repeat(2,1fr)}.tabs{gap:0}.tabs button{min-width:0;flex:1;padding:12px 6px}.top{padding:0 18px;gap:10px}.badge{font-size:10px}.intro h1{font-size:27px}}@media(max-width:480px){main{padding:20px 13px}.card{padding:16px;border-radius:12px}.top{height:70px}.brand span{font-size:16px}.badge{max-width:150px;line-height:1.5;text-align:center}.version{display:none}.intro p{line-height:1.8}.fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.simulator label{width:calc(50% - 5px)}.simulator button{flex:1}.simulator .primary{flex-basis:100%;margin-left:0}.kpis{gap:9px}.kpi{padding:14px}.kpi strong{font-size:24px}.tag{display:none}canvas{height:300px}.section-head{align-items:flex-start}.button-row button{padding:9px 11px}h2{font-size:17px}}
+</style></head>
+<body><header class="top"><a class="brand" href="#">↗ <span>城市共配<small>URBAN FLOW</small></span></a><span class="badge">杭州 · 方太门店补货模拟</span><span class="version">v0.3</span></header>
+<main><section class="intro"><div><p class="eyebrow">PLAN TOMORROW, DELIVER WITH CONFIDENCE</p><h1>明天的配送，今天安排好。</h1><p>从门店订单到派车、装载与逐站卸货，一份方案贯穿全过程。</p></div><div class="status" id="status">准备加载门店数据…</div></section>
+<nav class="tabs" aria-label="工作台"><button data-tab="plan" class="active">配送计划</button><button data-tab="orders">订单与车辆</button><button data-tab="cargo">装载与卸货</button><button data-tab="compare">方案比较</button></nav>
+<div id="notice" role="status" aria-live="polite" hidden></div><div id="stale" class="notice warning" hidden>订单或条件已修改。当前结果属于上次确认的场景；确认并重新计算后更新。</div>
+<section class="card settings"><div class="section-head"><div><p class="eyebrow">SCENARIO SETTINGS</p><h2>计划条件</h2></div><span class="tag">可配置的联合决策</span></div>
+<div class="fields"><label>车辆终点<select id="endpoint"><option value="return">配送后回发货仓</option><option value="open">最后一家门店结束</option><option value="parking">前往指定停车点</option></select></label><label>卸货规则<select id="unload"><option value="direct">直接卸货 · 无临时搬移</option><option value="limited">允许有限临时搬移</option></select></label><label>最多出车<input id="max-vehicles" type="number" min="1" max="6" value="3"></label><label>优化目标<select id="objective"><option value="time">总作业时间最小</option><option value="cost">配送费用最低</option></select></label><label>开始装车时间<input id="start" type="time" value="08:00"></label><label id="rehandle-label" hidden>每站最多搬移件数<input id="max-rehandles" type="number" min="0" max="5" value="2"></label></div>
+<div id="parking-fields" class="fields" hidden><label>停车点名称<input id="end-name" value=""></label><label>经度 WGS84<input id="end-lon" type="number" step="any"></label><label>纬度 WGS84<input id="end-lat" type="number" step="any"></label></div>
+<details><summary>费用与作业时间参数 · 默认值可修改</summary><p class="muted">默认费用是演示假设。可统一应用到所有车辆，也可在“订单与车辆”中分别修改。人工费包含装车、行驶、等待、卸货及终点行程。</p><div class="fields"><label>出车固定费 元/次<input id="fixed-cost" type="number" min="0" value="200"></label><label>里程费 元/km<input id="km-cost" type="number" min="0" step="0.1" value="1.5"></label><label>人工费 元/小时<input id="labor-cost" type="number" min="0" value="30"></label></div><div class="button-row"><button id="apply-costs" class="secondary">应用到全部车辆</button><button id="reset-costs" class="secondary">恢复默认费用</button></div><div id="time-parameters" class="fields"></div></details>
+<div class="simulator"><label>配送日期<input id="date" type="date"></label><label>模拟种子<input id="seed" type="number" min="0" max="4294967295" value="42"></label><button id="simulate" class="secondary">模拟次日订单</button><button id="new-seed" class="secondary">换一批订单</button><button id="solve" class="primary">确认并生成配送计划 ↗</button><button id="cancel-solve" class="secondary" hidden>停止计算</button></div>
+<p id="scenario-note" class="muted"></p></section>
+<section id="plan-panel" class="panel"><div class="kpis" id="kpis"></div><div class="grid-two"><article class="card"><div class="section-head"><div><h2>配送路线</h2><p class="muted" id="road-note">地点与路段来源将在这里显示</p></div></div><div id="map"></div><div id="vehicle-tabs" class="button-row"></div><div class="button-row"><button id="road-query" class="secondary">查询免费道路时间</button><button id="road-clear" class="secondary">改用估算时间</button><button id="geometry-query" class="secondary">获取当前方案道路路径</button></div></article><article class="card"><div class="section-head"><div><h2>本车执行计划</h2><p id="route-heading" class="muted"></p></div></div><div id="route-list"></div><div id="route-totals"></div></article></div><article class="card"><h2>未安排订单与原因</h2><div id="unassigned" class="muted">生成计划后显示。</div></article></section>
+<section id="orders-panel" class="panel" hidden><article class="card"><div class="section-head"><div><h2>次日配送订单</h2><p class="muted">门店是真实公开记录；商品、包装、数量与收货时间窗为模拟。时间窗约束卸货完成时刻。</p></div><button id="add-order" class="secondary">＋ 门店补单</button></div><div id="order-list"></div></article><article class="card"><h2>可用车辆与费用</h2><p class="muted">从可用车辆池中选择最多指定数量的车；车厢单位 cm、载重单位 kg。</p><div id="fleet"></div></article></section>
+<section id="cargo-panel" class="panel" hidden><div class="grid-two"><article class="card"><div class="section-head"><div><h2>三维装载布局</h2><p id="cargo-heading" class="muted">拖动旋转 · 双指或滚轮缩放</p></div><button id="reset-view" class="secondary">重置视角</button></div><div id="cargo-vehicles" class="button-row"></div><canvas id="cargo-canvas" aria-label="三维箱件布局"></canvas><div id="cargo-stats" class="muted"></div><div class="fields"><label>展示模式<select id="operation-mode"><option value="overview">完整初始装载</option><option value="loading">逐箱装车</option><option value="unloading">逐站卸货与搬移</option></select></label><label>配送站点<select id="cargo-stop"></select></label></div><div class="button-row"><button id="op-prev" class="secondary">上一步</button><button id="op-next" class="primary">下一步</button><button id="op-all" class="secondary">完成本段</button></div><p id="operation-note" aria-live="polite"></p><label>箱件详情<select id="box-picker"></select></label><p id="box-info" class="muted"></p></article><article class="card"><h2>装卸执行步骤</h2><p class="muted">车门位于 x=0。按步骤取货；临时搬出的货物会恢复到经过校验的位置。</p><div id="operation-list"></div><div id="service-breakdown"></div></article></div></section>
+<section id="compare-panel" class="panel" hidden><article class="card"><h2>同一场景：基础规则与联合优化</h2><div id="baseline-comparison"></div></article><article class="card"><div class="section-head"><div><h2>不同条件的方案记录</h2><p class="muted">修改终点、卸货规则或目标，再计算一次。仅对同一批订单与车辆参数显示可比记录。</p></div><button id="clear-history" class="secondary">清空记录</button></div><div id="history"></div></article><article class="card"><h2>求解与校验</h2><div id="diagnostics" class="muted"></div></article></section>
+<section class="card storage"><div class="button-row"><button id="save" class="secondary">保存此场景</button><select id="saved" aria-label="已保存场景"></select><button id="load" class="secondary">载入场景</button><button id="export" class="secondary">导出场景与方案</button><button id="import" class="secondary">导入场景 JSON</button><input id="file" type="file" accept=".json" hidden></div><p class="muted">浏览器保留最近5份场景。更换设备可通过导出、导入继续。</p></section>
+<details class="card methods"><summary>算法、数据来源与当前边界</summary><p>算法采用多起点贪心插入、2-opt、跨车移单与可行路线池组合；每条候选路线同时检查时间窗、三维装载和逐站卸货。最大化可按时完成的订单数后，按所选时间或费用目标比较方案。有限搜索无全局最优性证明，启发式失败不等于数学不可行。</p><p>参考：Tamke 等 EJOR 2026，三维装载约束路径优化；Nascimento 等 EJOR 2026 在线发表，带时间窗的逻辑型 Benders 分解。本程序借鉴模型与分解结构，实际实现为启发式，未实现论文完整精确算法。</p><p id="catalog-note"></p><p>包装尺寸、车队、费用与装卸系数都是演示假设。箱件保持直立、可按规则水平旋转；采用最多两层、单箱完整支撑的保守模型。搬移假定现场有足够的临时放置空间。未建模真实绑扎、车轴载荷、转弯制动或人员转向空间。</p><p>道路缓存与在线免费服务采用普通驾车路线，未验证货车限行及实时拥堵。地图加载失败不会阻止已有数据的计算。末站结束模式只统计本任务；指定停车点模式包含前往停车点的行程。</p><p><a href="https://doi.org/10.1016/j.ejor.2025.10.010" target="_blank" rel="noopener">Tamke 等论文</a> · <a href="https://doi.org/10.1016/j.ejor.2026.05.051" target="_blank" rel="noopener">Nascimento 等论文</a> · <a href="https://www.fotile.com/h5/services/shopList.html?key=杭州市" target="_blank" rel="noopener">方太门店查询</a></p></details>
+<footer>城市配送智能配载与装卸 · 个人参赛原型 · 所有模拟假设均可追溯</footer></main>
+<script>
+window.addEventListener('error',function(e){if(!window.UrbanUI){document.getElementById('status').textContent='页面组件加载失败，请刷新或用系统浏览器打开。';var n=document.getElementById('notice');n.hidden=false;n.className='error';n.textContent='页面尚未启动。请检查网络后刷新；下载HTML需在支持JavaScript的浏览器打开。';}},true);
+setTimeout(function(){if(!window.UrbanUI)document.getElementById('status').textContent='页面尚未启动，请刷新或换用系统浏览器。';},5000);
+</script><script id="embedded-worker" type="text/plain">/* Shared browser/Node solver. Paper-inspired heuristics; no global optimality claim. */
+(function(root){
+"use strict";
+const EPS=1e-6,copy=x=>JSON.parse(JSON.stringify(x)),sum=(a,f=x=>x)=>a.reduce((s,x)=>s+f(x),0),round=x=>Math.round(x*100)/100;
+const defaults={endpoint:"return",unload:"direct",max_vehicles:3,objective:"time",max_rehandles:2,
+  loading_setup:10,loading_per_box:1,setup_minutes:3,per_box_minutes:1,fragile_extra_minutes:.5,
+  heavy_extra_minutes:.5,heavy_threshold_kg:30,move_out_minutes:1,move_in_minutes:1,speed_kmh:28};
+function assert(ok,message){if(!ok)throw Error(message);}
+function number(n,label,min=0,max=100000){assert(typeof n==="number"&&Number.isFinite(n)&&n>=min&&n<=max,label+"超出范围或不是有效数字");}
+function validate(d){
+ assert(d&&typeof d==="object","场景格式无效");assert(Array.isArray(d.orders)&&d.orders.length>=1&&d.orders.length<=30,"订单需为1～30单");
+ assert(Array.isArray(d.vehicles)&&d.vehicles.length>=1&&d.vehicles.length<=10,"车辆需为1～10辆");
+ const c={...defaults,...d.config};assert(["return","open","parking"].includes(c.endpoint),"车辆终点无效");
+ assert(["direct","limited"].includes(c.unload),"卸货规则无效");assert(["time","cost"].includes(c.objective),"优化目标无效");
+ const point=(p,label)=>{assert(p&&typeof p.id==="string"&&p.id&&typeof p.name==="string"&&p.name,label+"缺少名称或编号");number(p.lon,label+"经度",-180,180);number(p.lat,label+"纬度",-85,85);};
+ point(d.depot,"仓库");if(c.endpoint==="parking"){point(d.end_point,"停车点");assert(d.end_point.id!==d.depot.id,"停车点编号不能与仓库相同");}
+ number(d.start,"发车时刻",0,1439);const ids=new Set([d.depot.id]),bids=new Set(),vids=new Set();
+ for(const o of d.orders){point(o,"门店");assert(!ids.has(o.id),"订单编号重复");ids.add(o.id);number(o.ready,"最早收货",0,1439);number(o.due,"完成截止",o.ready,1439);
+  assert(Array.isArray(o.boxes)&&o.boxes.length>0,"订单必须包含箱件");
+  for(const b of o.boxes){assert(typeof b.id==="string"&&b.id&&!bids.has(b.id),"箱件编号缺失或重复");bids.add(b.id);
+   for(const k of ["length","width","height","weight"])number(b[k],"箱件"+k,.01,10000);
+   for(const k of ["fragile","stackable","rotate"])assert(typeof b[k]==="boolean","箱件规则必须为布尔值");number(b.max_top_weight,"上层承重");}
+ }
+ assert(bids.size<=150,"最多150箱");
+ for(const v of d.vehicles){assert(typeof v.id==="string"&&v.id&&!vids.has(v.id),"车辆编号缺失或重复");vids.add(v.id);
+  for(const k of ["length","width","height","capacity_kg"])number(v[k],"车辆"+k,.01,10000);
+  for(const k of ["fixed_cost","cost_per_km","labor_per_hour"])number(v[k],"费用"+k);
+  number(v.shift_end,"班次截止",d.start,1440);assert(typeof v.enabled==="boolean","车辆可用状态无效");}
+ const enabled=d.vehicles.filter(v=>v.enabled).length;assert(enabled>0,"至少需要一辆可用车");
+ number(c.max_vehicles,"最大出车数",1,enabled);assert(Number.isInteger(c.max_vehicles),"最大出车数应为整数");
+ number(c.max_rehandles,"每站搬移上限",0,5);assert(Number.isInteger(c.max_rehandles),"搬移上限应为整数");
+ for(const k of ["loading_setup","loading_per_box","setup_minutes","per_box_minutes","fragile_extra_minutes","heavy_extra_minutes","move_out_minutes","move_in_minutes"])number(c[k],k,0,120);
+ number(c.heavy_threshold_kg,"重货阈值",0,1000);number(c.speed_kmh,"估算时速",5,100);
+ if(d.travel){const t=d.travel;assert(Array.isArray(t.points),"道路缓存缺少坐标绑定");
+  const n=t.points.length;assert(n>=2&&n<=42,"道路缓存点数量无效");assert(t.coordinate_system==="WGS84"&&typeof t.provider==="string"&&typeof t.query_date==="string","道路元数据无效");
+  for(const p of t.points){assert(typeof p.id==="string"&&p.id,"道路点编号无效");number(p.lon,"道路点经度",-180,180);number(p.lat,"道路点纬度",-85,85);}
+  assert(new Set(t.points.map(p=>p.id)).size===n,"道路点编号重复");
+  for(const p of [d.depot,...d.orders,...(c.endpoint==="parking"?[d.end_point]:[])]){const q=t.points.find(q=>q.id===(p.store_id||p.id));assert(q&&Math.abs(q.lon-p.lon)<EPS&&Math.abs(q.lat-p.lat)<EPS,"道路缓存与地点不匹配，请重新查询");}
+  for(const key of ["distances","durations"]){assert(Array.isArray(t[key])&&t[key].length===n,"道路矩阵维度无效");t[key].forEach((r,i)=>{assert(Array.isArray(r)&&r.length===n,"道路矩阵维度无效");r.forEach((x,j)=>{if(x!==null)number(x,"道路矩阵");if(i===j)assert(x===0,"道路对角线应为0");});});}}
+ return c;
+}
+const overlap=(a,b)=>Math.min(a[1],b[1])-Math.max(a[0],b[0])>EPS;
+const intersects=(a,b)=>["x","y","z"].every(k=>overlap([a[k],a[k]+a["d"+k]],[b[k],b[k]+b["d"+k]]));
+function support(b,placed){
+ if(b.z<EPS)return true;
+ return placed.some(a=>a.id!==b.id&&a.z<EPS&&a.stackable&&!a.fragile&&Math.abs(a.z+a.dz-b.z)<EPS&&
+  a.x<=b.x+EPS&&a.x+a.dx>=b.x+b.dx-EPS&&a.y<=b.y+EPS&&a.y+a.dy>=b.y+b.dy-EPS&&
+  sum(placed.filter(q=>q.id!==a.id&&q.z>=a.z+a.dz-EPS&&q.x>=a.x-EPS&&q.x+q.dx<=a.x+a.dx+EPS&&q.y>=a.y-EPS&&q.y+q.dy<=a.y+a.dy+EPS),q=>q.weight)+(!placed.some(q=>q.id===b.id)?b.weight:0)<=a.max_top_weight+EPS);
+}
+function blockers(b,placed){return placed.filter(a=>a.id!==b.id&&(
+ (a.x<b.x-EPS&&overlap([a.y,a.y+a.dy],[b.y,b.y+b.dy])&&overlap([a.z,a.z+a.dz],[b.z,b.z+b.dz]))||
+ (a.z>=b.z+b.dz-EPS&&overlap([a.x,a.x+a.dx],[b.x,b.x+b.dx])&&overlap([a.y,a.y+a.dy],[b.y,b.y+b.dy]))));}
+function restoreBox(b,placed,v){
+ const xs=[b.x,0,...placed.flatMap(a=>[a.x+a.dx,a.x-b.dx])],ys=[b.y,0,...placed.flatMap(a=>[a.y+a.dy,a.y-b.dy])];
+ const options=[{...b},...xs.flatMap(x=>ys.map(y=>({...b,x,y,z:0})))];
+ return options.find(p=>p.x>=-EPS&&p.y>=-EPS&&p.z>=-EPS&&p.x+p.dx<=v.length+EPS&&p.y+p.dy<=v.width+EPS&&p.z+p.dz<=v.height+EPS&&!placed.some(a=>intersects(a,p))&&support(p,placed)&&!blockers(p,placed).length);
+}
+function unloadPlan(layout,route,v,c){
+ let remaining=copy(layout),steps=[],rehandles=0;
+ for(let index=0;index<route.length;index++){
+  const order=route[index],before=copy(remaining),operations=[],temporary=[],boxes=[];
+  while(remaining.some(b=>b.order_id===order.id)){
+   const available=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.y-b.y||a.id.localeCompare(b.id));
+   let b=available.find(b=>b.order_id===order.id),type="unload";
+   if(!b){
+    if(c.unload!=="limited"||temporary.length>=c.max_rehandles)return {feasible:false,reason:"本站取货受阻或临时搬移超过上限"};
+    const needed=new Set();const collect=b=>{for(const a of blockers(b,remaining))if(!needed.has(a.id)){needed.add(a.id);collect(a);}};
+    remaining.filter(b=>b.order_id===order.id).forEach(collect);
+    b=available.find(b=>needed.has(b.id)&&b.order_id!==order.id);type="move_out";
+    if(!b)return {feasible:false,reason:"未找到可执行的临时搬移顺序"};
+   }
+   const position=[b.x,b.y,b.z];operations.push({type,box_id:b.id,position,minutes:type==="move_out"?c.move_out_minutes:0});
+   if(type==="move_out")temporary.push(copy(b));else boxes.push({box_id:b.id,position});
+   remaining=remaining.filter(a=>a.id!==b.id);
+   if(remaining.some(a=>!support(a,remaining)))return {feasible:false,reason:"取货后剩余箱件失去完整支撑"};
+  }
+  for(const b of temporary.reverse()){
+   const placed=restoreBox(b,remaining,v);if(!placed)return {feasible:false,reason:"临时搬出的货物无法稳定恢复到车厢"};
+   operations.push({type:"move_in",box_id:b.id,position:[placed.x,placed.y,placed.z],minutes:c.move_in_minutes});remaining.push(placed);
+  }
+  rehandles+=temporary.length;
+  steps.push({stop:index+1,order_id:order.id,name:order.name,boxes,operations,before_layout:before,after_layout:copy(remaining),rehandles:temporary.length});
+ }
+ return {feasible:true,steps,rehandles};
+}
+function packAttempt(route,v,c,strategy=0){
+ const all=route.flatMap((o,i)=>o.boxes.map(b=>({...b,order_id:o.id,stop:i+1})));
+ if(sum(all,b=>b.weight)>v.capacity_kg+EPS)return {feasible:false,reason:"超过车辆载重"};
+ if(sum(all,b=>b.length*b.width*b.height)>v.length*v.width*v.height+EPS)return {feasible:false,reason:"箱件总体积超过车厢"};
+ all.sort((a,b)=>(strategy===2?0:b.stop-a.stop)||Number(a.fragile)-Number(b.fragile)||Number(!a.stackable)-Number(!b.stackable)||b.length*b.width*(strategy===1?1:b.height)-a.length*a.width*(strategy===1?1:a.height)||b.weight-a.weight||a.id.localeCompare(b.id));
+ let points=[[v.length,0,0]],placed=[];
+ for(const b of all){
+  if(strategy)for(const x of [v.length,...placed.map(a=>a.x)])for(const y of [0,...placed.map(a=>a.y+a.dy)])points.push([x,y,0]);
+  points=[...new Map(points.map(p=>[p.join(","),p])).values()];
+  const orientations=[[b.length,b.width,b.height]];if(b.rotate&&b.length!==b.width)orientations.push([b.width,b.length,b.height]);
+  const options=[];
+  for(const [anchor,y,z] of points)for(const [dx,dy,dz] of orientations){
+   const a={...b,x:anchor-dx,y,z,dx,dy,dz};
+   if(a.x<-EPS||y+dy>v.width+EPS||z+dz>v.height+EPS||placed.some(q=>intersects(a,q))||!support(a,placed))continue;
+   if(c.unload==="direct"&&(blockers(a,placed).some(q=>q.stop>a.stop)||placed.some(q=>q.stop<a.stop&&blockers(q,[a]).length)))continue;
+   options.push(a);
+  }
+  if(!options.length)return {feasible:false,reason:"装箱启发式未找到符合支撑及取货要求的位置"};
+  options.sort((a,b)=>a.z-b.z||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
+  const a=options[0];placed.push(a);points.push([a.x,a.y,a.z],[a.x+a.dx,a.y+a.dy,a.z],[a.x+a.dx,a.y,a.z+a.dz]);
+ }
+ const unloading=unloadPlan(placed,route,v,c);if(!unloading.feasible)return unloading;
+ // Initial loading is an independent removal order reversed, before any delivery.
+ let remaining=copy(placed),removal=[];
+ while(remaining.length){const a=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.id.localeCompare(b.id))[0];if(!a)return {feasible:false,reason:"初始装车顺序不可执行"};removal.push(a);remaining=remaining.filter(b=>b.id!==a.id);}
+ const loading=removal.reverse().map((b,i)=>({step:i+1,box_id:b.id,order_id:b.order_id,position:[b.x,b.y,b.z]}));
+ return {feasible:true,layout:placed,loading,unloading};
+}
+function pack(route,v,c){let last;for(const strategy of (c.unload==="limited"?[0,1,2]:[0,1])){last=packAttempt(route,v,c,strategy);if(last.feasible)return last;}return last;}
+function service(o,c,step){const components={setup:c.setup_minutes,boxes:o.boxes.length*c.per_box_minutes,fragile:o.boxes.filter(b=>b.fragile).length*c.fragile_extra_minutes,heavy:o.boxes.filter(b=>b.weight>c.heavy_threshold_kg).length*c.heavy_extra_minutes,rehandle:step.rehandles*(c.move_out_minutes+c.move_in_minutes)};return {minutes:Math.ceil(sum(Object.values(components))*2)/2,components};}
+function travel(a,b,d,c){
+ if(d.travel){const t=d.travel,i=t.points.findIndex(p=>p.id===(a.store_id||a.id)),j=t.points.findIndex(p=>p.id===(b.store_id||b.id));const km=t.distances[i][j],minutes=t.durations[i][j];return km===null||minutes===null?null:{km,minutes};}
+ const rad=x=>x*Math.PI/180,dl=rad(b.lon-a.lon),dt=rad(b.lat-a.lat),h=Math.sin(dt/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dl/2)**2;
+ const km=6371*2*Math.asin(Math.min(1,Math.sqrt(h)))*1.28;return {km,minutes:km/c.speed_kmh*60};
+}
+function schedule(route,v,d,c,packing){
+ const loading=c.loading_setup+sum(route,o=>o.boxes.length)*c.loading_per_box;
+ let now=d.start+loading,last=d.depot,km=0,driving=0,waiting=0,unloading=0,stops=[];
+ for(let i=0;i<route.length;i++){
+  const o=route[i],leg=travel(last,o,d,c);if(!leg)return {feasible:false,reason:"道路不可达"};
+  const arrival=now+leg.minutes,begin=Math.max(arrival,o.ready),s=service(o,c,packing.unloading.steps[i]),end=begin+s.minutes;
+  if(end>o.due+EPS)return {feasible:false,reason:o.id+"无法在截止前完成卸货"};
+  stops.push({...o,boxes:undefined,arrival,service_start:begin,service_end:end,wait:begin-arrival,service_estimate:s,leg_km:leg.km,travel_minutes:leg.minutes});
+  waiting+=begin-arrival;unloading+=s.minutes;km+=leg.km;driving+=leg.minutes;now=end;last=o;
+ }
+ const endpoint=c.endpoint==="return"?d.depot:c.endpoint==="parking"?d.end_point:last;
+ let finalLeg={km:0,minutes:0};if(c.endpoint!=="open"){finalLeg=travel(last,endpoint,d,c);if(!finalLeg)return {feasible:false,reason:"终点道路不可达"};km+=finalLeg.km;driving+=finalLeg.minutes;now+=finalLeg.minutes;}
+ if(now>v.shift_end+EPS)return {feasible:false,reason:"任务结束超过车辆班次"};
+ const work=now-d.start,cost_parts={fixed:v.fixed_cost,distance:km*v.cost_per_km,labor:work/60*v.labor_per_hour};
+ return {feasible:true,stops,km,end:now,endpoint,final_leg:finalLeg,work_minutes:work,time_parts:{loading,driving,waiting,unloading},cost_parts,cost:sum(Object.values(cost_parts)),packing,vehicle:v,order_ids:route.map(o=>o.id),rehandles:packing.unloading.rehandles};
+}
+// Output verifier replays operations rather than trusting the packing search.
+function verify(result,d){
+ const c=validate(d),seen=new Set(),source=new Map(d.orders.flatMap(o=>o.boxes.map(b=>[b.id,{...b,order_id:o.id}])));
+ assert(result.routes.length<=c.max_vehicles,"出车数超上限");const vehicles=new Set();
+ function inspect(layout,v){const ids=new Set();let mass=0;for(const b of layout){const original=source.get(b.id);assert(original&&!ids.has(b.id),"箱件未知或重复");ids.add(b.id);mass+=b.weight;
+  for(const k of ["weight","fragile","stackable","max_top_weight","order_id"])assert(b[k]===original[k],"箱件属性不一致");
+  assert(b.dz===original.height&&((b.dx===original.length&&b.dy===original.width)||(original.rotate&&b.dx===original.width&&b.dy===original.length)),"箱件尺寸不一致");
+  for(const [k,size] of [["x",v.length],["y",v.width],["z",v.height]])assert(Number.isFinite(b[k])&&b[k]>=-EPS&&b[k]+b["d"+k]<=size+EPS,"箱件越界");
+  for(const a of layout)if(a.id!==b.id)assert(!intersects(a,b),"箱件重叠");
+  if(b.z>EPS){const base=layout.find(a=>a.id!==b.id&&a.z<EPS&&a.stackable&&!a.fragile&&Math.abs(a.z+a.dz-b.z)<EPS&&a.x<=b.x+EPS&&a.y<=b.y+EPS&&a.x+a.dx>=b.x+b.dx-EPS&&a.y+a.dy>=b.y+b.dy-EPS);assert(base,"箱件悬空或非法堆叠");
+   const upper=sum(layout.filter(a=>a.id!==base.id&&a.z>=base.z+base.dz-EPS&&a.x>=base.x-EPS&&a.y>=base.y-EPS&&a.x+a.dx<=base.x+base.dx+EPS&&a.y+a.dy<=base.y+base.dy+EPS),a=>a.weight);assert(upper<=base.max_top_weight+EPS,"上层累计承重超限");}}
+  assert(mass<=v.capacity_kg+EPS,"超载");
+ }
+ const stateKey=layout=>JSON.stringify(layout.map(b=>[b.id,b.x,b.y,b.z]).sort((a,b)=>a[0].localeCompare(b[0])));
+ for(const r of result.routes){assert(!vehicles.has(r.vehicle.id),"车辆重复使用");vehicles.add(r.vehicle.id);const original=d.vehicles.find(v=>v.id===r.vehicle.id);assert(original?.enabled&&JSON.stringify(original)===JSON.stringify(r.vehicle),"车辆与输入不一致");
+  for(const id of r.order_ids){assert(!seen.has(id)&&d.orders.some(o=>o.id===id),"订单未知或重复");seen.add(id);}
+  const expected=d.orders.filter(o=>r.order_ids.includes(o.id)).flatMap(o=>o.boxes.map(b=>b.id));assert(expected.length===r.packing.layout.length&&expected.every(id=>r.packing.layout.some(b=>b.id===id)),"箱件缺失");
+  inspect(r.packing.layout,r.vehicle);let loaded=[];const loadedIds=new Set();
+  for(const op of r.packing.loading){const b=r.packing.layout.find(b=>b.id===op.box_id);assert(b&&!loadedIds.has(b.id),"装车箱件重复或缺失");assert(op.position.every((p,i)=>Math.abs(p-b[["x","y","z"][i]])<EPS),"装车指引位置不一致");assert(!blockers(b,loaded).length,"装车路径受阻");loaded.push(copy(b));loadedIds.add(b.id);inspect(loaded,r.vehicle);}
+  assert(loaded.length===expected.length,"装车遗漏");let remaining=copy(loaded),moves=0;
+  assert(r.packing.unloading.steps.length===r.order_ids.length,"卸货站点遗漏");
+  for(let i=0;i<r.packing.unloading.steps.length;i++){const step=r.packing.unloading.steps[i],temporary=new Map(),delivered=new Set();assert(step.order_id===r.order_ids[i]&&step.stop===i+1,"卸货站序错误");inspect(step.before_layout,r.vehicle);assert(stateKey(remaining)===stateKey(step.before_layout),"卸货前快照不一致");
+   for(const op of step.operations){
+    if(op.type==="move_in"){const b=temporary.get(op.box_id);assert(b,"恢复箱件未曾搬出");const a={...b,x:op.position[0],y:op.position[1],z:op.position[2]};assert(!blockers(a,remaining).length,"恢复路径受阻");remaining.push(a);temporary.delete(b.id);}
+    else {const b=remaining.find(b=>b.id===op.box_id);assert(b&&!blockers(b,remaining).length,"卸货路径或上层受阻");assert(op.position.every((p,i)=>Math.abs(p-b[["x","y","z"][i]])<EPS),"卸货指引位置不一致");
+     if(op.type==="unload"){assert(b.order_id===step.order_id,"卸错门店货物");delivered.add(b.id);}else{assert(op.type==="move_out"&&c.unload==="limited"&&b.order_id!==step.order_id,"非法搬移");temporary.set(b.id,b);moves++;}remaining=remaining.filter(a=>a.id!==b.id);}
+    inspect(remaining,r.vehicle);
+   }
+   assert(!temporary.size&&!remaining.some(b=>b.order_id===step.order_id),"卸货或恢复遗漏");assert(step.rehandles<=c.max_rehandles&&step.rehandles===step.operations.filter(o=>o.type==="move_out").length,"搬移上限或计数错误");
+   inspect(step.after_layout,r.vehicle);assert(stateKey(remaining)===stateKey(step.after_layout),"卸货后快照不一致");assert(step.boxes.length===delivered.size&&step.boxes.every(b=>delivered.has(b.box_id)),"本站箱件清单不一致");
+  }
+  assert(!remaining.length&&moves===r.rehandles,"卸货最终状态错误");
+  const route=r.order_ids.map(id=>d.orders.find(o=>o.id===id)),timing=schedule(route,r.vehicle,d,c,r.packing);assert(timing.feasible,"排程不可行");
+  for(const k of ["work_minutes","cost","km","end"])assert(Math.abs(timing[k]-r[k])<.001,"计算结果与排程不一致");
+  assert(r.stops.length===timing.stops.length,"排程站点缺失");for(let i=0;i<r.stops.length;i++)for(const k of ["arrival","service_start","service_end","wait","leg_km","travel_minutes"])assert(Math.abs(r.stops[i][k]-timing.stops[i][k])<.001,"站点时间或距离不一致");
+  for(const k of ["loading","driving","waiting","unloading"])assert(Math.abs(r.time_parts[k]-timing.time_parts[k])<.001,"作业时间明细不一致");
+  for(const k of ["fixed","distance","labor"])assert(Math.abs(r.cost_parts[k]-timing.cost_parts[k])<.001,"费用明细不一致");
+ }
+ assert(result.metrics.assigned===seen.size&&result.metrics.orders===d.orders.length&&result.metrics.vehicles===vehicles.size,"服务量不一致");
+ for(const k of ["cost","km","work_minutes"])assert(Math.abs(result.metrics[k]-round(sum(result.routes,r=>r[k])))<.001,"汇总指标不一致");
+ assert(result.unassigned.length===d.orders.length-seen.size&&new Set(result.unassigned.map(o=>o.order_id)).size===result.unassigned.length&&result.unassigned.every(o=>!seen.has(o.order_id)&&d.orders.some(x=>x.id===o.order_id)),"未安排清单不一致");return true;
+}
+function solve(d,mode="optimized"){
+ const started=Date.now(),c=validate(d),vehicles=d.vehicles.filter(v=>v.enabled),orders=d.orders,index=new Map(orders.map((o,i)=>[o.id,i]));
+ const cache=new Map(),columns=new Map();let checks=0,rejected=0,improvements=0,budgetHit=false;const evaluationLimit=2200;
+ const value=r=>c.objective==="time"?r.work_minutes:r.cost;
+ const mask=r=>r.reduce((m,o)=>m|(1<<index.get(o.id)),0);
+ function evaluate(i,route){if(!route.length)return null;const key=i+":"+route.map(o=>o.id).join(">");if(cache.has(key))return cache.get(key);
+  if(checks>=evaluationLimit){budgetHit=true;return null;}checks++;
+  const packing=pack(route,vehicles[i],c),result=packing.feasible?schedule(route,vehicles[i],d,c,packing):packing;
+  cache.set(key,result);if(!result.feasible){rejected++;return result;}
+  const colkey=i+":"+mask(route),old=columns.get(colkey);if(!old||value(result)<value(old.result)-EPS)columns.set(colkey,{vehicle:i,mask:mask(route),route:route.slice(),result});return result;
+ }
+ function score(routes){let assigned=0,primary=0,secondary=0,count=0;routes.forEach((r,i)=>{if(r.length){const e=evaluate(i,r);if(!e?.feasible){primary=Infinity;return;}assigned+=r.length;primary+=value(e);secondary+=c.objective==="time"?e.cost:e.work_minutes;count++;}});return [-assigned,primary,secondary,count];}
+ const better=(a,b)=>{for(let i=0;i<a.length;i++){if(a[i]<b[i]-EPS)return true;if(a[i]>b[i]+EPS)return false;}return false;};
+ function insert(routes,o,baseline=false,vehicleOrder=vehicles.map((v,i)=>i)){
+  const used=routes.filter(r=>r.length).length,options=[];
+  for(const i of vehicleOrder){const r=routes[i];if(!r.length&&used>=c.max_vehicles)continue;const old=r.length?value(evaluate(i,r)):0;
+   for(const p of baseline?[r.length]:Array.from({length:r.length+1},(_,i)=>i)){const trial=[...r.slice(0,p),o,...r.slice(p)],e=evaluate(i,trial);if(e?.feasible){options.push({delta:value(e)-old,i,p,trial});if(baseline)break;}}
+   if(baseline&&options.length)break;
+  }
+  if(!options.length)return false;if(!baseline)options.sort((a,b)=>a.delta-b.delta||a.i-b.i||a.p-b.p);const chosen=options[0];routes[chosen.i]=chosen.trial;return true;
+ }
+ function construct(sequence,baseline=false,vehicleOrder){const routes=vehicles.map(()=>[]);sequence.forEach(o=>insert(routes,o,baseline,vehicleOrder));return routes;}
+ const baseline=construct(orders,true);let best=baseline;
+ if(mode!=="baseline"){
+  const seeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
+  for(const sequence of seeds){let routes=construct(sequence,false,vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width*vehicles[b].height-vehicles[a].length*vehicles[a].width*vehicles[a].height));
+   for(let pass=0;pass<2&&!budgetHit;pass++){
+    for(let i=0;i<routes.length;i++){let improved=false;for(let a=0;a<routes[i].length-1&&!improved;a++)for(let b=a+2;b<=routes[i].length;b++){const r=routes[i],trial=[...r.slice(0,a),...r.slice(a,b).reverse(),...r.slice(b)],e=evaluate(i,trial);if(e?.feasible&&value(e)<value(evaluate(i,r))-EPS){routes[i]=trial;improved=true;improvements++;break;}}}
+    let changed=false;for(let a=0;a<routes.length&&!changed;a++)for(let pos=0;pos<routes[a].length&&!changed;pos++)for(let b=0;b<routes.length&&!changed;b++){
+     if(a===b)continue;if(!routes[b].length&&routes.filter(r=>r.length).length>=c.max_vehicles&&routes[a].length>1)continue;
+     const ra=routes[a].filter((_,i)=>i!==pos),ea=ra.length?evaluate(a,ra):null;if(ra.length&&!ea?.feasible)continue;
+     for(let q=0;q<=routes[b].length;q++){const rb=[...routes[b].slice(0,q),routes[a][pos],...routes[b].slice(q)],eb=evaluate(b,rb);if(!eb?.feasible)continue;
+      const before=value(evaluate(a,routes[a]))+(routes[b].length?value(evaluate(b,routes[b])):0),after=(ea?value(ea):0)+value(eb);
+      if(after<before-EPS){routes[a]=ra;routes[b]=rb;changed=true;improvements++;break;}}
+    }
+    const used=new Set(routes.flatMap(r=>r.map(o=>o.id)));for(const o of orders)if(!used.has(o.id)&&insert(routes,o))improvements++;
+   }
+   if(better(score(routes),score(best)))best=routes;
+  }
+  // Repair service gaps by replacing a used vehicle from the whole enabled pool.
+  // A larger/cheaper vehicle may enable insertions that a time-only relocation misses.
+  for(let pass=0;pass<2&&!budgetHit;pass++){
+   let improved=false;
+   for(let a=0;a<vehicles.length&&!budgetHit;a++)if(best[a].length)for(let b=0;b<vehicles.length&&!budgetHit;b++)if(!best[b].length){
+    const e=evaluate(b,best[a]);if(!e?.feasible)continue;
+    const trial=best.map(r=>r.slice());trial[b]=trial[a];trial[a]=[];
+    for(let other=0;other<vehicles.length&&!budgetHit;other++)if(other!==b)for(const o of trial[other].slice()){
+     const reduced=trial[other].filter(x=>x.id!==o.id),er=reduced.length?evaluate(other,reduced):null;
+     if(reduced.length&&!er?.feasible)continue;
+     for(let p=0;p<=trial[b].length;p++){
+      const merged=[...trial[b].slice(0,p),o,...trial[b].slice(p)],em=evaluate(b,merged);if(!em?.feasible)continue;
+      const current=value(evaluate(b,trial[b]))+(trial[other].length?value(evaluate(other,trial[other])):0);
+      if(value(em)+(er?value(er):0)<current-EPS){trial[b]=merged;trial[other]=reduced;break;}
+     }
+    }
+    const used=new Set(trial.flatMap(r=>r.map(o=>o.id)));
+    for(const o of orders)if(!used.has(o.id))insert(trial,o);
+    if(better(score(trial),score(best))){best=trial;improvements++;improved=true;}
+   }
+   if(!improved)break;
+  }
+  // Every enabled vehicle can participate; the cap is on selected routes, not first K vehicles.
+  for(let v=0;v<vehicles.length&&!budgetHit;v++)for(const o of orders)evaluate(v,[o]);
+  let states=new Map([["0:0",{mask:0,count:0,value:0,routes:vehicles.map(()=>[])}]]),pruned=false,peak=1;
+  for(let v=0;v<vehicles.length;v++){
+   let next=new Map(states);const options=[...columns.values()].filter(col=>col.vehicle===v);
+   for(const st of states.values())if(st.count<c.max_vehicles)for(const col of options)if(!(st.mask&col.mask)){
+    const m=st.mask|col.mask,count=st.count+1,key=m+":"+count,total=st.value+value(col.result),old=next.get(key);
+    if(!old||total<old.value-EPS){const routes=st.routes.map(r=>r.slice());routes[v]=col.route;next.set(key,{mask:m,count,value:total,routes});}
+   }
+   peak=Math.max(peak,next.size);if(next.size>1024){pruned=true;next=new Map([...next].sort((a,b)=>popcount(b[1].mask)-popcount(a[1].mask)||a[1].value-b[1].value||a[1].count-b[1].count).slice(0,1024));}states=next;
+  }
+  for(const st of states.values())if(better(score(st.routes),score(best)))best=st.routes;
+  var poolInfo={pool_pruned:pruned,pool_states_peak:peak};
+ }
+ const routes=best.map((r,i)=>r.length?evaluate(i,r):null).filter(Boolean),served=new Set(routes.flatMap(r=>r.order_ids));
+ const unassigned=orders.filter(o=>!served.has(o.id)).map(o=>({order_id:o.id,name:o.name,reasons:[...new Set([...cache.entries()].filter(([k,r])=>k.split(":")[1].split(">").includes(o.id)&&!r.feasible).map(([k,r])=>r.reason))].slice(0,4)}));
+ const metrics={orders:orders.length,assigned:served.size,vehicles:routes.length,km:round(sum(routes,r=>r.km)),cost:round(sum(routes,r=>r.cost)),work_minutes:round(sum(routes,r=>r.work_minutes)),finish:routes.length?Math.max(...routes.map(r=>r.end)):d.start,rehandles:sum(routes,r=>r.rehandles),on_time_rate:served.size/orders.length,
+  volume_utilization:routes.length?sum(routes,r=>sum(r.packing.layout,b=>b.dx*b.dy*b.dz))/sum(routes,r=>r.vehicle.length*r.vehicle.width*r.vehicle.height):0,
+  time_parts:Object.fromEntries(["loading","driving","waiting","unloading"].map(k=>[k,round(sum(routes,r=>r.time_parts[k]))]))};
+ const result={version:"0.3",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
+ verify(result,d);return result;
+}
+function popcount(n){let c=0;while(n){n&=n-1;c++;}return c;}
+function simulate(catalog,seed=42,date="2026-10-12"){
+ let state=Number(seed)>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
+ const stores=catalog.stores.slice();for(let i=stores.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[stores[i],stores[j]]=[stores[j],stores[i]];}
+ const count=12+Math.floor(random()*5),skus=[{sku:"模拟烟机",length:80,width:60,height:55,weight:22,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟灶具",length:80,width:50,height:25,weight:15,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟洗碗机",length:65,width:65,height:90,weight:48,fragile:false,stackable:true,rotate:true,max_top_weight:25}];
+ const orders=stores.slice(0,count).map((s,i)=>{const id="O"+String(i+1).padStart(2,"0"),n=2+Math.floor(random()*3),ready=540+Math.floor(random()*4)*30,due=ready+240+Math.floor(random()*3)*60;return {id,store_id:s.id,name:s.name,address:s.address,lon:s.lon,lat:s.lat,ready,due,boxes:Array.from({length:n},(_,j)=>({...skus[Math.floor(random()*skus.length)],id:id+"-B"+(j+1)}))};});
+ const types=[[280,155,180,1200,"小型厢车"],[420,185,205,2500,"中型厢车"],[520,220,220,4500,"大型厢车"]];
+ const vehicles=Array.from({length:6},(_,i)=>{const [length,width,height,capacity_kg,name]=types[i%3];return {id:"V"+String(i+1).padStart(2,"0"),name,length,width,height,capacity_kg,fixed_cost:200,cost_per_km:1.5,labor_per_hour:30,shift_end:1140,enabled:true};});
+ return {version:3,date,seed,orders,vehicles,start:480,depot:copy(catalog.depot),end_point:copy(catalog.parking),config:copy(defaults),provenance:catalog.note,travel:catalog.travel?copy(catalog.travel):undefined};
+}
+const api={defaults,validate,solve,verify,pack,unloadPlan,simulate,travel,service};
+if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.UrbanEngine=api;
+})(typeof self!=="undefined"?self:globalThis);
+
+
+self.onmessage=e=>{try{const {data,mode="compare",request_id}=e.data;const result=mode==="compare"?{baseline:UrbanEngine.solve(data,"baseline"),optimized:UrbanEngine.solve(data)}:UrbanEngine.solve(data,mode);self.postMessage({request_id,result});}catch(error){self.postMessage({request_id:e.data.request_id,error:error.message});}};
+</script><script>/* Shared browser/Node solver. Paper-inspired heuristics; no global optimality claim. */
+(function(root){
+"use strict";
+const EPS=1e-6,copy=x=>JSON.parse(JSON.stringify(x)),sum=(a,f=x=>x)=>a.reduce((s,x)=>s+f(x),0),round=x=>Math.round(x*100)/100;
+const defaults={endpoint:"return",unload:"direct",max_vehicles:3,objective:"time",max_rehandles:2,
+  loading_setup:10,loading_per_box:1,setup_minutes:3,per_box_minutes:1,fragile_extra_minutes:.5,
+  heavy_extra_minutes:.5,heavy_threshold_kg:30,move_out_minutes:1,move_in_minutes:1,speed_kmh:28};
+function assert(ok,message){if(!ok)throw Error(message);}
+function number(n,label,min=0,max=100000){assert(typeof n==="number"&&Number.isFinite(n)&&n>=min&&n<=max,label+"超出范围或不是有效数字");}
+function validate(d){
+ assert(d&&typeof d==="object","场景格式无效");assert(Array.isArray(d.orders)&&d.orders.length>=1&&d.orders.length<=30,"订单需为1～30单");
+ assert(Array.isArray(d.vehicles)&&d.vehicles.length>=1&&d.vehicles.length<=10,"车辆需为1～10辆");
+ const c={...defaults,...d.config};assert(["return","open","parking"].includes(c.endpoint),"车辆终点无效");
+ assert(["direct","limited"].includes(c.unload),"卸货规则无效");assert(["time","cost"].includes(c.objective),"优化目标无效");
+ const point=(p,label)=>{assert(p&&typeof p.id==="string"&&p.id&&typeof p.name==="string"&&p.name,label+"缺少名称或编号");number(p.lon,label+"经度",-180,180);number(p.lat,label+"纬度",-85,85);};
+ point(d.depot,"仓库");if(c.endpoint==="parking"){point(d.end_point,"停车点");assert(d.end_point.id!==d.depot.id,"停车点编号不能与仓库相同");}
+ number(d.start,"发车时刻",0,1439);const ids=new Set([d.depot.id]),bids=new Set(),vids=new Set();
+ for(const o of d.orders){point(o,"门店");assert(!ids.has(o.id),"订单编号重复");ids.add(o.id);number(o.ready,"最早收货",0,1439);number(o.due,"完成截止",o.ready,1439);
+  assert(Array.isArray(o.boxes)&&o.boxes.length>0,"订单必须包含箱件");
+  for(const b of o.boxes){assert(typeof b.id==="string"&&b.id&&!bids.has(b.id),"箱件编号缺失或重复");bids.add(b.id);
+   for(const k of ["length","width","height","weight"])number(b[k],"箱件"+k,.01,10000);
+   for(const k of ["fragile","stackable","rotate"])assert(typeof b[k]==="boolean","箱件规则必须为布尔值");number(b.max_top_weight,"上层承重");}
+ }
+ assert(bids.size<=150,"最多150箱");
+ for(const v of d.vehicles){assert(typeof v.id==="string"&&v.id&&!vids.has(v.id),"车辆编号缺失或重复");vids.add(v.id);
+  for(const k of ["length","width","height","capacity_kg"])number(v[k],"车辆"+k,.01,10000);
+  for(const k of ["fixed_cost","cost_per_km","labor_per_hour"])number(v[k],"费用"+k);
+  number(v.shift_end,"班次截止",d.start,1440);assert(typeof v.enabled==="boolean","车辆可用状态无效");}
+ const enabled=d.vehicles.filter(v=>v.enabled).length;assert(enabled>0,"至少需要一辆可用车");
+ number(c.max_vehicles,"最大出车数",1,enabled);assert(Number.isInteger(c.max_vehicles),"最大出车数应为整数");
+ number(c.max_rehandles,"每站搬移上限",0,5);assert(Number.isInteger(c.max_rehandles),"搬移上限应为整数");
+ for(const k of ["loading_setup","loading_per_box","setup_minutes","per_box_minutes","fragile_extra_minutes","heavy_extra_minutes","move_out_minutes","move_in_minutes"])number(c[k],k,0,120);
+ number(c.heavy_threshold_kg,"重货阈值",0,1000);number(c.speed_kmh,"估算时速",5,100);
+ if(d.travel){const t=d.travel;assert(Array.isArray(t.points),"道路缓存缺少坐标绑定");
+  const n=t.points.length;assert(n>=2&&n<=42,"道路缓存点数量无效");assert(t.coordinate_system==="WGS84"&&typeof t.provider==="string"&&typeof t.query_date==="string","道路元数据无效");
+  for(const p of t.points){assert(typeof p.id==="string"&&p.id,"道路点编号无效");number(p.lon,"道路点经度",-180,180);number(p.lat,"道路点纬度",-85,85);}
+  assert(new Set(t.points.map(p=>p.id)).size===n,"道路点编号重复");
+  for(const p of [d.depot,...d.orders,...(c.endpoint==="parking"?[d.end_point]:[])]){const q=t.points.find(q=>q.id===(p.store_id||p.id));assert(q&&Math.abs(q.lon-p.lon)<EPS&&Math.abs(q.lat-p.lat)<EPS,"道路缓存与地点不匹配，请重新查询");}
+  for(const key of ["distances","durations"]){assert(Array.isArray(t[key])&&t[key].length===n,"道路矩阵维度无效");t[key].forEach((r,i)=>{assert(Array.isArray(r)&&r.length===n,"道路矩阵维度无效");r.forEach((x,j)=>{if(x!==null)number(x,"道路矩阵");if(i===j)assert(x===0,"道路对角线应为0");});});}}
+ return c;
+}
+const overlap=(a,b)=>Math.min(a[1],b[1])-Math.max(a[0],b[0])>EPS;
+const intersects=(a,b)=>["x","y","z"].every(k=>overlap([a[k],a[k]+a["d"+k]],[b[k],b[k]+b["d"+k]]));
+function support(b,placed){
+ if(b.z<EPS)return true;
+ return placed.some(a=>a.id!==b.id&&a.z<EPS&&a.stackable&&!a.fragile&&Math.abs(a.z+a.dz-b.z)<EPS&&
+  a.x<=b.x+EPS&&a.x+a.dx>=b.x+b.dx-EPS&&a.y<=b.y+EPS&&a.y+a.dy>=b.y+b.dy-EPS&&
+  sum(placed.filter(q=>q.id!==a.id&&q.z>=a.z+a.dz-EPS&&q.x>=a.x-EPS&&q.x+q.dx<=a.x+a.dx+EPS&&q.y>=a.y-EPS&&q.y+q.dy<=a.y+a.dy+EPS),q=>q.weight)+(!placed.some(q=>q.id===b.id)?b.weight:0)<=a.max_top_weight+EPS);
+}
+function blockers(b,placed){return placed.filter(a=>a.id!==b.id&&(
+ (a.x<b.x-EPS&&overlap([a.y,a.y+a.dy],[b.y,b.y+b.dy])&&overlap([a.z,a.z+a.dz],[b.z,b.z+b.dz]))||
+ (a.z>=b.z+b.dz-EPS&&overlap([a.x,a.x+a.dx],[b.x,b.x+b.dx])&&overlap([a.y,a.y+a.dy],[b.y,b.y+b.dy]))));}
+function restoreBox(b,placed,v){
+ const xs=[b.x,0,...placed.flatMap(a=>[a.x+a.dx,a.x-b.dx])],ys=[b.y,0,...placed.flatMap(a=>[a.y+a.dy,a.y-b.dy])];
+ const options=[{...b},...xs.flatMap(x=>ys.map(y=>({...b,x,y,z:0})))];
+ return options.find(p=>p.x>=-EPS&&p.y>=-EPS&&p.z>=-EPS&&p.x+p.dx<=v.length+EPS&&p.y+p.dy<=v.width+EPS&&p.z+p.dz<=v.height+EPS&&!placed.some(a=>intersects(a,p))&&support(p,placed)&&!blockers(p,placed).length);
+}
+function unloadPlan(layout,route,v,c){
+ let remaining=copy(layout),steps=[],rehandles=0;
+ for(let index=0;index<route.length;index++){
+  const order=route[index],before=copy(remaining),operations=[],temporary=[],boxes=[];
+  while(remaining.some(b=>b.order_id===order.id)){
+   const available=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.y-b.y||a.id.localeCompare(b.id));
+   let b=available.find(b=>b.order_id===order.id),type="unload";
+   if(!b){
+    if(c.unload!=="limited"||temporary.length>=c.max_rehandles)return {feasible:false,reason:"本站取货受阻或临时搬移超过上限"};
+    const needed=new Set();const collect=b=>{for(const a of blockers(b,remaining))if(!needed.has(a.id)){needed.add(a.id);collect(a);}};
+    remaining.filter(b=>b.order_id===order.id).forEach(collect);
+    b=available.find(b=>needed.has(b.id)&&b.order_id!==order.id);type="move_out";
+    if(!b)return {feasible:false,reason:"未找到可执行的临时搬移顺序"};
+   }
+   const position=[b.x,b.y,b.z];operations.push({type,box_id:b.id,position,minutes:type==="move_out"?c.move_out_minutes:0});
+   if(type==="move_out")temporary.push(copy(b));else boxes.push({box_id:b.id,position});
+   remaining=remaining.filter(a=>a.id!==b.id);
+   if(remaining.some(a=>!support(a,remaining)))return {feasible:false,reason:"取货后剩余箱件失去完整支撑"};
+  }
+  for(const b of temporary.reverse()){
+   const placed=restoreBox(b,remaining,v);if(!placed)return {feasible:false,reason:"临时搬出的货物无法稳定恢复到车厢"};
+   operations.push({type:"move_in",box_id:b.id,position:[placed.x,placed.y,placed.z],minutes:c.move_in_minutes});remaining.push(placed);
+  }
+  rehandles+=temporary.length;
+  steps.push({stop:index+1,order_id:order.id,name:order.name,boxes,operations,before_layout:before,after_layout:copy(remaining),rehandles:temporary.length});
+ }
+ return {feasible:true,steps,rehandles};
+}
+function packAttempt(route,v,c,strategy=0){
+ const all=route.flatMap((o,i)=>o.boxes.map(b=>({...b,order_id:o.id,stop:i+1})));
+ if(sum(all,b=>b.weight)>v.capacity_kg+EPS)return {feasible:false,reason:"超过车辆载重"};
+ if(sum(all,b=>b.length*b.width*b.height)>v.length*v.width*v.height+EPS)return {feasible:false,reason:"箱件总体积超过车厢"};
+ all.sort((a,b)=>(strategy===2?0:b.stop-a.stop)||Number(a.fragile)-Number(b.fragile)||Number(!a.stackable)-Number(!b.stackable)||b.length*b.width*(strategy===1?1:b.height)-a.length*a.width*(strategy===1?1:a.height)||b.weight-a.weight||a.id.localeCompare(b.id));
+ let points=[[v.length,0,0]],placed=[];
+ for(const b of all){
+  if(strategy)for(const x of [v.length,...placed.map(a=>a.x)])for(const y of [0,...placed.map(a=>a.y+a.dy)])points.push([x,y,0]);
+  points=[...new Map(points.map(p=>[p.join(","),p])).values()];
+  const orientations=[[b.length,b.width,b.height]];if(b.rotate&&b.length!==b.width)orientations.push([b.width,b.length,b.height]);
+  const options=[];
+  for(const [anchor,y,z] of points)for(const [dx,dy,dz] of orientations){
+   const a={...b,x:anchor-dx,y,z,dx,dy,dz};
+   if(a.x<-EPS||y+dy>v.width+EPS||z+dz>v.height+EPS||placed.some(q=>intersects(a,q))||!support(a,placed))continue;
+   if(c.unload==="direct"&&(blockers(a,placed).some(q=>q.stop>a.stop)||placed.some(q=>q.stop<a.stop&&blockers(q,[a]).length)))continue;
+   options.push(a);
+  }
+  if(!options.length)return {feasible:false,reason:"装箱启发式未找到符合支撑及取货要求的位置"};
+  options.sort((a,b)=>a.z-b.z||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
+  const a=options[0];placed.push(a);points.push([a.x,a.y,a.z],[a.x+a.dx,a.y+a.dy,a.z],[a.x+a.dx,a.y,a.z+a.dz]);
+ }
+ const unloading=unloadPlan(placed,route,v,c);if(!unloading.feasible)return unloading;
+ // Initial loading is an independent removal order reversed, before any delivery.
+ let remaining=copy(placed),removal=[];
+ while(remaining.length){const a=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.id.localeCompare(b.id))[0];if(!a)return {feasible:false,reason:"初始装车顺序不可执行"};removal.push(a);remaining=remaining.filter(b=>b.id!==a.id);}
+ const loading=removal.reverse().map((b,i)=>({step:i+1,box_id:b.id,order_id:b.order_id,position:[b.x,b.y,b.z]}));
+ return {feasible:true,layout:placed,loading,unloading};
+}
+function pack(route,v,c){let last;for(const strategy of (c.unload==="limited"?[0,1,2]:[0,1])){last=packAttempt(route,v,c,strategy);if(last.feasible)return last;}return last;}
+function service(o,c,step){const components={setup:c.setup_minutes,boxes:o.boxes.length*c.per_box_minutes,fragile:o.boxes.filter(b=>b.fragile).length*c.fragile_extra_minutes,heavy:o.boxes.filter(b=>b.weight>c.heavy_threshold_kg).length*c.heavy_extra_minutes,rehandle:step.rehandles*(c.move_out_minutes+c.move_in_minutes)};return {minutes:Math.ceil(sum(Object.values(components))*2)/2,components};}
+function travel(a,b,d,c){
+ if(d.travel){const t=d.travel,i=t.points.findIndex(p=>p.id===(a.store_id||a.id)),j=t.points.findIndex(p=>p.id===(b.store_id||b.id));const km=t.distances[i][j],minutes=t.durations[i][j];return km===null||minutes===null?null:{km,minutes};}
+ const rad=x=>x*Math.PI/180,dl=rad(b.lon-a.lon),dt=rad(b.lat-a.lat),h=Math.sin(dt/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dl/2)**2;
+ const km=6371*2*Math.asin(Math.min(1,Math.sqrt(h)))*1.28;return {km,minutes:km/c.speed_kmh*60};
+}
+function schedule(route,v,d,c,packing){
+ const loading=c.loading_setup+sum(route,o=>o.boxes.length)*c.loading_per_box;
+ let now=d.start+loading,last=d.depot,km=0,driving=0,waiting=0,unloading=0,stops=[];
+ for(let i=0;i<route.length;i++){
+  const o=route[i],leg=travel(last,o,d,c);if(!leg)return {feasible:false,reason:"道路不可达"};
+  const arrival=now+leg.minutes,begin=Math.max(arrival,o.ready),s=service(o,c,packing.unloading.steps[i]),end=begin+s.minutes;
+  if(end>o.due+EPS)return {feasible:false,reason:o.id+"无法在截止前完成卸货"};
+  stops.push({...o,boxes:undefined,arrival,service_start:begin,service_end:end,wait:begin-arrival,service_estimate:s,leg_km:leg.km,travel_minutes:leg.minutes});
+  waiting+=begin-arrival;unloading+=s.minutes;km+=leg.km;driving+=leg.minutes;now=end;last=o;
+ }
+ const endpoint=c.endpoint==="return"?d.depot:c.endpoint==="parking"?d.end_point:last;
+ let finalLeg={km:0,minutes:0};if(c.endpoint!=="open"){finalLeg=travel(last,endpoint,d,c);if(!finalLeg)return {feasible:false,reason:"终点道路不可达"};km+=finalLeg.km;driving+=finalLeg.minutes;now+=finalLeg.minutes;}
+ if(now>v.shift_end+EPS)return {feasible:false,reason:"任务结束超过车辆班次"};
+ const work=now-d.start,cost_parts={fixed:v.fixed_cost,distance:km*v.cost_per_km,labor:work/60*v.labor_per_hour};
+ return {feasible:true,stops,km,end:now,endpoint,final_leg:finalLeg,work_minutes:work,time_parts:{loading,driving,waiting,unloading},cost_parts,cost:sum(Object.values(cost_parts)),packing,vehicle:v,order_ids:route.map(o=>o.id),rehandles:packing.unloading.rehandles};
+}
+// Output verifier replays operations rather than trusting the packing search.
+function verify(result,d){
+ const c=validate(d),seen=new Set(),source=new Map(d.orders.flatMap(o=>o.boxes.map(b=>[b.id,{...b,order_id:o.id}])));
+ assert(result.routes.length<=c.max_vehicles,"出车数超上限");const vehicles=new Set();
+ function inspect(layout,v){const ids=new Set();let mass=0;for(const b of layout){const original=source.get(b.id);assert(original&&!ids.has(b.id),"箱件未知或重复");ids.add(b.id);mass+=b.weight;
+  for(const k of ["weight","fragile","stackable","max_top_weight","order_id"])assert(b[k]===original[k],"箱件属性不一致");
+  assert(b.dz===original.height&&((b.dx===original.length&&b.dy===original.width)||(original.rotate&&b.dx===original.width&&b.dy===original.length)),"箱件尺寸不一致");
+  for(const [k,size] of [["x",v.length],["y",v.width],["z",v.height]])assert(Number.isFinite(b[k])&&b[k]>=-EPS&&b[k]+b["d"+k]<=size+EPS,"箱件越界");
+  for(const a of layout)if(a.id!==b.id)assert(!intersects(a,b),"箱件重叠");
+  if(b.z>EPS){const base=layout.find(a=>a.id!==b.id&&a.z<EPS&&a.stackable&&!a.fragile&&Math.abs(a.z+a.dz-b.z)<EPS&&a.x<=b.x+EPS&&a.y<=b.y+EPS&&a.x+a.dx>=b.x+b.dx-EPS&&a.y+a.dy>=b.y+b.dy-EPS);assert(base,"箱件悬空或非法堆叠");
+   const upper=sum(layout.filter(a=>a.id!==base.id&&a.z>=base.z+base.dz-EPS&&a.x>=base.x-EPS&&a.y>=base.y-EPS&&a.x+a.dx<=base.x+base.dx+EPS&&a.y+a.dy<=base.y+base.dy+EPS),a=>a.weight);assert(upper<=base.max_top_weight+EPS,"上层累计承重超限");}}
+  assert(mass<=v.capacity_kg+EPS,"超载");
+ }
+ const stateKey=layout=>JSON.stringify(layout.map(b=>[b.id,b.x,b.y,b.z]).sort((a,b)=>a[0].localeCompare(b[0])));
+ for(const r of result.routes){assert(!vehicles.has(r.vehicle.id),"车辆重复使用");vehicles.add(r.vehicle.id);const original=d.vehicles.find(v=>v.id===r.vehicle.id);assert(original?.enabled&&JSON.stringify(original)===JSON.stringify(r.vehicle),"车辆与输入不一致");
+  for(const id of r.order_ids){assert(!seen.has(id)&&d.orders.some(o=>o.id===id),"订单未知或重复");seen.add(id);}
+  const expected=d.orders.filter(o=>r.order_ids.includes(o.id)).flatMap(o=>o.boxes.map(b=>b.id));assert(expected.length===r.packing.layout.length&&expected.every(id=>r.packing.layout.some(b=>b.id===id)),"箱件缺失");
+  inspect(r.packing.layout,r.vehicle);let loaded=[];const loadedIds=new Set();
+  for(const op of r.packing.loading){const b=r.packing.layout.find(b=>b.id===op.box_id);assert(b&&!loadedIds.has(b.id),"装车箱件重复或缺失");assert(op.position.every((p,i)=>Math.abs(p-b[["x","y","z"][i]])<EPS),"装车指引位置不一致");assert(!blockers(b,loaded).length,"装车路径受阻");loaded.push(copy(b));loadedIds.add(b.id);inspect(loaded,r.vehicle);}
+  assert(loaded.length===expected.length,"装车遗漏");let remaining=copy(loaded),moves=0;
+  assert(r.packing.unloading.steps.length===r.order_ids.length,"卸货站点遗漏");
+  for(let i=0;i<r.packing.unloading.steps.length;i++){const step=r.packing.unloading.steps[i],temporary=new Map(),delivered=new Set();assert(step.order_id===r.order_ids[i]&&step.stop===i+1,"卸货站序错误");inspect(step.before_layout,r.vehicle);assert(stateKey(remaining)===stateKey(step.before_layout),"卸货前快照不一致");
+   for(const op of step.operations){
+    if(op.type==="move_in"){const b=temporary.get(op.box_id);assert(b,"恢复箱件未曾搬出");const a={...b,x:op.position[0],y:op.position[1],z:op.position[2]};assert(!blockers(a,remaining).length,"恢复路径受阻");remaining.push(a);temporary.delete(b.id);}
+    else {const b=remaining.find(b=>b.id===op.box_id);assert(b&&!blockers(b,remaining).length,"卸货路径或上层受阻");assert(op.position.every((p,i)=>Math.abs(p-b[["x","y","z"][i]])<EPS),"卸货指引位置不一致");
+     if(op.type==="unload"){assert(b.order_id===step.order_id,"卸错门店货物");delivered.add(b.id);}else{assert(op.type==="move_out"&&c.unload==="limited"&&b.order_id!==step.order_id,"非法搬移");temporary.set(b.id,b);moves++;}remaining=remaining.filter(a=>a.id!==b.id);}
+    inspect(remaining,r.vehicle);
+   }
+   assert(!temporary.size&&!remaining.some(b=>b.order_id===step.order_id),"卸货或恢复遗漏");assert(step.rehandles<=c.max_rehandles&&step.rehandles===step.operations.filter(o=>o.type==="move_out").length,"搬移上限或计数错误");
+   inspect(step.after_layout,r.vehicle);assert(stateKey(remaining)===stateKey(step.after_layout),"卸货后快照不一致");assert(step.boxes.length===delivered.size&&step.boxes.every(b=>delivered.has(b.box_id)),"本站箱件清单不一致");
+  }
+  assert(!remaining.length&&moves===r.rehandles,"卸货最终状态错误");
+  const route=r.order_ids.map(id=>d.orders.find(o=>o.id===id)),timing=schedule(route,r.vehicle,d,c,r.packing);assert(timing.feasible,"排程不可行");
+  for(const k of ["work_minutes","cost","km","end"])assert(Math.abs(timing[k]-r[k])<.001,"计算结果与排程不一致");
+  assert(r.stops.length===timing.stops.length,"排程站点缺失");for(let i=0;i<r.stops.length;i++)for(const k of ["arrival","service_start","service_end","wait","leg_km","travel_minutes"])assert(Math.abs(r.stops[i][k]-timing.stops[i][k])<.001,"站点时间或距离不一致");
+  for(const k of ["loading","driving","waiting","unloading"])assert(Math.abs(r.time_parts[k]-timing.time_parts[k])<.001,"作业时间明细不一致");
+  for(const k of ["fixed","distance","labor"])assert(Math.abs(r.cost_parts[k]-timing.cost_parts[k])<.001,"费用明细不一致");
+ }
+ assert(result.metrics.assigned===seen.size&&result.metrics.orders===d.orders.length&&result.metrics.vehicles===vehicles.size,"服务量不一致");
+ for(const k of ["cost","km","work_minutes"])assert(Math.abs(result.metrics[k]-round(sum(result.routes,r=>r[k])))<.001,"汇总指标不一致");
+ assert(result.unassigned.length===d.orders.length-seen.size&&new Set(result.unassigned.map(o=>o.order_id)).size===result.unassigned.length&&result.unassigned.every(o=>!seen.has(o.order_id)&&d.orders.some(x=>x.id===o.order_id)),"未安排清单不一致");return true;
+}
+function solve(d,mode="optimized"){
+ const started=Date.now(),c=validate(d),vehicles=d.vehicles.filter(v=>v.enabled),orders=d.orders,index=new Map(orders.map((o,i)=>[o.id,i]));
+ const cache=new Map(),columns=new Map();let checks=0,rejected=0,improvements=0,budgetHit=false;const evaluationLimit=2200;
+ const value=r=>c.objective==="time"?r.work_minutes:r.cost;
+ const mask=r=>r.reduce((m,o)=>m|(1<<index.get(o.id)),0);
+ function evaluate(i,route){if(!route.length)return null;const key=i+":"+route.map(o=>o.id).join(">");if(cache.has(key))return cache.get(key);
+  if(checks>=evaluationLimit){budgetHit=true;return null;}checks++;
+  const packing=pack(route,vehicles[i],c),result=packing.feasible?schedule(route,vehicles[i],d,c,packing):packing;
+  cache.set(key,result);if(!result.feasible){rejected++;return result;}
+  const colkey=i+":"+mask(route),old=columns.get(colkey);if(!old||value(result)<value(old.result)-EPS)columns.set(colkey,{vehicle:i,mask:mask(route),route:route.slice(),result});return result;
+ }
+ function score(routes){let assigned=0,primary=0,secondary=0,count=0;routes.forEach((r,i)=>{if(r.length){const e=evaluate(i,r);if(!e?.feasible){primary=Infinity;return;}assigned+=r.length;primary+=value(e);secondary+=c.objective==="time"?e.cost:e.work_minutes;count++;}});return [-assigned,primary,secondary,count];}
+ const better=(a,b)=>{for(let i=0;i<a.length;i++){if(a[i]<b[i]-EPS)return true;if(a[i]>b[i]+EPS)return false;}return false;};
+ function insert(routes,o,baseline=false,vehicleOrder=vehicles.map((v,i)=>i)){
+  const used=routes.filter(r=>r.length).length,options=[];
+  for(const i of vehicleOrder){const r=routes[i];if(!r.length&&used>=c.max_vehicles)continue;const old=r.length?value(evaluate(i,r)):0;
+   for(const p of baseline?[r.length]:Array.from({length:r.length+1},(_,i)=>i)){const trial=[...r.slice(0,p),o,...r.slice(p)],e=evaluate(i,trial);if(e?.feasible){options.push({delta:value(e)-old,i,p,trial});if(baseline)break;}}
+   if(baseline&&options.length)break;
+  }
+  if(!options.length)return false;if(!baseline)options.sort((a,b)=>a.delta-b.delta||a.i-b.i||a.p-b.p);const chosen=options[0];routes[chosen.i]=chosen.trial;return true;
+ }
+ function construct(sequence,baseline=false,vehicleOrder){const routes=vehicles.map(()=>[]);sequence.forEach(o=>insert(routes,o,baseline,vehicleOrder));return routes;}
+ const baseline=construct(orders,true);let best=baseline;
+ if(mode!=="baseline"){
+  const seeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
+  for(const sequence of seeds){let routes=construct(sequence,false,vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width*vehicles[b].height-vehicles[a].length*vehicles[a].width*vehicles[a].height));
+   for(let pass=0;pass<2&&!budgetHit;pass++){
+    for(let i=0;i<routes.length;i++){let improved=false;for(let a=0;a<routes[i].length-1&&!improved;a++)for(let b=a+2;b<=routes[i].length;b++){const r=routes[i],trial=[...r.slice(0,a),...r.slice(a,b).reverse(),...r.slice(b)],e=evaluate(i,trial);if(e?.feasible&&value(e)<value(evaluate(i,r))-EPS){routes[i]=trial;improved=true;improvements++;break;}}}
+    let changed=false;for(let a=0;a<routes.length&&!changed;a++)for(let pos=0;pos<routes[a].length&&!changed;pos++)for(let b=0;b<routes.length&&!changed;b++){
+     if(a===b)continue;if(!routes[b].length&&routes.filter(r=>r.length).length>=c.max_vehicles&&routes[a].length>1)continue;
+     const ra=routes[a].filter((_,i)=>i!==pos),ea=ra.length?evaluate(a,ra):null;if(ra.length&&!ea?.feasible)continue;
+     for(let q=0;q<=routes[b].length;q++){const rb=[...routes[b].slice(0,q),routes[a][pos],...routes[b].slice(q)],eb=evaluate(b,rb);if(!eb?.feasible)continue;
+      const before=value(evaluate(a,routes[a]))+(routes[b].length?value(evaluate(b,routes[b])):0),after=(ea?value(ea):0)+value(eb);
+      if(after<before-EPS){routes[a]=ra;routes[b]=rb;changed=true;improvements++;break;}}
+    }
+    const used=new Set(routes.flatMap(r=>r.map(o=>o.id)));for(const o of orders)if(!used.has(o.id)&&insert(routes,o))improvements++;
+   }
+   if(better(score(routes),score(best)))best=routes;
+  }
+  // Repair service gaps by replacing a used vehicle from the whole enabled pool.
+  // A larger/cheaper vehicle may enable insertions that a time-only relocation misses.
+  for(let pass=0;pass<2&&!budgetHit;pass++){
+   let improved=false;
+   for(let a=0;a<vehicles.length&&!budgetHit;a++)if(best[a].length)for(let b=0;b<vehicles.length&&!budgetHit;b++)if(!best[b].length){
+    const e=evaluate(b,best[a]);if(!e?.feasible)continue;
+    const trial=best.map(r=>r.slice());trial[b]=trial[a];trial[a]=[];
+    for(let other=0;other<vehicles.length&&!budgetHit;other++)if(other!==b)for(const o of trial[other].slice()){
+     const reduced=trial[other].filter(x=>x.id!==o.id),er=reduced.length?evaluate(other,reduced):null;
+     if(reduced.length&&!er?.feasible)continue;
+     for(let p=0;p<=trial[b].length;p++){
+      const merged=[...trial[b].slice(0,p),o,...trial[b].slice(p)],em=evaluate(b,merged);if(!em?.feasible)continue;
+      const current=value(evaluate(b,trial[b]))+(trial[other].length?value(evaluate(other,trial[other])):0);
+      if(value(em)+(er?value(er):0)<current-EPS){trial[b]=merged;trial[other]=reduced;break;}
+     }
+    }
+    const used=new Set(trial.flatMap(r=>r.map(o=>o.id)));
+    for(const o of orders)if(!used.has(o.id))insert(trial,o);
+    if(better(score(trial),score(best))){best=trial;improvements++;improved=true;}
+   }
+   if(!improved)break;
+  }
+  // Every enabled vehicle can participate; the cap is on selected routes, not first K vehicles.
+  for(let v=0;v<vehicles.length&&!budgetHit;v++)for(const o of orders)evaluate(v,[o]);
+  let states=new Map([["0:0",{mask:0,count:0,value:0,routes:vehicles.map(()=>[])}]]),pruned=false,peak=1;
+  for(let v=0;v<vehicles.length;v++){
+   let next=new Map(states);const options=[...columns.values()].filter(col=>col.vehicle===v);
+   for(const st of states.values())if(st.count<c.max_vehicles)for(const col of options)if(!(st.mask&col.mask)){
+    const m=st.mask|col.mask,count=st.count+1,key=m+":"+count,total=st.value+value(col.result),old=next.get(key);
+    if(!old||total<old.value-EPS){const routes=st.routes.map(r=>r.slice());routes[v]=col.route;next.set(key,{mask:m,count,value:total,routes});}
+   }
+   peak=Math.max(peak,next.size);if(next.size>1024){pruned=true;next=new Map([...next].sort((a,b)=>popcount(b[1].mask)-popcount(a[1].mask)||a[1].value-b[1].value||a[1].count-b[1].count).slice(0,1024));}states=next;
+  }
+  for(const st of states.values())if(better(score(st.routes),score(best)))best=st.routes;
+  var poolInfo={pool_pruned:pruned,pool_states_peak:peak};
+ }
+ const routes=best.map((r,i)=>r.length?evaluate(i,r):null).filter(Boolean),served=new Set(routes.flatMap(r=>r.order_ids));
+ const unassigned=orders.filter(o=>!served.has(o.id)).map(o=>({order_id:o.id,name:o.name,reasons:[...new Set([...cache.entries()].filter(([k,r])=>k.split(":")[1].split(">").includes(o.id)&&!r.feasible).map(([k,r])=>r.reason))].slice(0,4)}));
+ const metrics={orders:orders.length,assigned:served.size,vehicles:routes.length,km:round(sum(routes,r=>r.km)),cost:round(sum(routes,r=>r.cost)),work_minutes:round(sum(routes,r=>r.work_minutes)),finish:routes.length?Math.max(...routes.map(r=>r.end)):d.start,rehandles:sum(routes,r=>r.rehandles),on_time_rate:served.size/orders.length,
+  volume_utilization:routes.length?sum(routes,r=>sum(r.packing.layout,b=>b.dx*b.dy*b.dz))/sum(routes,r=>r.vehicle.length*r.vehicle.width*r.vehicle.height):0,
+  time_parts:Object.fromEntries(["loading","driving","waiting","unloading"].map(k=>[k,round(sum(routes,r=>r.time_parts[k]))]))};
+ const result={version:"0.3",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
+ verify(result,d);return result;
+}
+function popcount(n){let c=0;while(n){n&=n-1;c++;}return c;}
+function simulate(catalog,seed=42,date="2026-10-12"){
+ let state=Number(seed)>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
+ const stores=catalog.stores.slice();for(let i=stores.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[stores[i],stores[j]]=[stores[j],stores[i]];}
+ const count=12+Math.floor(random()*5),skus=[{sku:"模拟烟机",length:80,width:60,height:55,weight:22,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟灶具",length:80,width:50,height:25,weight:15,fragile:true,stackable:false,rotate:true,max_top_weight:0},{sku:"模拟洗碗机",length:65,width:65,height:90,weight:48,fragile:false,stackable:true,rotate:true,max_top_weight:25}];
+ const orders=stores.slice(0,count).map((s,i)=>{const id="O"+String(i+1).padStart(2,"0"),n=2+Math.floor(random()*3),ready=540+Math.floor(random()*4)*30,due=ready+240+Math.floor(random()*3)*60;return {id,store_id:s.id,name:s.name,address:s.address,lon:s.lon,lat:s.lat,ready,due,boxes:Array.from({length:n},(_,j)=>({...skus[Math.floor(random()*skus.length)],id:id+"-B"+(j+1)}))};});
+ const types=[[280,155,180,1200,"小型厢车"],[420,185,205,2500,"中型厢车"],[520,220,220,4500,"大型厢车"]];
+ const vehicles=Array.from({length:6},(_,i)=>{const [length,width,height,capacity_kg,name]=types[i%3];return {id:"V"+String(i+1).padStart(2,"0"),name,length,width,height,capacity_kg,fixed_cost:200,cost_per_km:1.5,labor_per_hour:30,shift_end:1140,enabled:true};});
+ return {version:3,date,seed,orders,vehicles,start:480,depot:copy(catalog.depot),end_point:copy(catalog.parking),config:copy(defaults),provenance:catalog.note,travel:catalog.travel?copy(catalog.travel):undefined};
+}
+const api={defaults,validate,solve,verify,pack,unloadPlan,simulate,travel,service};
+if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.UrbanEngine=api;
+})(typeof self!=="undefined"?self:globalThis);
+</script><script>window.FOTILE_CATALOG={"schema_version":2,"city":"杭州","brand":"方太","query_date":"2026-10-11","source_api_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","official_record_count_at_query":140,"selection_count":20,"routing_ready":true,"stores":[{"id":"HZ-FT01","official_store_id":23282,"brand":"方太","name":"杭州市西湖区古墩路红星美凯龙专卖店","address":"浙江省杭州市西湖区浙江省杭州市西湖区古墩路和天虹街交叉口","lon":120.0922389,"lat":30.3185487,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0J2A430J4","coordinate_system":"GCJ02","lon":120.097058,"lat":30.316283,"role":"门店"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT02","official_store_id":2092,"brand":"方太","name":"杭州-杭州市西湖区古墩路新时代家居广场专卖店","address":"浙江省杭州市西湖区杭州古墩新时代家居建材市场A座三楼","lon":120.0918559,"lat":30.3165411,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0LB37CVBS","coordinate_system":"GCJ02","lon":120.096675,"lat":30.314275,"role":"门店"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT03","official_store_id":80602,"brand":"方太","name":"杭州市西湖区第六空间专卖店","address":"浙江省杭州市西湖区蒋村街道文一西路830号蒋村商务中心第六空间·全案设计中心(西溪店)","lon":120.063759,"lat":30.2899679,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0L3ONWC1Q","coordinate_system":"GCJ02","lon":120.068571,"lat":30.287673,"role":"同址商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT04","official_store_id":107734,"brand":"方太","name":"杭州市西湖区古墩路欧亚达专卖店","address":"浙江省杭州市西湖区古墩路829号欧亚达家居商场二楼芝华仕格调家居(古墩路欧亚达)","lon":120.0886874,"lat":30.3171651,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B023B09W3C","coordinate_system":"GCJ02","lon":120.093508,"lat":30.314898,"role":"同址楼宇参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT05","official_store_id":104919,"brand":"方太","name":"杭州市西湖区转塘西投银泰城专卖店","address":"浙江省杭州市西湖区枫桦西路9号西投银泰城","lon":120.098667,"lat":30.1493852,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0HRVL1H8U","coordinate_system":"GCJ02","lon":120.103467,"lat":30.147108,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT06","official_store_id":87018,"brand":"方太","name":"杭州市上城区欧亚达家居专卖店","address":"浙江省杭州市上城区四季青街道秋涛北路72号欧亚达东门入口欧亚达家居(秋涛商场)","lon":120.1976898,"lat":30.2623094,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0FFF0D1TQ","coordinate_system":"GCJ02","lon":120.202259,"lat":30.259902,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT07","official_store_id":109379,"brand":"方太","name":"杭州市上城区秋涛北路佳好佳专卖店","address":"浙江省杭州市上城区秋涛北路118号D209-2F佳好佳居饰商城","lon":120.1967788,"lat":30.2683803,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0JD5966SV","coordinate_system":"GCJ02","lon":120.201351,"lat":30.265975,"role":"同址商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT08","official_store_id":112696,"brand":"方太","name":"杭州市上城区丁桥龙湖天街专卖店","address":"浙江省杭州市上城区大农港路与丁城路交叉口龙湖杭州丁桥天街","lon":120.2112693,"lat":30.3531283,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0HBKMNPIH","coordinate_system":"GCJ02","lon":120.215812,"lat":30.350712,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT09","official_store_id":114510,"brand":"方太","name":"杭州市上城龙湖天街专卖店","address":"浙江省杭州市上城区九华路龙湖杭州上城天街","lon":120.2732766,"lat":30.3336064,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0JRFCSVRF","coordinate_system":"GCJ02","lon":120.277752,"lat":30.331171,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT10","official_store_id":116416,"brand":"方太","name":"杭州市上城区首章新所专卖店","address":"浙江省杭州市上城区永敦北路1号首章新所","lon":120.199389,"lat":30.3139926,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0L1YUE4R2","coordinate_system":"GCJ02","lon":120.203958,"lat":30.311588,"role":"所在园区参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT11","official_store_id":2091,"brand":"方太","name":"杭州市钱塘区德胜东路恒大建材C馆专卖店","address":"下沙街道德胜东路2888号","lon":120.2900465,"lat":30.3238428,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0G264JLS3","coordinate_system":"GCJ02","lon":120.294531,"lat":30.321425,"role":"同址C馆参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT12","official_store_id":118489,"brand":"方太","name":"杭州市拱墅区吾悦广场专卖店","address":"浙江省杭州市拱墅区华丰时代城(同协路地铁站C口步行250米)杭州拱墅吾悦广场","lon":120.2056585,"lat":30.3458037,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0J3RATWIE","coordinate_system":"GCJ02","lon":120.210214,"lat":30.343394,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT13","official_store_id":119474,"brand":"方太","name":"杭州市拱墅区中大银泰城专卖店","address":"浙江省杭州市拱墅区东新路822号杭州中大银泰城","lon":120.1712356,"lat":30.329629,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B023B17WP5","coordinate_system":"GCJ02","lon":120.175887,"lat":30.327277,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT14","official_store_id":5663,"brand":"方太","name":"杭州市滨江区大都会建材市场专卖店","address":"浙江省杭州市滨江区浙江省杭州市滨江区江南大道1088号","lon":120.1843134,"lat":30.1987284,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0FFLIH5RG","coordinate_system":"GCJ02","lon":120.188915,"lat":30.19634,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT15","official_store_id":113471,"brand":"方太","name":"杭州市萧山区奥体印象城专卖店","address":"浙江省杭州市萧山区盈丰街道飞虹路1408号印力·汇德隆·奥体印象城","lon":120.2482509,"lat":30.2258118,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0FFJ62XXT","coordinate_system":"GCJ02","lon":120.252724,"lat":30.223355,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT16","official_store_id":23140,"brand":"方太","name":"杭州市萧山区商城南路第六空间专卖店","address":"浙江省杭州市萧山区萧山第六空间大都会专卖店","lon":120.287796,"lat":30.146541,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0G0XR298W","coordinate_system":"GCJ02","lon":120.292264,"lat":30.144107,"role":"所在商场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT17","official_store_id":74662,"brand":"方太","name":"杭州市拱墅区祥符街道社区服务店","address":"万家花城12幢12-4室(萍水街地铁站A口旁)","lon":120.1082776,"lat":30.3056797,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0JG7C0299","coordinate_system":"GCJ02","lon":120.11308,"lat":30.303411,"role":"同栋门店附近参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT18","official_store_id":59458,"brand":"方太","name":"杭州市临平区江南家居专卖店","address":"浙江省杭州市临平区浙江省杭州市临平区望梅路586号江南家居","lon":120.2550831,"lat":30.4246415,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B023B0BL6L","coordinate_system":"GCJ02","lon":120.259568,"lat":30.422213,"role":"同址家居市场参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT19","official_store_id":118772,"brand":"方太","name":"杭州市临平区乔司街道专卖店","address":"浙江省杭州市临平区乔司街道博卡路18号(乔司地铁站B口步行250米)华荣城(博卡路店)","lon":120.2788992,"lat":30.3492307,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0FFHDSKP1","coordinate_system":"GCJ02","lon":120.283378,"lat":30.346803,"role":"所在商业园参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false},{"id":"HZ-FT20","official_store_id":2094,"brand":"方太","name":"杭州市钱塘区德胜东路恒大建材A馆旗舰店","address":"德胜东路2888号","lon":120.2899828,"lat":30.3210602,"coordinate_system":"WGS84","source_url":"https://www.fotile.com/h5/services/queryStore?pagination=1&size=200&key=%E6%9D%AD%E5%B7%9E%E5%B8%82","map_point":{"source_url":"https://www.amap.com/place/B0FFFO7BHE","coordinate_system":"GCJ02","lon":120.294467,"lat":30.318642,"role":"所在A馆参考点"},"coordinate_status":"public_reference_point_approximate_conversion","business_status_verified":false,"unloading_entrance_verified":false}],"depot":{"id":"DEPOT","name":"杭州传化公路港·假设发货点","lon":120.57453321428571,"lat":30.238640985714287,"source_url":"https://www.openstreetmap.org/way/1152870422"},"parking":{"id":"PARK","name":"恒大国际建材停车场·假设终点","lon":120.2902505,"lat":30.3221827,"source_url":"https://www.amap.com/place/B0FFFEBD48","truck_parking_verified":false},"coordinate_conversion":"iterative_approximate_GCJ02_to_WGS84","selection_changes":{"removed":[103830,86348,2103],"added":[2091,5663,74662],"reason":"替换未能可靠定位或地址有歧义的记录；名称与地址仍取自官方门店查询"},"note":"20家方太门店名称与地址来自官网公开查询。坐标采用门店或所在商场、楼宇的公开地图参考点，并由GCJ02近似转换为WGS84；当前营业状态、卸货入口、停车点货车许可均未核验。订单、包装、时间窗、车队和费用为模拟，不代表真实传化客户关系。","travel":{"points":[{"id":"DEPOT","lon":120.57453321428571,"lat":30.238640985714287},{"id":"HZ-FT01","lon":120.0922389,"lat":30.3185487},{"id":"HZ-FT02","lon":120.0918559,"lat":30.3165411},{"id":"HZ-FT03","lon":120.063759,"lat":30.2899679},{"id":"HZ-FT04","lon":120.0886874,"lat":30.3171651},{"id":"HZ-FT05","lon":120.098667,"lat":30.1493852},{"id":"HZ-FT06","lon":120.1976898,"lat":30.2623094},{"id":"HZ-FT07","lon":120.1967788,"lat":30.2683803},{"id":"HZ-FT08","lon":120.2112693,"lat":30.3531283},{"id":"HZ-FT09","lon":120.2732766,"lat":30.3336064},{"id":"HZ-FT10","lon":120.199389,"lat":30.3139926},{"id":"HZ-FT11","lon":120.2900465,"lat":30.3238428},{"id":"HZ-FT12","lon":120.2056585,"lat":30.3458037},{"id":"HZ-FT13","lon":120.1712356,"lat":30.329629},{"id":"HZ-FT14","lon":120.1843134,"lat":30.1987284},{"id":"HZ-FT15","lon":120.2482509,"lat":30.2258118},{"id":"HZ-FT16","lon":120.287796,"lat":30.146541},{"id":"HZ-FT17","lon":120.1082776,"lat":30.3056797},{"id":"HZ-FT18","lon":120.2550831,"lat":30.4246415},{"id":"HZ-FT19","lon":120.2788992,"lat":30.3492307},{"id":"HZ-FT20","lon":120.2899828,"lat":30.3210602},{"id":"PARK","lon":120.2902505,"lat":30.3221827}],"distances":[[0.0,57.8901,57.9982,56.7782,57.1951,54.7596,42.512800000000006,43.8582,45.342400000000005,37.5227,44.1316,34.8582,45.9122,48.5271,42.9976,36.158300000000004,37.7015,53.654199999999996,55.5673,40.028800000000004,34.6605,34.670300000000005],[57.117599999999996,0.0,0.0905,5.5025,0.9052,26.921799999999998,18.5728,17.908099999999997,14.828299999999999,23.0239,15.7746,23.5149,13.7062,9.0562,23.3064,26.4049,37.301199999999994,2.8419,25.1775,21.8302,22.3816,22.6345],[57.0271,0.0905,0.0,5.412,0.8147000000000001,26.8312,18.4823,17.8176,14.7378,22.9333,15.6841,23.4243,13.6157,8.9657,23.2159,26.314400000000003,37.2106,2.9324,25.087,21.7397,22.472099999999998,23.6122],[58.642,6.693,6.602399999999999,0.0,5.8553999999999995,22.7093,18.6546,17.9898,19.8906,23.880599999999998,18.145400000000002,24.240099999999998,18.7685,14.1185,23.298599999999997,26.4867,39.7171,7.2471000000000005,31.3379,25.698,23.7993,24.0522],[57.601699999999994,1.1438,1.0533,5.2266,0.0,26.645799999999998,17.599700000000002,16.934900000000003,15.3124,23.508,16.2587,23.185200000000002,14.190299999999999,9.540299999999998,23.7905,25.4318,38.6622,3.5637,25.6616,22.3143,22.744400000000002,22.9973],[55.3909,26.4061,26.5141,19.4535,25.7111,0.0,18.0987,18.6958,30.8123,31.1052,24.4065,30.018,28.7702,25.8141,12.7219,19.3487,22.447200000000002,22.995099999999997,40.358,32.922599999999996,32.9155,29.830099999999998],[43.023300000000006,18.101,18.0105,17.83,19.136400000000002,18.472,0.0,0.9006000000000001,13.0236,13.3133,6.6146,13.845,10.9815,10.4683,8.8804,7.8863,19.968400000000003,13.3933,22.569200000000002,15.130700000000001,14.068700000000002,13.6571],[43.4156,17.6643,17.5738,17.3933,18.6997,19.1557,1.0407,0.0,12.5869,12.8766,6.1778,13.408299999999999,10.544799999999999,10.031600000000001,9.5641,8.8728,20.954900000000002,13.808,22.1325,14.694,13.632,13.2204],[44.5674,15.7527,15.860700000000001,19.6534,15.0577,31.4919,13.376700000000001,11.3018,0.0,10.473700000000001,7.3441,10.9647,1.8307,6.389600000000001,21.9002,21.2088,28.485599999999998,13.917,12.8917,9.280100000000001,14.7522,11.1526],[38.409800000000004,22.8735,22.7829,22.6025,23.3543,31.827099999999998,13.0707,13.0458,11.5015,0.0,10.129299999999999,2.7941,12.071299999999999,14.686200000000001,22.235400000000002,17.4994,23.100900000000003,19.4784,13.6797,2.833,4.4539,2.982],[44.262699999999995,16.9627,17.070700000000002,17.2268,16.2677,24.767799999999998,6.6512,5.9865,6.1902,9.9162,0.0,10.2756,5.0681,6.972,15.1761,14.4833,24.890700000000002,11.866299999999999,19.7005,11.733600000000001,9.8348,10.0877],[35.3404,23.907700000000002,23.8171,23.6367,24.372700000000002,30.3947,15.2219,14.5571,12.473,2.6281999999999996,11.1635,0.0,13.0427,15.9858,22.722,15.882700000000002,21.4842,20.512700000000002,14.651200000000001,3.8044000000000002,3.2961,0.1879],[46.2511,14.6965,14.8046,18.5973,14.0016,28.9592,10.844,10.1793,1.8765,12.1573,5.4461,12.648299999999999,0.0,4.713100000000001,19.3676,18.676099999999998,27.3212,12.3556,14.8876,10.963700000000001,13.5879,12.836200000000002],[48.4324,9.697700000000001,9.8057,13.5985,9.0027,27.9417,9.826600000000001,9.1619,6.6129,14.338700000000001,7.027399999999999,14.8297,5.021,0.0,18.350099999999998,17.6587,30.890900000000002,7.9718,16.1299,13.145100000000001,14.9731,15.226],[43.5517,21.3803,21.2898,21.109299999999998,22.7129,12.4263,8.8798,9.476799999999999,21.5933,21.8863,15.1875,20.9027,19.551299999999998,16.504,0.0,8.0112,15.718200000000001,18.6725,31.139,23.703599999999998,23.6965,20.7148],[36.374199999999995,25.952900000000003,25.8624,25.681900000000002,26.9883,19.4291,8.1557,8.4643,20.8755,19.9773,14.4668,17.2039,18.8334,18.3202,7.6648000000000005,0.0,13.3193,21.5187,30.4211,20.3115,17.4404,17.016],[37.6933,36.126599999999996,36.036,35.855599999999995,37.459199999999996,22.1264,19.884400000000003,20.1929,29.3932,24.9075,25.052599999999998,22.134,27.122400000000003,30.0484,15.655899999999999,12.5576,0.0,33.418800000000005,37.8114,25.2416,22.3705,21.946099999999998],[54.4506,2.919,3.3189,5.9903,3.8745,23.5792,14.4632,13.7985,13.839799999999999,19.6893,13.9541,20.0487,12.824,8.1623,19.1073,22.2953,35.525800000000004,0.0,23.3567,21.506700000000002,19.6079,19.860799999999998],[52.0102,26.041900000000002,26.149900000000002,29.866400000000002,25.3469,40.9764,22.8613,22.1965,12.7277,15.066799999999999,18.1539,17.289099999999998,13.8866,16.6788,31.3848,30.6934,37.5905,23.4072,0.0,12.227,20.087400000000002,17.477],[39.424099999999996,22.033,22.141,24.397599999999997,21.338,33.622099999999996,14.8658,14.8409,9.4852,3.3128,11.9244,3.8084000000000002,10.055,12.6699,24.0305,18.5137,24.1152,20.3124,11.1705,0.0,6.2489,3.9963],[42.0559,26.2924,26.4004,28.8996,25.5974,40.131099999999996,20.4848,19.82,13.7446,7.178,16.4264,6.445600000000001,14.3144,16.929299999999998,27.984900000000003,21.145599999999998,26.7471,25.7755,17.6459,5.0761,0.0,6.6335],[35.1525,23.037599999999998,22.9471,22.7667,23.5027,30.206799999999998,13.4011,13.3762,12.6609,2.8161,10.2934,0.1879,13.2306,15.1158,22.9099,16.0706,21.672099999999997,19.642599999999998,14.8391,3.9923,3.1081999999999996,0.0]],"durations":[[0.0,49.64,49.57166666666667,49.59666666666667,48.67166666666667,46.24666666666667,38.77333333333333,39.538333333333334,42.151666666666664,38.79833333333333,41.3,35.10166666666667,41.555,42.983333333333334,38.57833333333333,32.38333333333333,33.998333333333335,48.65333333333333,44.57166666666667,39.35166666666667,34.05833333333333,34.651666666666664],[48.385,0.0,0.13499999999999998,5.836666666666667,1.41,22.545,15.233333333333333,15.261666666666667,13.736666666666668,19.511666666666667,16.321666666666665,21.021666666666665,12.06,8.398333333333333,19.773333333333333,23.71333333333333,31.305,3.5533333333333332,20.628333333333334,18.365000000000002,19.45,21.216666666666665],[48.25,0.13499999999999998,0.0,5.701666666666667,1.275,22.41,15.098333333333333,15.126666666666667,13.601666666666667,19.376666666666665,16.186666666666667,20.886666666666667,11.925,8.263333333333334,19.638333333333332,23.578333333333333,31.17,3.6883333333333335,20.493333333333332,18.23,19.584999999999997,21.336666666666666],[49.63666666666666,7.223333333333333,7.088333333333334,0.0,6.4366666666666665,21.178333333333335,15.035,15.063333333333333,18.408333333333335,20.183333333333334,16.915,21.26833333333333,16.731666666666666,13.07,20.17,23.515,31.66,8.23,24.861666666666668,21.52,19.051666666666666,20.81833333333333],[48.986666666666665,1.48,1.345,5.645,0.0,22.353333333333335,15.261666666666667,15.29,14.338333333333333,20.113333333333333,16.923333333333332,21.495,12.661666666666667,9.0,20.375,23.741666666666667,31.886666666666667,4.046666666666667,21.23,18.966666666666665,19.278333333333332,21.045],[46.330000000000005,22.006666666666668,22.08833333333333,19.64333333333333,21.188333333333333,0.0,15.641666666666667,16.516666666666666,25.56833333333333,28.275,22.31833333333333,28.966666666666665,24.378333333333334,23.220000000000002,11.705,18.096666666666668,18.738333333333333,23.825,31.64333333333333,29.611666666666668,27.19,28.516666666666666],[39.02166666666667,16.265,16.13,15.655,15.68,15.370000000000001,0.0,1.4,12.041666666666666,13.911666666666667,7.955,15.01,10.851666666666667,9.991666666666667,9.186666666666667,9.06,18.581666666666667,14.288333333333332,18.116666666666667,15.248333333333333,13.431666666666667,14.56],[39.28666666666666,16.181666666666665,16.046666666666667,15.571666666666665,15.596666666666666,16.401666666666667,1.7466666666666666,0.0,11.958333333333334,13.828333333333335,7.871666666666667,14.926666666666668,10.768333333333334,9.908333333333333,10.218333333333334,10.226666666666667,19.748333333333335,14.491666666666667,18.033333333333335,15.165,13.348333333333333,14.476666666666667],[40.82833333333333,14.446666666666665,14.378333333333334,17.37,13.478333333333333,25.703333333333333,11.975,11.901666666666667,0.0,11.955,9.648333333333333,13.465,2.7266666666666666,7.79,19.52,20.455,26.583333333333332,14.483333333333333,12.933333333333334,10.808333333333334,15.123333333333333,13.915],[36.55333333333333,19.965,19.83,19.355,19.576666666666664,28.15,13.860000000000001,13.638333333333332,13.056666666666667,0.0,12.303333333333335,4.96,12.46,13.888333333333332,21.966666666666665,16.598333333333333,19.151666666666664,18.41166666666667,13.316666666666666,4.016666666666667,6.555000000000001,5.41],[41.25833333333333,17.045,16.976666666666667,16.936666666666667,16.076666666666668,22.05,7.9383333333333335,7.538333333333333,10.308333333333334,12.645000000000001,0.0,13.729999999999999,8.631666666666666,9.623333333333333,15.866666666666667,16.418333333333333,23.10666666666667,15.175,18.513333333333332,13.981666666666666,11.513333333333332,13.28],[34.06666666666667,20.545,20.41,19.935,21.225,28.638333333333332,14.91,14.51,14.97,4.806666666666667,12.883333333333333,0.0,14.373333333333333,15.0,20.828333333333333,14.633333333333333,17.186666666666667,18.991666666666667,15.229999999999999,5.930000000000001,5.5649999999999995,0.45],[41.913333333333334,13.501666666666667,13.433333333333334,16.425,12.533333333333333,24.37,10.641666666666667,10.67,3.5533333333333332,13.04,9.296666666666665,14.55,0.0,6.298333333333333,18.186666666666667,19.121666666666666,27.091666666666665,13.743333333333334,13.825,11.893333333333334,15.661666666666667,15.0],[42.53333333333333,9.333333333333334,9.264999999999999,12.256666666666666,8.365,23.045,9.316666666666666,9.345,7.6883333333333335,13.66,9.795,15.17,6.208333333333333,0.0,16.861666666666668,17.796666666666667,26.35,8.998333333333333,14.586666666666668,12.513333333333332,13.741666666666667,15.508333333333333],[38.48166666666667,20.638333333333332,20.503333333333334,20.028333333333332,20.195,12.115,9.148333333333333,10.023333333333333,19.075,21.78166666666667,15.825,22.348333333333336,17.884999999999998,16.743333333333332,0.0,8.743333333333334,15.818333333333333,18.618333333333332,25.15,23.118333333333332,20.696666666666665,21.898333333333333],[32.26166666666667,24.458333333333332,24.323333333333334,23.848333333333336,23.873333333333335,18.875,9.218333333333334,10.085,20.235,19.779999999999998,16.648333333333333,17.126666666666665,19.045,18.185,8.431666666666667,0.0,11.821666666666665,22.5,26.31,18.131666666666668,17.091666666666665,16.676666666666666],[34.24,32.15,32.015,31.540000000000003,31.706666666666667,19.58,18.938333333333333,19.805,27.453333333333333,22.058333333333334,23.490000000000002,19.404999999999998,26.208333333333332,26.851666666666667,15.801666666666668,12.253333333333334,0.0,30.13,29.296666666666667,20.41,19.37,18.955],[47.87166666666667,3.521666666666667,3.5633333333333335,6.11,4.378333333333333,22.955,13.270000000000001,13.298333333333334,14.438333333333333,18.418333333333333,15.15,19.503333333333334,13.923333333333334,9.198333333333332,18.404999999999998,21.75,29.895,0.0,21.418333333333333,19.755,17.28666666666667,19.053333333333335],[46.755,21.741666666666667,21.673333333333336,24.511666666666667,20.773333333333333,32.108333333333334,18.38,18.408333333333335,13.32,15.383333333333333,19.386666666666667,16.11,14.043333333333333,15.085,25.925,26.86,29.516666666666666,21.68166666666667,0.0,12.468333333333334,18.813333333333333,16.56],[37.44166666666667,18.261666666666667,18.19333333333333,20.52,17.293333333333333,29.315,15.025,14.803333333333335,10.773333333333333,4.33,13.468333333333334,5.848333333333333,10.176666666666668,11.604999999999999,23.131666666666668,17.486666666666668,20.040000000000003,19.05,10.7,0.0,7.836666666666667,6.298333333333333],[37.95333333333333,22.145,22.076666666666664,23.3,21.176666666666666,32.205,18.275,17.875,14.656666666666666,7.663333333333333,16.24833333333333,7.145,14.06,15.488333333333333,24.19333333333333,17.998333333333335,20.551666666666666,22.35666666666667,14.503333333333334,5.616666666666666,0.0,7.595],[33.61666666666667,20.375,20.240000000000002,19.765,21.055,28.188333333333333,14.504999999999999,14.283333333333333,15.42,5.256666666666666,12.713333333333333,0.45,14.823333333333332,14.83,21.278333333333332,15.083333333333334,17.636666666666667,18.821666666666665,15.68,6.38,5.114999999999999,0.0]],"coordinate_system":"WGS84","provider":"OSRM public demo · OpenStreetMap","query_date":"2026-10-11T10:30:51.947608+00:00","profile":"driving","truck_restrictions_verified":false,"source_url":"https://router.project-osrm.org/table/v1/driving/120.57453321428571,30.238640985714287;120.0922389,30.3185487;120.0918559,30.3165411;120.063759,30.2899679;120.0886874,30.3171651;120.098667,30.1493852;120.1976898,30.2623094;120.1967788,30.2683803;120.2112693,30.3531283;120.2732766,30.3336064;120.199389,30.3139926;120.2900465,30.3238428;120.2056585,30.3458037;120.1712356,30.329629;120.1843134,30.1987284;120.2482509,30.2258118;120.287796,30.146541;120.1082776,30.3056797;120.2550831,30.4246415;120.2788992,30.3492307;120.2899828,30.3210602;120.2902505,30.3221827?annotations=distance,duration"}};
+</script><script>(function(){
+"use strict";
+const E=window.UrbanEngine,C=window.FOTILE_CATALOG,$=id=>document.getElementById(id),clone=x=>JSON.parse(JSON.stringify(x)),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=x=>Number(x).toFixed(1),clock=x=>{const n=Math.round(x);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')},minutes=x=>{const [h,m]=x.split(':').map(Number);return h*60+m;};
+const colors=['#177a69','#d38b45','#5880b7','#ae6195','#91a54f','#8b795f'];
+const labels={endpoint:{return:'回发货仓',open:'末站结束',parking:'指定停车点'},unload:{direct:'直接卸货',limited:'有限搬移'},objective:{time:'总作业时间',cost:'配送费用'}};
+const params={loading_setup:'装车准备 分/车',loading_per_box:'装车 分/箱',setup_minutes:'卸货准备 分/站',per_box_minutes:'卸货 分/箱',fragile_extra_minutes:'易碎额外 分/箱',heavy_extra_minutes:'重货额外 分/箱',heavy_threshold_kg:'重货阈值 kg',move_out_minutes:'临时搬出 分/箱',move_in_minutes:'恢复装入 分/箱',speed_kmh:'估算时速 km/h'};
+let tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const date=tomorrow.getFullYear()+'-'+String(tomorrow.getMonth()+1).padStart(2,'0')+'-'+String(tomorrow.getDate()).padStart(2,'0');
+let draft=E.simulate(C,42,date),planData=null,result=null,baseline=null,vehicleIndex=0,opIndex=0,worker=null,timer=null,request=0,history=[],geometry={},busy=false;
+const notice=(t,error=false)=>{$('notice').hidden=false;$('notice').className=error?'error':'';$('notice').textContent=t;};
+const changed=()=>{$('stale').hidden=!result;$('status').textContent='条件已修改 · 等待确认计算';$('scenario-note').textContent=`${draft.date} · ${draft.orders.length} 单 / ${new Set(draft.orders.map(o=>o.store_id)).size} 家门店 / ${draft.orders.reduce((n,o)=>n+o.boxes.length,0)} 箱 · 模拟订单`;};
+function updateSettings(){
+ for(const [id,key] of [['endpoint','endpoint'],['unload','unload'],['max-vehicles','max_vehicles'],['objective','objective'],['max-rehandles','max_rehandles']])$(id).value=draft.config[key];
+ $('start').value=clock(draft.start);$('date').value=draft.date;$('seed').value=draft.seed;
+ $('end-name').value=draft.end_point.name;$('end-lon').value=draft.end_point.lon;$('end-lat').value=draft.end_point.lat;
+ $('max-vehicles').max=draft.vehicles.filter(v=>v.enabled).length;
+ $('parking-fields').hidden=draft.config.endpoint!=='parking';$('rehandle-label').hidden=draft.config.unload!=='limited';
+ $('time-parameters').innerHTML=Object.entries(params).map(([k,label])=>`<label>${label}<input data-param="${k}" type="number" min="0" step="0.5" value="${draft.config[k]}"></label>`).join('');
+ $('time-parameters').querySelectorAll('input').forEach(n=>n.onchange=()=>{draft.config[n.dataset.param]=Number(n.value);changed();});
+ changed();
+}
+const input=(value,type='number',extra='')=>`<input type="${type}" value="${esc(value)}" ${extra}>`;
+function renderOrders(){
+ $('order-list').innerHTML=draft.orders.map((o,i)=>`<div class="order-card" data-index="${i}"><div class="order-head"><b>${esc(o.id)} · ${o.boxes.length} 箱</b><button data-delete="${i}">删除</button></div><div class="fields"><label>门店<select data-store="${i}">${C.stores.map(s=>`<option value="${s.id}" ${o.store_id===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label><label>开始收货${input(clock(o.ready),'time','data-order="'+i+'" data-field="ready"')}</label><label>卸货完成截止${input(clock(o.due),'time','data-order="'+i+'" data-field="due"')}</label></div><p class="muted">${esc(o.address)} · ${fmt(o.boxes.reduce((s,b)=>s+b.weight,0))} kg</p><div class="button-row"><button data-more="${i}" class="secondary">＋ 复制一箱</button><button data-less="${i}" class="secondary">－ 最后一箱</button></div><details><summary>修改箱件尺寸、重量及装载规则</summary><div class="table-scroll"><table><thead><tr><th>货物 / 模拟包装</th><th>长 cm</th><th>宽 cm</th><th>高 cm</th><th>kg</th><th>易碎</th><th>可叠</th><th>旋转</th><th>上层承重 kg</th></tr></thead><tbody>${o.boxes.map((b,j)=>`<tr><td>${esc(b.id)}<br>${input(b.sku,'text',`data-box="${i},${j}" data-field="sku"`)}</td>${['length','width','height','weight','fragile','stackable','rotate','max_top_weight'].map(k=>`<td>${typeof b[k]==='boolean'?`<input type="checkbox" data-box="${i},${j}" data-field="${k}" ${b[k]?'checked':''}>`:input(b[k],'number',`min="0" step="0.1" data-box="${i},${j}" data-field="${k}"`)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details></div>`).join('');
+ $('order-list').querySelectorAll('[data-delete]').forEach(n=>n.onclick=()=>{draft.orders.splice(Number(n.dataset.delete),1);renderOrders();changed();});
+ $('order-list').querySelectorAll('[data-store]').forEach(n=>n.onchange=()=>{const o=draft.orders[Number(n.dataset.store)],s=C.stores.find(s=>s.id===n.value);Object.assign(o,{store_id:s.id,name:s.name,address:s.address,lon:s.lon,lat:s.lat});if(draft.travel&&!draft.travel.points.some(p=>p.id===s.id))delete draft.travel;renderOrders();changed();});
+ $('order-list').querySelectorAll('[data-order]').forEach(n=>n.onchange=()=>{draft.orders[Number(n.dataset.order)][n.dataset.field]=minutes(n.value);changed();});
+ $('order-list').querySelectorAll('[data-box]').forEach(n=>n.onchange=()=>{const [i,j]=n.dataset.box.split(',').map(Number),b=draft.orders[i].boxes[j];b[n.dataset.field]=n.type==='checkbox'?n.checked:n.dataset.field==='sku'?n.value:Number(n.value);changed();});
+ $('order-list').querySelectorAll('[data-more]').forEach(n=>n.onclick=()=>{const o=draft.orders[Number(n.dataset.more)],b=clone(o.boxes.at(-1));b.id=o.id+'-B'+(Date.now()%100000000);o.boxes.push(b);renderOrders();changed();});
+ $('order-list').querySelectorAll('[data-less]').forEach(n=>n.onclick=()=>{const o=draft.orders[Number(n.dataset.less)];if(o.boxes.length>1)o.boxes.pop();renderOrders();changed();});
+}
+function renderFleet(){
+ $('fleet').innerHTML=draft.vehicles.map((v,i)=>`<div class="fleet-card"><h3><label><input type="checkbox" data-vehicle="${i}" data-field="enabled" ${v.enabled?'checked':''}>${esc(v.id+' · '+v.name)}</label></h3><div class="fields">${Object.entries({length:'车厢长 cm',width:'宽 cm',height:'高 cm',capacity_kg:'载重 kg',fixed_cost:'固定费 元',cost_per_km:'里程费 元/km',labor_per_hour:'人工费 元/h',shift_end:'班次结束'}).map(([k,l])=>`<label>${l}${input(k==='shift_end'?clock(v[k]):v[k],k==='shift_end'?'time':'number',`min="0" step="0.1" data-vehicle="${i}" data-field="${k}"`)}</label>`).join('')}</div></div>`).join('');
+ $('fleet').querySelectorAll('[data-vehicle]').forEach(n=>n.onchange=()=>{const v=draft.vehicles[Number(n.dataset.vehicle)];v[n.dataset.field]=n.type==='checkbox'?n.checked:n.type==='time'?minutes(n.value):Number(n.value);const available=draft.vehicles.filter(v=>v.enabled).length;if(available&&draft.config.max_vehicles>available)draft.config.max_vehicles=available;$('max-vehicles').value=draft.config.max_vehicles;$('max-vehicles').max=available;changed();});
+}
+function signature(d){return JSON.stringify({orders:d.orders,vehicles:d.vehicles,start:d.start,depot:d.depot,date:d.date,travel:d.travel,config:Object.fromEntries(Object.entries(d.config).filter(([k])=>!['endpoint','unload','max_vehicles','max_rehandles','objective'].includes(k)))});}
+function setBusy(value){busy=value;document.querySelectorAll('input,select,button').forEach(n=>n.disabled=value);$('cancel-solve').disabled=false;$('cancel-solve').hidden=!value;$('solve').textContent=value?'正在联合计算…':'确认并生成配送计划 ↗';}
+function stop(){request++;if(worker)worker.terminate();worker=null;clearTimeout(timer);setBusy(false);$('status').textContent='计算已停止 · 可修改后重试';}
+function compute(){
+ if(busy)return;
+ let snapshot;try{snapshot=clone(draft);E.validate(snapshot);}catch(e){notice(e.message,true);return;}
+ setBusy(true);$('notice').hidden=true;$('status').textContent='正在校验路线、装载与卸货 · 可停止';const id=++request;
+ try{const embedded=document.getElementById('embedded-worker');if(embedded){const url=URL.createObjectURL(new Blob([embedded.textContent],{type:'text/javascript'}));worker=new Worker(url);setTimeout(()=>URL.revokeObjectURL(url),1000);}else worker=new Worker('worker.js');}catch(e){setBusy(false);notice('浏览器未能启动计算模块，请刷新或换用系统浏览器。'+e.message,true);return;}
+ const fail=message=>{if(id!==request)return;stop();notice(message,true);};
+ timer=setTimeout(()=>fail('计算超过45秒，已停止。可减少箱件或订单后重试。'),45000);
+ worker.onerror=e=>fail('计算模块错误：'+(e.message||'请刷新重试'));
+ worker.onmessage=e=>{if(id!==request)return;if(e.data.error){fail(e.data.error);return;}clearTimeout(timer);worker.terminate();worker=null;setBusy(false);planData=snapshot;baseline=e.data.result.baseline;result=e.data.result.optimized;vehicleIndex=0;opIndex=0;geometry={};$('stale').hidden=true;$('status').textContent=`已校验 · ${result.metrics.assigned}/${result.metrics.orders} 单完成 · ${(result.diagnostics.duration_ms/1000).toFixed(1)}秒`;
+  history.push({signature:signature(snapshot),config:clone(snapshot.config),end_point:clone(snapshot.end_point),metrics:clone(result.metrics),time:new Date().toLocaleTimeString()});history=history.slice(-10);renderResults();notice('方案已生成：路线、三维布局和装卸步骤来自同一次计算。');};
+ worker.postMessage({request_id:id,data:snapshot,mode:'compare'});
+}
+const table=(heads,rows)=>`<div class="table-scroll"><table><thead><tr>${heads.map(h=>'<th>'+esc(h)+'</th>').join('')}</tr></thead><tbody>${rows.map(row=>'<tr>'+row.map(x=>'<td>'+esc(x)+'</td>').join('')+'</tr>').join('')}</tbody></table></div>`;
+function renderResults(){
+ const m=result.metrics;$('kpis').innerHTML=[['按时完成',m.assigned+' / '+m.orders,'未安排订单单列原因'],['派车数量',m.vehicles+' 辆','上限 '+result.config.max_vehicles+' 辆'],['总作业时间',fmt(m.work_minutes)+' 分','含装车、等待及终点行程'],['配送费用','¥ '+fmt(m.cost),'固定费＋里程费＋人工费']].map(a=>`<div class="kpi"><span>${a[0]}</span><strong>${a[1]}</strong><small>${a[2]}</small></div>`).join('');
+ const pills=result.routes.map((r,i)=>`<button data-route="${i}" class="secondary vehicle-pill ${i===vehicleIndex?'active':''}">${esc(r.vehicle.id)} · ${r.order_ids.length} 站</button>`).join('');$('vehicle-tabs').innerHTML=pills;$('cargo-vehicles').innerHTML=pills;
+ document.querySelectorAll('[data-route]').forEach(n=>n.onclick=()=>{vehicleIndex=Number(n.dataset.route);opIndex=0;renderResults();});
+ $('unassigned').innerHTML=result.unassigned.length?result.unassigned.map(o=>`<p><b>${esc(o.order_id+' '+o.name)}</b><br>${esc(o.reasons.join('；')||'有限搜索未找到满足约束且在出车上限内的安排')}。启发式结果不能证明数学不可行。</p>`).join(''):'全部订单已安排，卸货完成时刻均在时间窗内。';
+ $('road-note').textContent=planData.travel?`${planData.travel.provider} · ${planData.travel.query_date.slice(0,10)} 普通驾车缓存。图上默认连接线；可获取道路轨迹。`:'行驶时间为直线距离×1.28 / 假设时速估算；图上是地点连接线。';
+ renderRoute();renderMap();renderCargo();
+ const rows=[['基础规则',baseline.metrics],['联合优化',m]].map(([name,x])=>[name,x.assigned+'/'+x.orders,x.vehicles,fmt(x.km),fmt(x.work_minutes),fmt(x.cost),(x.volume_utilization*100).toFixed(1)+'%',x.rehandles]);
+ $('baseline-comparison').innerHTML=table(['方案','按时完成','车数','km','作业分','费用元','体积利用率','临时搬出件次'],rows)+'<p class="muted">基础规则按输入订单顺序、可用车辆顺序逐车追加；采用同一套装载、卸货与时间窗校验。优先比较服务量，再比较所选目标，改善比例由实际结果决定。</p>';
+ const same=history.filter(h=>h.signature===signature(planData));$('history').innerHTML=table(['时间','终点','卸货','出车上限','目标','完成','作业分','费用元'],same.map(h=>[h.time,labels.endpoint[h.config.endpoint]+(h.config.endpoint==='parking'?' '+h.end_point.name:''),labels.unload[h.config.unload],h.config.max_vehicles,labels.objective[h.config.objective],h.metrics.assigned+'/'+h.metrics.orders,fmt(h.metrics.work_minutes),fmt(h.metrics.cost)]));
+ const q=result.diagnostics;$('diagnostics').textContent=`独立回放校验通过。候选路线检查 ${q.packing_checks} 次；装载或排程拒绝 ${q.packing_rejections} 次；路线池 ${q.route_pool_columns} 个候选。${q.pool_pruned?'路线池状态已按预算截断。':''}${q.evaluation_limit_hit?'达到搜索次数上限。':''} ${q.optimality}。`;
+}
+function renderRoute(){
+ const r=result.routes[vehicleIndex];if(!r){$('route-list').innerHTML='<p class="empty">没有可执行路线，请查看未安排原因。</p>';$('route-heading').textContent='';$('route-totals').innerHTML='';return;}
+ $('route-heading').textContent=`${r.vehicle.id} ${r.vehicle.name} · ${labels.endpoint[result.config.endpoint]}`;
+ $('route-list').innerHTML=`<div class="route-stop"><b>0 · ${esc(planData.depot.name)}</b><p>${clock(planData.start)} 开始装车 → ${clock(planData.start+r.time_parts.loading)} 出发 · 装车 ${fmt(r.time_parts.loading)} 分</p></div>`+r.stops.map((s,i)=>`<div class="route-stop"><b>${i+1} · ${esc(s.name)}</b><p>${esc(s.id)} · 本段 ${fmt(s.leg_km)} km / ${fmt(s.travel_minutes)} 分</p><p>到达 ${clock(s.arrival)} → 卸货 ${clock(s.service_start)}—${clock(s.service_end)} · 等待 ${fmt(s.wait)} 分</p><p>收货窗 ${clock(s.ready)}—${clock(s.due)} · 卸货估计 ${fmt(s.service_estimate.minutes)} 分 · ${r.packing.unloading.steps[i].rehandles} 件临时搬移</p></div>`).join('')+`<div class="route-stop"><b>终点 · ${esc(r.endpoint.name)}</b><p>${clock(r.end)} 结束任务 · 最后一段 ${fmt(r.final_leg.km)} km / ${fmt(r.final_leg.minutes)} 分</p></div>`;
+ $('route-totals').innerHTML=`<div class="breakdown"><div>路线<strong>${fmt(r.km)} km</strong></div><div>作业时间<strong>${fmt(r.work_minutes)} 分</strong></div><div>固定 / 里程 / 人工<strong>¥${fmt(r.cost_parts.fixed)} / ${fmt(r.cost_parts.distance)} / ${fmt(r.cost_parts.labor)}</strong></div><div>总费用<strong>¥${fmt(r.cost)}</strong></div></div>`;
+}
+function renderMap(){
+ const points=planData?[planData.depot,...planData.orders,...(result.config.endpoint==='parking'?[planData.end_point]:[])]:[draft.depot,...draft.orders];
+ const merc=p=>[(p.lon+180)/360, (1-Math.log(Math.tan(Math.PI/4+p.lat*Math.PI/360))/Math.PI)/2];
+ const ps=points.map(merc),minx=Math.min(...ps.map(p=>p[0])),maxx=Math.max(...ps.map(p=>p[0])),miny=Math.min(...ps.map(p=>p[1])),maxy=Math.max(...ps.map(p=>p[1]));
+ const w=620,h=400,scale=Math.min((w-70)/(maxx-minx||.01),(h-70)/(maxy-miny||.01)),cx=(minx+maxx)/2,cy=(miny+maxy)/2,project=p=>{const [x,y]=merc(p);return [w/2+(x-cx)*scale,h/2+(y-cy)*scale];};
+ let svg='<svg viewBox="0 0 620 400" role="img" aria-label="杭州门店配送路线地图"><defs><clipPath id="mapclip"><rect width="620" height="400"/></clipPath></defs><g clip-path="url(#mapclip)">';
+ const z=Math.max(7,Math.min(14,Math.floor(Math.log2(scale/256)))),n=2**z;
+ for(let x=Math.floor((cx-w/2/scale)*n);x<=Math.floor((cx+w/2/scale)*n);x++)for(let y=Math.floor((cy-h/2/scale)*n);y<=Math.floor((cy+h/2/scale)*n);y++){const size=scale/n;svg+=`<image href="https://tile.openstreetmap.org/${z}/${x}/${y}.png" x="${w/2+(x/n-cx)*scale}" y="${h/2+(y/n-cy)*scale}" width="${size}" height="${size}" opacity=".75"/>`;}
+ if(result)result.routes.forEach((r,i)=>{let route=[planData.depot,...r.stops,...(result.config.endpoint!=='open'?[r.endpoint]:[])];const geo=geometry[r.vehicle.id];let coords=geo?geo.map(([lon,lat])=>({lon,lat})):route;svg+=`<polyline points="${coords.map(p=>project(p).join(',')).join(' ')}" fill="none" stroke="${colors[i%colors.length]}" stroke-width="${i===vehicleIndex?4:2}" stroke-opacity="${i===vehicleIndex?.95:.45}"/>`;r.stops.forEach((s,j)=>{const [x,y]=project(s);svg+=`<circle cx="${x}" cy="${y}" r="10" fill="${colors[i%colors.length]}" stroke="white"/><text x="${x}" y="${y+4}" text-anchor="middle" fill="white" font-size="10">${j+1}</text><title>${esc(s.name+' '+clock(s.arrival))}</title>`;});});
+ else points.slice(1).forEach(s=>{const [x,y]=project(s);svg+=`<circle cx="${x}" cy="${y}" r="4" fill="#789283"><title>${esc(s.name)}</title></circle>`;});
+ const [x,y]=project(points[0]);svg+=`<rect x="${x-7}" y="${y-7}" width="14" height="14" fill="#173b36" stroke="white"/><text x="${x-10}" y="${y-13}" font-size="12" fill="#173b36">发货仓</text></g><rect x="0" y="379" width="620" height="21" fill="white" opacity=".8"/><text x="9" y="393" font-size="10" fill="#70837e">© OpenStreetMap contributors · 地点参考点 / ${Object.keys(geometry).length?'部分道路轨迹':'连接线示意'}</text></svg>`;$('map').innerHTML=svg;
+}
+function cargoState(){
+ const r=result?.routes[vehicleIndex];if(!r)return {layout:[],ops:[],r:null};const mode=$('operation-mode').value,i=Number($('cargo-stop').value)||0;
+ let ops=[],layout=[];
+ if(mode==='overview')layout=clone(r.packing.layout);
+ if(mode==='loading'){ops=r.packing.loading.map(o=>({...o,type:'load'}));layout=ops.slice(0,opIndex).map(op=>clone(r.packing.layout.find(b=>b.id===op.box_id)));}
+ if(mode==='unloading'){const step=r.packing.unloading.steps[i];if(step){ops=step.operations;layout=clone(step.before_layout);const temporary=new Map();for(const op of ops.slice(0,opIndex)){const b=layout.find(b=>b.id===op.box_id);if(op.type==='move_out')temporary.set(b.id,b);if(op.type==='move_in'){const b=temporary.get(op.box_id);layout.push({...b,x:op.position[0],y:op.position[1],z:op.position[2]});temporary.delete(b.id);}else layout=layout.filter(b=>b.id!==op.box_id);}}}
+ return {layout,ops,r,stop:i};
+}
+function renderCargo(){
+ const r=result?.routes[vehicleIndex];if(!r){$('operation-note').textContent='先生成配送计划，再查看装载及卸货。';drawCargo();return;}
+ const selected=$('cargo-stop').value||'0';$('cargo-stop').innerHTML=r.stops.map((s,i)=>`<option value="${i}">${i+1} · ${esc(s.name)}</option>`).join('');$('cargo-stop').value=Number(selected)<r.stops.length?selected:'0';
+ const state=cargoState();opIndex=Math.min(opIndex,state.ops.length);const verb={load:'装入',unload:'卸下本站',move_out:'临时搬出',move_in:'恢复装入'};
+ $('operation-list').innerHTML=state.ops.length?state.ops.map((o,i)=>`<div class="operation ${i<opIndex?'done':i===opIndex?'current':''}">${i+1} · ${verb[o.type]} ${esc(o.box_id)}<br><small>位置 cm (${o.position.map(fmt).join(', ')})${o.minutes?' · '+o.minutes+' 分':''}</small></div>`).join(''):'完整布局按配送站点着色。选择“逐箱装车”或“逐站卸货”查看执行顺序。';
+ $('operation-note').textContent=state.ops.length?`已执行 ${opIndex}/${state.ops.length} 步。${opIndex<state.ops.length?'下一步：'+verb[state.ops[opIndex].type]+' '+state.ops[opIndex].box_id:'本段完成。'}`:'车门位于 x=0；先送货物应能按步骤从车门取出。';
+ $('cargo-stats').textContent=`${r.vehicle.id} · 车厢 ${r.vehicle.length}×${r.vehicle.width}×${r.vehicle.height} cm · 初始 ${r.packing.layout.length} 箱 / ${fmt(r.packing.layout.reduce((n,b)=>n+b.weight,0))} kg · 当前车内 ${state.layout.length} 箱`;
+ $('box-picker').innerHTML=state.layout.map(b=>`<option value="${esc(b.id)}">${esc(b.id+' · '+b.sku+' · 第'+b.stop+'站')}</option>`).join('');boxInfo();
+ const s=r.stops[state.stop],parts=s.service_estimate.components;$('service-breakdown').innerHTML=`<h3>第 ${state.stop+1} 站卸货时间估计</h3><div class="breakdown">${Object.entries({setup:'准备',boxes:'逐箱卸货',fragile:'易碎处理',heavy:'重货处理',rehandle:'临时搬出及恢复'}).map(([k,l])=>`<div>${l}<strong>${fmt(parts[k])} 分</strong></div>`).join('')}<div>合计<strong>${fmt(s.service_estimate.minutes)} 分</strong></div></div><p class="muted">系数为可调整演示假设，按0.5分钟向上取整；该时长已经计入路线时间窗、作业时间和人工费。</p>`;drawCargo();
+}
+function boxInfo(){const b=cargoState().layout.find(b=>b.id===$('box-picker').value);$('box-info').textContent=b?`${b.id} · ${b.sku} · 第${b.stop}站 · ${b.dx}×${b.dy}×${b.dz} cm / ${b.weight} kg · ${b.fragile?'易碎':'普通'} · ${b.stackable?'可叠 / 上层限'+b.max_top_weight+'kg':'不可堆叠'}`:'当前车内没有箱件。';drawCargo();}
+let yaw=-.72,pitch=.42,zoom=1,pointer=null;
+function drawCargo(){
+ const canvas=$('cargo-canvas'),ctx=canvas.getContext('2d');if(!ctx)return;const rect=canvas.getBoundingClientRect(),w=rect.width||500,h=rect.height||330,ratio=window.devicePixelRatio||1;canvas.width=w*ratio;canvas.height=h*ratio;ctx.scale(ratio,ratio);ctx.clearRect(0,0,w,h);const {r,layout}=cargoState();if(!r){ctx.fillStyle='#70837e';ctx.font='13px system-ui';ctx.fillText('生成方案后查看可旋转的三维布局',25,h/2);return;}
+ const v=r.vehicle,scale=Math.min(w/(v.length+v.width),h/(v.height+v.width*.5))*zoom*.82;
+ const project=(x,y,z)=>{x-=v.length/2;y-=v.width/2;z-=v.height/3;const u=x*Math.cos(yaw)-y*Math.sin(yaw),depth=x*Math.sin(yaw)+y*Math.cos(yaw);return [w/2+u*scale,h*.57+(depth*Math.sin(pitch)-z*Math.cos(pitch))*scale,depth*Math.cos(pitch)+z*Math.sin(pitch)];};
+ const vertices=(b)=>[[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]].map(p=>project(b.x+p[0]*b.dx,b.y+p[1]*b.dy,b.z+p[2]*b.dz));
+ const hull=vertices({x:0,y:0,z:0,dx:v.length,dy:v.width,dz:v.height});ctx.strokeStyle='#a8bbb0';ctx.lineWidth=1;for(const [a,b] of [[0,1],[1,2],[2,3],[3,0],[0,4],[1,5],[2,6],[3,7],[4,5],[5,6],[6,7],[7,4]]){ctx.beginPath();ctx.moveTo(...hull[a]);ctx.lineTo(...hull[b]);ctx.stroke();}
+ let faces=[];for(const b of layout){const p=vertices(b);for(const inds of [[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7],[4,5,6,7]])faces.push({b,pts:inds.map(i=>p[i]),depth:inds.reduce((n,i)=>n+p[i][2],0)/4});}
+ faces.sort((a,b)=>a.depth-b.depth).forEach(f=>{ctx.beginPath();f.pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=colors[(f.b.stop-1)%colors.length];ctx.globalAlpha=.8;ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle=f.b.id===$('box-picker').value?'#ffdf79':'#ffffffbb';ctx.lineWidth=f.b.id===$('box-picker').value?2.5:1;ctx.stroke();});
+ const door=project(0,v.width/2,0);ctx.fillStyle='#173b36';ctx.font='12px system-ui';ctx.fillText('车门 x=0',door[0]-25,door[1]+24);
+}
+async function osrm(url){const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('道路服务暂时不可用');const j=await r.json();if(j.code!=='Ok')throw Error('道路服务未返回有效结果');return j;}finally{clearTimeout(timeout);}}
+async function queryRoads(){
+ const snapshot=clone(draft),bound=JSON.stringify([snapshot.depot,snapshot.orders.map(o=>[o.store_id,o.lon,o.lat]),snapshot.end_point,snapshot.config.endpoint]);const points=[...new Map([snapshot.depot,...snapshot.orders,...(snapshot.config.endpoint==='parking'?[snapshot.end_point]:[])].map(p=>[p.store_id||p.id,{id:p.store_id||p.id,lon:p.lon,lat:p.lat}])).values()];
+ $('road-query').disabled=true;notice('正在查询免费道路时间，查询失败会保留已有数据。');try{const url='https://router.project-osrm.org/table/v1/driving/'+points.map(p=>p.lon+','+p.lat).join(';')+'?annotations=distance,duration',j=await osrm(url),current=JSON.stringify([draft.depot,draft.orders.map(o=>[o.store_id,o.lon,o.lat]),draft.end_point,draft.config.endpoint]);if(current!==bound)throw Error('查询期间地点已变化，请重新查询');snapshot.travel={points,distances:j.distances.map(r=>r.map(x=>x===null?null:x/1000)),durations:j.durations.map(r=>r.map(x=>x===null?null:x/60)),provider:'OSRM public demo · OpenStreetMap',coordinate_system:'WGS84',query_date:new Date().toISOString(),profile:'driving',truck_restrictions_verified:false};E.validate(snapshot);draft.travel=snapshot.travel;changed();notice('道路时间已更新到草案，请确认重新计算。普通驾车数据尚未验证货车限行。');}catch(e){notice('查询未完成：'+e.message+'。已有缓存可继续使用。',true);}finally{$('road-query').disabled=busy;}}
+async function queryGeometry(){if(!result?.routes.length){notice('先生成配送计划。',true);return;}const bound=result;$('geometry-query').disabled=true;try{const updates={};for(const r of bound.routes){const points=[planData.depot,...r.stops,...(result.config.endpoint==='open'?[]:[r.endpoint])],j=await osrm('https://router.project-osrm.org/route/v1/driving/'+points.map(p=>p.lon+','+p.lat).join(';')+'?overview=full&geometries=geojson');const coords=j.routes?.[0]?.geometry?.coordinates;if(!Array.isArray(coords)||coords.some(p=>p.length!==2||p.some(x=>!Number.isFinite(x))))throw Error('道路轨迹格式无效');updates[r.vehicle.id]=coords;}if(result!==bound)throw Error('计划已更新，请重试');geometry=updates;renderMap();notice('道路轨迹已显示。使用免费普通驾车服务，与缓存查询时刻可能不同。');}catch(e){notice('道路轨迹未完成：'+e.message+'。地点连接线仍可查看。',true);}finally{$('geometry-query').disabled=busy;}}
+function savedList(){let list=[];try{list=JSON.parse(localStorage.getItem('urban-flow-v03-scenes')||'[]');}catch{}$('saved').innerHTML=list.length?list.map((s,i)=>`<option value="${i}">${esc(s.date+' · '+s.orders.length+'单 · 种子'+s.seed)}</option>`).join(''):'<option>暂无保存场景</option>';return list;}
+function adopt(data){E.validate(data);draft=clone(data);result=null;baseline=null;planData=null;geometry={};$('kpis').innerHTML='';$('vehicle-tabs').innerHTML='';$('route-list').innerHTML='';$('route-totals').innerHTML='';$('cargo-vehicles').innerHTML='';$('operation-list').innerHTML='';$('service-breakdown').innerHTML='';$('baseline-comparison').innerHTML='';$('diagnostics').textContent='';$('history').innerHTML='';$('unassigned').textContent='确认生成计划后显示。';updateSettings();renderOrders();renderFleet();renderMap();renderCargo();}
+document.querySelectorAll('[data-tab]').forEach(n=>n.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===n));for(const id of ['plan','orders','cargo','compare'])$(id+'-panel').hidden=id!==n.dataset.tab;if(n.dataset.tab==='cargo')drawCargo();});
+for(const [id,k] of [['endpoint','endpoint'],['unload','unload'],['max-vehicles','max_vehicles'],['objective','objective'],['max-rehandles','max_rehandles']])$(id).onchange=()=>{draft.config[k]=['max_vehicles','max_rehandles'].includes(k)?Number($(id).value):$(id).value;$('parking-fields').hidden=draft.config.endpoint!=='parking';$('rehandle-label').hidden=draft.config.unload!=='limited';changed();};
+$('start').onchange=()=>{draft.start=minutes($('start').value);changed();};$('date').onchange=()=>{draft.date=$('date').value;changed();};$('seed').onchange=()=>{draft.seed=Number($('seed').value);changed();};
+for(const [id,k] of [['end-name','name'],['end-lon','lon'],['end-lat','lat']])$(id).onchange=()=>{draft.end_point[k]=k==='name'?$(id).value:Number($(id).value);if(k!=='name')delete draft.travel;changed();};
+$('simulate').onclick=()=>{const seed=Number($('seed').value);if(!Number.isInteger(seed)||seed<0||seed>4294967295){notice('模拟种子需为0～4294967295的整数。',true);return;}const data=E.simulate(C,seed,$('date').value||date);data.config=clone(draft.config);data.vehicles=clone(draft.vehicles);data.start=draft.start;data.end_point=clone(draft.end_point);if(data.travel&&data.config.endpoint==='parking'&&!data.travel.points.some(p=>p.id===data.end_point.id&&Math.abs(p.lon-data.end_point.lon)<1e-6&&Math.abs(p.lat-data.end_point.lat)<1e-6))delete data.travel;adopt(data);notice('新一批订单已生成，请核对后确认计算。');};
+$('new-seed').onclick=()=>{$('seed').value=Math.floor(Math.random()*4294967296);$('simulate').click();};
+$('add-order').onclick=()=>{if(draft.orders.length>=30){notice('最多30单。',true);return;}const s=C.stores.find(s=>!draft.orders.some(o=>o.store_id===s.id))||C.stores[0],o=clone(draft.orders[0]||E.simulate(C,42,date).orders[0]);o.id='O'+(Date.now()%100000000);o.boxes=o.boxes.slice(0,2).map((b,i)=>({...b,id:o.id+'-B'+(i+1)}));Object.assign(o,{store_id:s.id,name:s.name,address:s.address,lon:s.lon,lat:s.lat});draft.orders.push(o);if(draft.travel&&!draft.travel.points.some(p=>p.id===s.id))delete draft.travel;renderOrders();changed();};
+$('apply-costs').onclick=()=>{const fixed=Number($('fixed-cost').value),km=Number($('km-cost').value),labor=Number($('labor-cost').value);if([fixed,km,labor].some(x=>!Number.isFinite(x)||x<0)){notice('费用需要有效的非负数字。',true);return;}draft.vehicles.forEach(v=>Object.assign(v,{fixed_cost:fixed,cost_per_km:km,labor_per_hour:labor}));renderFleet();changed();notice('费用已应用到全部车辆，请重新计算。');};
+$('reset-costs').onclick=()=>{$('fixed-cost').value=200;$('km-cost').value=1.5;$('labor-cost').value=30;$('apply-costs').click();};
+$('solve').onclick=compute;$('cancel-solve').onclick=stop;$('road-query').onclick=queryRoads;$('road-clear').onclick=()=>{delete draft.travel;changed();notice('草案已切换为估算道路时间，请重新计算。');};$('geometry-query').onclick=queryGeometry;
+$('operation-mode').onchange=$('cargo-stop').onchange=()=>{opIndex=0;renderCargo();};$('op-prev').onclick=()=>{opIndex=Math.max(0,opIndex-1);renderCargo();};$('op-next').onclick=()=>{opIndex=Math.min(cargoState().ops.length,opIndex+1);renderCargo();};$('op-all').onclick=()=>{opIndex=cargoState().ops.length;renderCargo();};$('box-picker').onchange=boxInfo;
+$('clear-history').onclick=()=>{history=[];if(result)renderResults();};$('reset-view').onclick=()=>{yaw=-.72;pitch=.42;zoom=1;drawCargo();};
+const canvas=$('cargo-canvas'),pointers=new Map();let pinch=0;canvas.onpointerdown=e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);pointer=[e.clientX,e.clientY];};canvas.onpointermove=e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);if(pinch)zoom=Math.max(.45,Math.min(2,zoom*d/pinch));pinch=d;}else if(pointer){yaw+=(e.clientX-pointer[0])*.009;pitch=Math.max(.12,Math.min(1.25,pitch+(e.clientY-pointer[1])*.006));}pointer=[e.clientX,e.clientY];drawCargo();};canvas.onpointerup=canvas.onpointercancel=e=>{pointers.delete(e.pointerId);pointer=null;pinch=0;};canvas.onwheel=e=>{e.preventDefault();zoom=Math.max(.45,Math.min(2,zoom*(e.deltaY>0?.92:1.08)));drawCargo();};window.addEventListener('resize',drawCargo);
+$('save').onclick=()=>{try{E.validate(draft);const list=savedList();list.unshift(clone(draft));localStorage.setItem('urban-flow-v03-scenes',JSON.stringify(list.slice(0,5)));savedList();notice('场景已保存到本浏览器。');}catch(e){notice(e.message,true);}};
+$('load').onclick=()=>{try{const list=savedList(),data=list[Number($('saved').value)];if(!data)throw Error('尚无已保存场景');adopt(data);notice('场景已载入，请确认重新计算。');}catch(e){notice(e.message,true);}};
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify({version:3,data:draft,plan_data:planData,optimized:result,baseline},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='urban-flow-'+draft.date+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+$('import').onclick=()=>$('file').click();$('file').onchange=async()=>{try{const file=$('file').files[0];if(!file)return;if(file.size>3000000)throw Error('场景文件过大');const parsed=JSON.parse(await file.text());adopt(parsed.data||parsed);notice('场景已导入。请确认重新计算，以校验方案。');}catch(e){notice('导入失败：'+e.message,true);}finally{$('file').value='';}};
+$('catalog-note').textContent=C.note+' 查询日期：'+C.query_date+'。';updateSettings();renderOrders();renderFleet();renderMap();renderCargo();savedList();$('status').textContent='20家门店已就绪 · 核对订单后生成计划';$('route-list').innerHTML='<p class="empty">点击“确认并生成配送计划”，查看先去哪家、再去哪家。</p>';
+window.UrbanUI={getDraft:()=>clone(draft),getPlan:()=>result,compute,adopt,cargoState};
+})();
+</script></body></html>
