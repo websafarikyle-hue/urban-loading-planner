@@ -1,0 +1,35 @@
+name: Scenario audit
+on:
+  push:
+    branches: [test/scenario-audit-cloud]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - name: Fetch reviewed commit
+        run: |
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "${GITHUB_SHA}"
+          git checkout --detach FETCH_HEAD
+          node --version
+      - name: Scenario and route audit
+        env:
+          SCENARIO_SHARD: ${{ matrix.shard }}
+        run: node tests/scenario-audit-cloud.cjs
+      - name: Shared solver and product regression
+        if: matrix.shard == 0
+        run: |
+          node --check frontend/app.js
+          node --check frontend/v03/app.js
+          node tests/v03-engine.cjs
+          node tests/v09-product.cjs
+          node tests/v03-ui.mjs
+          node tests/v091-analysis.cjs
