@@ -1,2 +1,2 @@
-importScripts("engine.js?v=0.9.2");
-self.onmessage=e=>{try{const {data,mode="compare",request_id}=e.data;const result=mode==="compare"?{baseline:UrbanEngine.solve(data,"baseline"),nearest:UrbanEngine.solve(data,"nearest"),deadline:UrbanEngine.solve(data,"deadline"),optimized:UrbanEngine.solve(data)}:UrbanEngine.solve(data,mode);self.postMessage({request_id,result});}catch(error){self.postMessage({request_id:e.data.request_id,error:error.message});}};
+importScripts("engine.js?v=0.9.4");
+self.onmessage=e=>{try{const {data,mode="compare",request_id}=e.data;const result=mode==="compare"?UrbanEngine.compare(data,{time_limit_ms:35000,onProgress:partial=>self.postMessage({type:'progress',request_id,result:partial})}):UrbanEngine.solve(data,mode);self.postMessage({type:'complete',request_id,result});}catch(error){self.postMessage({request_id:e.data.request_id,error:error.message});}};

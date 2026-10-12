@@ -24,6 +24,7 @@ function validate(d){
  point(d.depot,"仓库");if(c.endpoint==="parking"){point(d.end_point,"停车点");assert(d.end_point.id!==d.depot.id,"停车点编号不能与仓库相同");}
  number(d.start,"发车时刻",0,1439);const ids=new Set([d.depot.id]),bids=new Set(),vids=new Set();
  for(const o of d.orders){point(o,"门店");assert(!ids.has(o.id),"订单编号重复");ids.add(o.id);number(o.ready,"最早收货",0,1439);number(o.due,"完成截止",o.ready,1439);
+  if(o.store_id!==undefined)assert(typeof o.store_id==='string'&&o.store_id.length>0,'门店编号无效');
   assert(Array.isArray(o.boxes)&&o.boxes.length>0,"订单必须包含箱件");
   for(const b of o.boxes){assert(typeof b.id==="string"&&b.id&&!bids.has(b.id),"箱件编号缺失或重复");bids.add(b.id);
    for(const k of ["length","width","height","weight"])number(b[k],"箱件"+k,.01,10000);
@@ -48,7 +49,7 @@ function validate(d){
  return c;
 }
 const overlap=(a,b)=>Math.min(a[1],b[1])-Math.max(a[0],b[0])>EPS;
-const intersects=(a,b)=>["x","y","z"].every(k=>overlap([a[k],a[k]+a["d"+k]],[b[k],b[k]+b["d"+k]]));
+const intersects=(a,b)=>Math.min(a.x+a.dx,b.x+b.dx)-Math.max(a.x,b.x)>EPS&&Math.min(a.y+a.dy,b.y+b.dy)-Math.max(a.y,b.y)>EPS&&Math.min(a.z+a.dz,b.z+b.dz)-Math.max(a.z,b.z)>EPS;
 function support(b,placed){
  if(b.z<EPS)return true;
  return placed.some(a=>a.id!==b.id&&a.z<EPS&&a.stackable&&!a.fragile&&Math.abs(a.z+a.dz-b.z)<EPS&&
@@ -63,10 +64,10 @@ function restoreBox(b,placed,v){
  const options=[{...b},...xs.flatMap(x=>ys.map(y=>({...b,x,y,z:0})))];
  return options.find(p=>p.x>=-EPS&&p.y>=-EPS&&p.z>=-EPS&&p.x+p.dx<=v.length+EPS&&p.y+p.dy<=v.width+EPS&&p.z+p.dz<=v.height+EPS&&!placed.some(a=>intersects(a,p))&&support(p,placed)&&!blockers(p,placed).length);
 }
-function unloadPlan(layout,route,v,c){
+function unloadPlan(layout,route,v,c,capture=true){
  let remaining=copy(layout),steps=[],rehandles=0;
  for(let index=0;index<route.length;index++){
-  const order=route[index],before=copy(remaining),operations=[],temporary=[],boxes=[];
+  const order=route[index],before=capture?copy(remaining):undefined,operations=[],temporary=[],boxes=[];
   while(remaining.some(b=>b.order_id===order.id)){
    const available=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.y-b.y||a.id.localeCompare(b.id));
    let b=available.find(b=>b.order_id===order.id),type="unload";
@@ -87,39 +88,56 @@ function unloadPlan(layout,route,v,c){
    operations.push({type:"move_in",box_id:b.id,position:[placed.x,placed.y,placed.z],minutes:c.move_in_minutes});remaining.push(placed);
   }
   rehandles+=temporary.length;
-  steps.push({stop:index+1,order_id:order.id,name:order.name,boxes,operations,before_layout:before,after_layout:copy(remaining),rehandles:temporary.length});
+  steps.push({stop:index+1,order_id:order.id,name:order.name,boxes,operations,before_layout:before,after_layout:capture?copy(remaining):undefined,rehandles:temporary.length});
  }
  return {feasible:true,steps,rehandles};
 }
-function packAttempt(route,v,c,strategy=0){
+function packAttempt(route,v,c,strategy=0,deadline=Infinity,capture=true){
  const all=route.flatMap((o,i)=>o.boxes.map(b=>({...b,order_id:o.id,stop:i+1})));
  if(sum(all,b=>b.weight)>v.capacity_kg+EPS)return {feasible:false,reason:"超过车辆载重"};
  if(sum(all,b=>b.length*b.width*b.height)>v.length*v.width*v.height+EPS)return {feasible:false,reason:"箱件总体积超过车厢"};
- all.sort((a,b)=>(strategy===2?0:b.stop-a.stop)||Number(a.fragile)-Number(b.fragile)||Number(!a.stackable)-Number(!b.stackable)||b.length*b.width*(strategy===1?1:b.height)-a.length*a.width*(strategy===1?1:a.height)||b.weight-a.weight||a.id.localeCompare(b.id));
+ all.sort((a,b)=>(strategy===2?0:b.stop-a.stop)||(strategy===3?Number(b.fragile)-Number(a.fragile):Number(a.fragile)-Number(b.fragile))||Number(!a.stackable)-Number(!b.stackable)||b.length*b.width*(strategy===1?1:b.height)-a.length*a.width*(strategy===1?1:a.height)||b.weight-a.weight||a.id.localeCompare(b.id));
  let points=[[v.length,0,0]],placed=[];
  for(const b of all){
+  if(Date.now()>=deadline)return {feasible:false,interrupted:true,reason:'装载搜索达到计算时限'};
   if(strategy)for(const x of [v.length,...placed.map(a=>a.x)])for(const y of [0,...placed.map(a=>a.y+a.dy)])points.push([x,y,0]);
   points=[...new Map(points.map(p=>[p.join(","),p])).values()];
   const orientations=[[b.length,b.width,b.height]];if(b.rotate&&b.length!==b.width)orientations.push([b.width,b.length,b.height]);
   const options=[];
   for(const [anchor,y,z] of points)for(const [dx,dy,dz] of orientations){
-   const a={...b,x:anchor-dx,y,z,dx,dy,dz};
-   if(a.x<-EPS||y+dy>v.width+EPS||z+dz>v.height+EPS||placed.some(q=>intersects(a,q))||!support(a,placed))continue;
-   if(c.unload==="direct"&&(blockers(a,placed).some(q=>q.stop>a.stop)||placed.some(q=>q.stop<a.stop&&blockers(q,[a]).length)))continue;
+   const a={x:anchor-dx,y,z,dx,dy,dz};
+   if(a.x<-EPS||y+dy>v.width+EPS||z+dz>v.height+EPS)continue;
    options.push(a);
   }
-  if(!options.length)return {feasible:false,reason:"装箱启发式未找到符合支撑及取货要求的位置"};
-   options.sort((a,b)=>(strategy?Number(b.z>EPS)-Number(a.z>EPS):a.z-b.z)||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
-  const a=options[0];placed.push(a);points.push([a.x,a.y,a.z],[a.x+a.dx,a.y+a.dy,a.z],[a.x+a.dx,a.y,a.z+a.dz]);
+  // Test positions in the original preference order and stop at the first
+  // valid one, rather than fully checking every position before sorting.
+  options.sort((a,b)=>(strategy?Number(b.z>EPS)-Number(a.z>EPS):a.z-b.z)||b.x-a.x||a.y-b.y||a.dx*a.dy-b.dx*b.dy);
+  let a;for(const p of options){if(placed.some(q=>intersects(p,q)))continue;const trial={...b,...p};
+   if(!support(trial,placed))continue;
+   if(c.unload==='direct'&&(blockers(trial,placed).some(q=>q.stop>trial.stop)||placed.some(q=>q.stop<trial.stop&&blockers(q,[trial]).length)))continue;
+   a=trial;break;
+  }
+  if(!a)return {feasible:false,reason:"装箱启发式未找到符合支撑及取货要求的位置"};
+  placed.push(a);points.push([a.x,a.y,a.z],[a.x+a.dx,a.y+a.dy,a.z],[a.x+a.dx,a.y,a.z+a.dz]);
  }
- const unloading=unloadPlan(placed,route,v,c);if(!unloading.feasible)return unloading;
+ const unloading=unloadPlan(placed,route,v,c,capture);if(!unloading.feasible)return unloading;
  // Initial loading is an independent removal order reversed, before any delivery.
  let remaining=copy(placed),removal=[];
  while(remaining.length){const a=remaining.filter(b=>!blockers(b,remaining).length).sort((a,b)=>b.z-a.z||a.x-b.x||a.id.localeCompare(b.id))[0];if(!a)return {feasible:false,reason:"初始装车顺序不可执行"};removal.push(a);remaining=remaining.filter(b=>b.id!==a.id);}
  const loading=removal.reverse().map((b,i)=>({step:i+1,box_id:b.id,order_id:b.order_id,position:[b.x,b.y,b.z]}));
  return {feasible:true,layout:placed,loading,unloading};
 }
-function pack(route,v,c){let last,best;const floor=p=>sum(p.layout.filter(b=>b.z<EPS),b=>b.dx*b.dy);for(const strategy of (c.unload==="limited"?[0,1,2]:[0,1])){last=packAttempt(route,v,c,strategy);if(last.feasible&&(!best||last.unloading.rehandles<best.unloading.rehandles||(last.unloading.rehandles===best.unloading.rehandles&&floor(last)<floor(best)-EPS)))best=last;}return best||last;}
+function pack(route,v,c,deadline=Infinity,capture=true){
+ let last,best;
+ if(c.unload==='limited'){const direct=pack(route,v,{...c,unload:'direct'},deadline,capture);if(direct.feasible||direct.interrupted)return direct;}
+ const floor=p=>sum(p.layout.filter(b=>b.z<EPS),b=>b.dx*b.dy);
+ for(const strategy of (c.unload==='limited'?[0,1,2,3]:[0,1,3])){
+  if(strategy===3&&best)break;last=packAttempt(route,v,c,strategy,deadline,capture);
+  if(last.interrupted)return best||last;
+  if(last.feasible&&(!best||last.unloading.rehandles<best.unloading.rehandles||(last.unloading.rehandles===best.unloading.rehandles&&floor(last)<floor(best)-EPS)))best=last;
+ }
+ return best||last;
+}
 function service(o,c,step){const components={setup:c.setup_minutes,boxes:o.boxes.length*c.per_box_minutes,fragile:o.boxes.filter(b=>b.fragile).length*c.fragile_extra_minutes,heavy:o.boxes.filter(b=>b.weight>c.heavy_threshold_kg).length*c.heavy_extra_minutes,rehandle:step.rehandles*(c.move_out_minutes+c.move_in_minutes)};return {minutes:Math.ceil(sum(Object.values(components))*2)/2,components};}
 function travel(a,b,d,c){
  if(d.travel){const t=d.travel,i=t.points.findIndex(p=>p.id===(a.store_id||a.id)),j=t.points.findIndex(p=>p.id===(b.store_id||b.id));const km=t.distances[i][j],minutes=t.durations[i][j];return km===null||minutes===null?null:{km,minutes};}
@@ -166,6 +184,7 @@ function verify(result,d){
   assert(r.packing.unloading.steps.length===r.order_ids.length,"卸货站点遗漏");
   for(let i=0;i<r.packing.unloading.steps.length;i++){const step=r.packing.unloading.steps[i],temporary=new Map(),delivered=new Set();assert(step.order_id===r.order_ids[i]&&step.stop===i+1,"卸货站序错误");inspect(step.before_layout,r.vehicle);assert(stateKey(remaining)===stateKey(step.before_layout),"卸货前快照不一致");
    for(const op of step.operations){
+    assert(Array.isArray(op.position)&&op.position.length===3&&op.position.every(Number.isFinite),'装卸位置必须是三个有限坐标');
     if(op.type==="move_in"){const b=temporary.get(op.box_id);assert(b,"恢复箱件未曾搬出");const a={...b,x:op.position[0],y:op.position[1],z:op.position[2]};assert(!blockers(a,remaining).length,"恢复路径受阻");remaining.push(a);temporary.delete(b.id);}
     else {const b=remaining.find(b=>b.id===op.box_id);assert(b&&!blockers(b,remaining).length,"卸货路径或上层受阻");assert(op.position.every((p,i)=>Math.abs(p-b[["x","y","z"][i]])<EPS),"卸货指引位置不一致");
      if(op.type==="unload"){assert(b.order_id===step.order_id,"卸错门店货物");delivered.add(b.id);}else{assert(op.type==="move_out"&&c.unload==="limited"&&b.order_id!==step.order_id,"非法搬移");temporary.set(b.id,b);moves++;}remaining=remaining.filter(a=>a.id!==b.id);}
@@ -180,35 +199,105 @@ function verify(result,d){
   assert(r.stops.length===timing.stops.length,"排程站点缺失");for(let i=0;i<r.stops.length;i++)for(const k of ["arrival","service_start","service_end","wait","leg_km","travel_minutes"])assert(Math.abs(r.stops[i][k]-timing.stops[i][k])<.001,"站点时间或距离不一致");
   for(const k of ["loading","driving","waiting","unloading"])assert(Math.abs(r.time_parts[k]-timing.time_parts[k])<.001,"作业时间明细不一致");
   for(const k of ["fixed","distance","labor"])assert(Math.abs(r.cost_parts[k]-timing.cost_parts[k])<.001,"费用明细不一致");
+  assert(JSON.stringify(r.endpoint)===JSON.stringify(timing.endpoint),'终点信息不一致');
+  for(const k of ['km','minutes'])assert(Math.abs(r.final_leg[k]-timing.final_leg[k])<.001,'终点行程不一致');
+  for(let i=0;i<r.stops.length;i++){assert(r.stops[i].id===route[i].id,'排程门店顺序不一致');assert(JSON.stringify(r.stops[i].service_estimate)===JSON.stringify(timing.stops[i].service_estimate),'卸货时长明细不一致');}
+  for(const b of r.packing.layout)assert(b.stop===r.order_ids.indexOf(b.order_id)+1,'箱件配送站序不一致');
+  for(const [i,op] of r.packing.loading.entries())assert(op.step===i+1&&op.order_id===source.get(op.box_id).order_id&&Array.isArray(op.position)&&op.position.length===3,'装车指令不完整');
+  assert(r.packing.unloading.rehandles===moves,'搬移总数不一致');
  }
  assert(result.metrics.assigned===seen.size&&result.metrics.orders===d.orders.length&&result.metrics.vehicles===vehicles.size,"服务量不一致");
  for(const k of ["cost","km","work_minutes"])assert(Math.abs(result.metrics[k]-round(sum(result.routes,r=>r[k])))<.001,"汇总指标不一致");
  const finish=result.routes.length?Math.max(...result.routes.map(r=>r.end)):d.start;
  assert(Math.abs(result.metrics.finish-finish)<.001&&Math.abs(result.metrics.elapsed_minutes-round(finish-d.start))<.001,"任务历时不一致");
  assert(result.metrics.stacked_boxes===sum(result.routes,r=>r.packing.layout.filter(b=>b.z>EPS).length),"上层箱件汇总不一致");
- assert(result.unassigned.length===d.orders.length-seen.size&&new Set(result.unassigned.map(o=>o.order_id)).size===result.unassigned.length&&result.unassigned.every(o=>!seen.has(o.order_id)&&d.orders.some(x=>x.id===o.order_id)),"未安排清单不一致");return true;
+ assert(result.metrics.rehandles===sum(result.routes,r=>r.rehandles),'搬移指标汇总不一致');
+ assert(Math.abs(result.metrics.on_time_rate-seen.size/d.orders.length)<EPS,'按时完成率不一致');
+ const volume=result.routes.length?sum(result.routes,r=>sum(r.packing.layout,b=>b.dx*b.dy*b.dz))/sum(result.routes,r=>r.vehicle.length*r.vehicle.width*r.vehicle.height):0;
+ assert(Math.abs(result.metrics.volume_utilization-volume)<EPS,'体积利用率不一致');
+ for(const k of ['loading','driving','waiting','unloading'])assert(Math.abs(result.metrics.time_parts[k]-round(sum(result.routes,r=>r.time_parts[k])))<.001,'作业时长汇总不一致');
+ assert(result.unassigned.length===d.orders.length-seen.size&&new Set(result.unassigned.map(o=>o.order_id)).size===result.unassigned.length&&result.unassigned.every(o=>!seen.has(o.order_id)&&d.orders.some(x=>x.id===o.order_id)),"未安排清单不一致");
+ if(result.service_bound){
+  const proof=analyzeService(d,c),b=result.service_bound;
+  assert(b.upper_bound===proof.upper_bound&&seen.size<=proof.upper_bound&&b.assigned===seen.size&&b.gap===proof.upper_bound-seen.size&&b.proven===(seen.size===proof.upper_bound),'服务量证据不一致');
+  for(const item of result.unassigned){const o=proof.orders.find(o=>o.order_id===item.order_id);assert(item.status===(o.individually_impossible?'proven_individually_infeasible':'search_unresolved')&&JSON.stringify(item.proven_reasons)===JSON.stringify(o.reasons),'未安排原因证据不一致');}
+ }
+ return true;
 }
-function solve(d,mode="optimized"){
+// Necessary conditions only: heuristic packing failure is never a certificate.
+function analyzeService(d,c){
+ const vs=d.vehicles.filter(v=>v.enabled),all=d.orders.flatMap(o=>o.boxes),orient=b=>b.rotate?[[b.length,b.width],[b.width,b.length]]:[[b.length,b.width]];
+ const fits=(b,v)=>b.height<=v.height+EPS&&orient(b).some(([x,y])=>x<=v.length+EPS&&y<=v.width+EPS);
+ const forced=new Set(all.filter(b=>!all.some(a=>a.id!==b.id&&a.stackable&&!a.fragile&&a.max_top_weight+EPS>=b.weight&&vs.some(v=>fits(a,v)&&a.height+b.height<=v.height+EPS&&orient(a).some(([x,y])=>orient(b).some(([xx,yy])=>xx<=x+EPS&&yy<=y+EPS))))).map(b=>b.id));
+ let ids,dist;
+ if(d.travel){ids=d.travel.points.map(p=>p.id);dist=d.travel.durations.map(row=>row.map(x=>x===null?Infinity:x));}
+ else{const pts=[d.depot,...d.orders,...(c.endpoint==='parking'?[d.end_point]:[])];ids=pts.map(p=>p.id);dist=pts.map(a=>pts.map(b=>travel(a,b,d,c).minutes));}
+ // Shortest-path lower bounds also cover non-triangular or disconnected matrices.
+ for(let k=0;k<ids.length;k++)for(let i=0;i<ids.length;i++)for(let j=0;j<ids.length;j++)if(dist[i][k]+dist[k][j]<dist[i][j])dist[i][j]=dist[i][k]+dist[k][j];
+ const end=c.endpoint==='return'?d.depot:d.end_point;
+ const start=ids.indexOf(d.travel?(d.depot.store_id||d.depot.id):d.depot.id),endpoint=ids.indexOf(d.travel?(end?.store_id||end?.id):end?.id);
+ const rows=d.orders.map(o=>{
+  const mass=sum(o.boxes,b=>b.weight),volume=sum(o.boxes,b=>b.length*b.width*b.height),floor=sum(o.boxes.filter(b=>forced.has(b.id)),b=>b.length*b.width),svc=service(o,c,{rehandles:0}).minutes,load=c.loading_setup+o.boxes.length*c.loading_per_box,j=ids.indexOf(d.travel?(o.store_id||o.id):o.id),leg=dist[start]?.[j]??Infinity,back=c.endpoint==='open'?0:(dist[j]?.[endpoint]??Infinity);
+  let possible=false;const failures=new Set();
+  for(const v of vs){
+   if(mass>v.capacity_kg+EPS){failures.add('单单重量超过该车载重');continue;}
+   if(volume>v.length*v.width*v.height+EPS){failures.add('单单总体积超过该车容量');continue;}
+   if(o.boxes.some(b=>!fits(b,v))){failures.add('存在按允许朝向无法放入车厢的箱件');continue;}
+   if(floor>v.length*v.width+EPS){failures.add('必须落地箱件面积超过车厢地板');continue;}
+   if(!Number.isFinite(leg)||!Number.isFinite(back)){failures.add('道路矩阵中不存在仓库至门店或终点的可达路径');continue;}
+   const done=Math.max(d.start+load+leg,o.ready)+svc;
+   if(done>o.due+EPS){failures.add('最乐观单独配送也无法在截止前完成卸货');continue;}
+   if(done+back>v.shift_end+EPS){failures.add('最乐观单独配送也无法在班次内结束');continue;}
+   possible=true;
+  }
+  return {order_id:o.id,individually_impossible:!possible,reasons:possible?[]:[...failures],mass,volume,floor,work:o.boxes.length*c.loading_per_box+svc};
+ });
+ const eligible=rows.filter(r=>!r.individually_impossible),top=f=>sum(vs.map(f).sort((a,b)=>b-a).slice(0,c.max_vehicles));
+ const budgets={mass:top(v=>v.capacity_kg),volume:top(v=>v.length*v.width*v.height),floor:top(v=>v.length*v.width),work:top(v=>Math.max(0,v.shift_end-d.start-c.loading_setup))};
+ const bounds={individual:eligible.length};
+ for(const k of Object.keys(budgets)){let used=0,n=0;for(const value of eligible.map(r=>r[k]).sort((a,b)=>a-b)){if(used+value>budgets[k]+EPS)break;used+=value;n++;}bounds[k]=n;}
+ return {upper_bound:Math.min(...Object.values(bounds)),bounds,budgets,orders:rows,method:'必要条件放松：独立可达性、尺寸、载重、容积、必落地面积与作业时间'};
+}
+
+function solveInternal(d,mode="optimized",referenceCache=null,controls={}){
  const started=Date.now(),c=validate(d),vehicles=d.vehicles.filter(v=>v.enabled),orders=d.orders,index=new Map(orders.map((o,i)=>[o.id,i]));
- const optimized=!['baseline','nearest','deadline'].includes(mode),cache=new Map(),columns=new Map(),incumbents=new Map();
+ const optimized=!['baseline','nearest','deadline'].includes(mode),cache=referenceCache||new Map(),columns=new Map(),incumbents=new Map();
+ const wallDeadline=controls.deadline??(started+(controls.time_limit_ms??30000)),packingMemo=controls.packingMemo||new Map(),serviceProof=analyzeService(d,c);
+ let timeLimitHit=false,packingCalls=0,packingCacheHits=0,selectedBest=null,lastProgress=0;
  let checks=0,rejected=0,improvements=0,budgetHit=false,best,poolInfo,candidateCap=optimized?vehicles.length:c.max_vehicles,objective=optimized?'time':c.objective;
- const evaluationLimit=2200;
+ const evaluationLimit=optimized&&c.unload==='limited'?2700:2200;
+ // Reserve part of the search for the user's relaxed unloading rule.
+ let phaseLimit=2200;
  let packingConfig=optimized&&c.unload==='limited'?{...c,unload:'direct'}:c;
  const primary=r=>objective==='time'?r.work_minutes:r.cost,secondary=r=>objective==='time'?r.cost:r.work_minutes;
  const mask=route=>route.reduce((m,o)=>m|(1<<index.get(o.id)),0);
  const better=(a,b)=>{for(let i=0;i<a.length;i++){if(a[i]<b[i]-EPS)return true;if(a[i]>b[i]+EPS)return false;}return false;};
- function evaluate(i,route){
-  if(!route.length)return null;
-  const key=i+':'+route.map(o=>o.id).join('>');if(cache.has(key))return cache.get(key);
-  if(checks>=evaluationLimit){budgetHit=true;return null;}checks++;
-  const packing=pack(route,vehicles[i],packingConfig),r=packing.feasible?schedule(route,vehicles[i],d,c,packing):packing;
-  cache.set(key,r);if(!r.feasible){rejected++;return r;}
+ const routeKey=(i,route)=>JSON.stringify([i,route.map(o=>o.id)]);
+ function retain(i,route,r){
   // Retain the best time and best cost ordering for each vehicle and order set.
   for(const goal of ['time','cost']){
    const key=i+':'+mask(route)+':'+goal,old=columns.get(key),first=x=>goal==='time'?x.work_minutes:x.cost,second=x=>goal==='time'?x.cost:x.work_minutes;
    if(!old||first(r)<first(old.result)-EPS||(Math.abs(first(r)-first(old.result))<=EPS&&second(r)<second(old.result)-EPS))columns.set(key,{vehicle:i,mask:mask(route),route:route.slice(),result:r});
   }
   return r;
+ }
+ function evaluate(i,route){
+  if(controls.onProgress&&selectedBest&&Date.now()-lastProgress>=1000){lastProgress=Date.now();controls.onProgress(makeResult(selectedBest.routes,{search_status:'running'}));}
+  if(!route.length)return null;
+  const key=routeKey(i,route);if(cache.has(key))return cache.get(key);
+  if(Date.now()>=wallDeadline){timeLimitHit=true;budgetHit=true;return null;}
+  if(checks>=phaseLimit){budgetHit=true;return null;}checks++;
+  const v=vehicles[i];
+  if(sum(route,o=>serviceProof.orders[index.get(o.id)].floor)>v.length*v.width+EPS){const r={feasible:false,reason:'必须落地箱件面积超过该车地板容量'};cache.set(key,r);rejected++;return r;}
+  const optimistic=schedule(route,v,d,c,{unloading:{steps:route.map(()=>({rehandles:0}))}});
+  if(!optimistic.feasible){cache.set(key,optimistic);rejected++;return optimistic;}
+  const pk=JSON.stringify([v.length,v.width,v.height,v.capacity_kg,packingConfig.unload,c.max_rehandles,route.map(o=>o.id)]);
+  let packing=packingMemo.get(pk);
+  if(packing)packingCacheHits++;else{packingCalls++;packing=pack(route,v,packingConfig,wallDeadline,false);if(!packing.interrupted)packingMemo.set(pk,packing);}
+  if(packing.interrupted){timeLimitHit=true;budgetHit=true;return null;}
+  const r=packing.feasible?schedule(route,v,d,c,packing):packing;
+  cache.set(key,r);if(!r.feasible){rejected++;return r;}
+  return retain(i,route,r);
  }
  function score(routes){
   let assigned=0,value=0,other=0,count=0;
@@ -219,6 +308,11 @@ function solve(d,mode="optimized"){
   const count=routes.filter(r=>r.length).length,s=score(routes);
   if(!Number.isFinite(s[1]))return;
   for(let cap=Math.max(1,count);cap<=vehicles.length;cap++){const old=incumbents.get(cap);if(!old||better(s,score(old)))incumbents.set(cap,routes.map(r=>r.slice()));}
+  if(count<=c.max_vehicles){const goal=objective;objective=c.objective;const actual=score(routes);
+   if(!selectedBest||better(actual,selectedBest.score)){selectedBest={score:actual,routes:routes.map(r=>r.slice())};
+    if(controls.onProgress&&Date.now()-lastProgress>=1000){lastProgress=Date.now();controls.onProgress(makeResult(selectedBest.routes,{search_status:'running'}));}
+   }objective=goal;
+  }
  }
  function insert(routes,o,baseline=false,vehicleOrder=vehicles.map((v,i)=>i)){
   const used=routes.filter(r=>r.length).length,options=[];
@@ -243,6 +337,11 @@ function solve(d,mode="optimized"){
  best=construct(sequence,true);
  if(optimized){
   remember(best);
+  // Fill service-oriented plans before spending the budget on route polishing.
+  if(sum(orders,o=>o.boxes.length)>=80){
+   const largest=vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width-vehicles[a].length*vehicles[a].width);
+   for(let cap=1;cap<=vehicles.length&&!budgetHit;cap++){candidateCap=cap;remember(construct(deadline,true,largest));}
+  }
   // Seed complete inexpensive plans before time-based search consumes the budget.
   const initialTime=new Map(incumbents);objective='cost';candidateCap=Math.min(3,vehicles.length);
   const cheapSeeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
@@ -311,6 +410,7 @@ function solve(d,mode="optimized"){
    let states=new Map([['0:0',{mask:0,count:0,value:0,secondary:0,routes:vehicles.map(()=>[])}]]),pruned=false,peak=1;
    const perCountLimit=Math.max(1,Math.floor(1024/vehicles.length));
    for(let v=0;v<vehicles.length;v++){
+    if(Date.now()>=wallDeadline){timeLimitHit=true;break;}
     const next=new Map(states),options=[...columns.values()].filter(col=>col.vehicle===v);
     for(const st of states.values())if(st.count<vehicles.length)for(const col of options)if(!(st.mask&col.mask)){
      const mask=st.mask|col.mask,count=st.count+1,key=mask+':'+count,value=st.value+primary(col.result),other=st.secondary+secondary(col.result),old=next.get(key);
@@ -326,9 +426,24 @@ function solve(d,mode="optimized"){
    for(const st of states.values())remember(st.routes);
    poolInfo={pool_pruned:pruned,pool_states_peak:peak};
   }
-  selectPool();const strictTime=new Map(incumbents);objective='cost';selectPool();const strictCost=new Map(incumbents);
+  // Preserve reference plans for every cap and both objectives. Shared caching
+  // bounds the extra work; this pool stays independent of the selected cap.
+  let referenceChecks=0;const referenceCache=new Map([...cache].filter(([,r])=>c.unload==='direct'||r.feasible)),referencePlans=[];
+  for(let cap=1;cap<=vehicles.length&&!timeLimitHit;cap++)for(const referenceMode of ['baseline','nearest','deadline']){
+   if(Date.now()>=wallDeadline){timeLimitHit=true;break;}
+   const reference=solveInternal({...d,config:{...c,max_vehicles:cap}},referenceMode,referenceCache,{deadline:wallDeadline,packingMemo}),referenceRoutes=vehicles.map(()=>[]);
+   referenceChecks+=reference.diagnostics.packing_checks;
+   for(const r of reference.routes){
+    const i=vehicles.findIndex(v=>v.id===r.vehicle.id),route=r.order_ids.map(id=>orders[index.get(id)]),key=routeKey(i,route),old=cache.get(key);
+    const kept=old?.feasible&&old.work_minutes<=r.work_minutes+EPS&&old.rehandles<=r.rehandles?old:r;
+    cache.set(key,kept);retain(i,route,kept);referenceRoutes[i]=route;
+   }
+   referencePlans.push(referenceRoutes);remember(referenceRoutes);
+  }
+  selectPool();const strictTime=new Map(incumbents);objective='cost';for(const routes of referencePlans)remember(routes);selectPool();const strictCost=new Map(incumbents);
   objective='time';incumbents.clear();for(const [cap,routes] of strictTime)incumbents.set(cap,routes);
-  if(c.unload==='limited'&&!budgetHit){
+  if(c.unload==='limited'&&!timeLimitHit){
+   phaseLimit=evaluationLimit;budgetHit=checks>=phaseLimit;
    packingConfig=c;for(const [key,r] of cache)if(!r.feasible)cache.delete(key);
    for(let cap=1;cap<=vehicles.length&&!budgetHit;cap++){
     candidateCap=cap;const trial=(incumbents.get(cap)||vehicles.map(()=>[])).map(r=>r.slice()),used=new Set(trial.flatMap(r=>r.map(o=>o.id)));
@@ -339,16 +454,38 @@ function solve(d,mode="optimized"){
   const finalTime=new Map(incumbents);objective='cost';for(const routes of strictCost.values())remember(routes);selectPool();const finalCost=new Map(incumbents);
   objective=c.objective;incumbents.clear();for(const routes of [...finalTime.values(),...finalCost.values()])remember(routes);
   best=incumbents.get(c.max_vehicles)||vehicles.map(()=>[]);
+  poolInfo={...poolInfo,reference_checks:referenceChecks};
  }
- const routes=best.map((r,i)=>r.length?evaluate(i,r):null).filter(Boolean),served=new Set(routes.flatMap(r=>r.order_ids));
- const unassigned=orders.filter(o=>!served.has(o.id)).map(o=>({order_id:o.id,name:o.name,reasons:[...new Set([...cache.entries()].filter(([k,r])=>k.split(":")[1].split(">").includes(o.id)&&!r.feasible).map(([k,r])=>r.reason))].slice(0,4)}));
+ if(selectedBest){const goal=objective;objective=c.objective;if(better(selectedBest.score,score(best)))best=selectedBest.routes;objective=goal;}
+ return makeResult(best);
+ function makeResult(best,extra={}){
+ const routes=best.map((route,i)=>{if(!route.length)return null;const r=evaluate(i,route);if(!r)return null;return {...r,packing:{...r.packing,unloading:unloadPlan(r.packing.layout,route,vehicles[i],c)}};}).filter(Boolean),served=new Set(routes.flatMap(r=>r.order_ids));
+ const unassigned=orders.filter(o=>!served.has(o.id)).map(o=>({order_id:o.id,name:o.name,reasons:[...new Set([...cache.entries()].filter(([k,r])=>JSON.parse(k)[1].includes(o.id)&&!r.feasible).map(([k,r])=>r.reason))].slice(0,4)}));
+ for(const item of unassigned){const proof=serviceProof.orders[index.get(item.order_id)];item.status=proof.individually_impossible?'proven_individually_infeasible':'search_unresolved';item.proven_reasons=proof.reasons;}
+ const serviceBound={upper_bound:serviceProof.upper_bound,assigned:served.size,gap:serviceProof.upper_bound-served.size,proven:served.size===serviceProof.upper_bound,bounds:serviceProof.bounds,budgets:serviceProof.budgets,method:serviceProof.method};
  const metrics={orders:orders.length,assigned:served.size,vehicles:routes.length,km:round(sum(routes,r=>r.km)),cost:round(sum(routes,r=>r.cost)),work_minutes:round(sum(routes,r=>r.work_minutes)),finish:routes.length?Math.max(...routes.map(r=>r.end)):d.start,rehandles:sum(routes,r=>r.rehandles),on_time_rate:served.size/orders.length,
   volume_utilization:routes.length?sum(routes,r=>sum(r.packing.layout,b=>b.dx*b.dy*b.dz))/sum(routes,r=>r.vehicle.length*r.vehicle.width*r.vehicle.height):0,
   time_parts:Object.fromEntries(["loading","driving","waiting","unloading"].map(k=>[k,round(sum(routes,r=>r.time_parts[k]))]))};
  metrics.stacked_boxes=sum(routes,r=>r.packing.layout.filter(b=>b.z>EPS).length);
  metrics.elapsed_minutes=round(metrics.finish-d.start);
- const result={version:"0.9.2",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
+ const result={version:"0.9.4",mode,config:c,routes,unassigned,metrics,service_bound:serviceBound,diagnostics:{packing_checks:checks,packing_calls:packingCalls,packing_cache_hits:packingCacheHits,time_limit_hit:timeLimitHit,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:checks>=phaseLimit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明",...extra}};
  verify(result,d);return result;
+ }
+}
+function solve(d,mode="optimized",controls={}){return solveInternal(d,mode,null,controls);}
+function compare(d,controls={}){
+ const started=Date.now(),deadline=started+(controls.time_limit_ms??35000),packingMemo=new Map(),c=validate(d),bundle={};
+ const score=r=>[-r.metrics.assigned,...(c.objective==='time'?['work_minutes','cost']:['cost','work_minutes']).map(k=>sum(r.routes,x=>x[k])),r.routes.length];
+ const better=(a,b)=>{const aa=score(a),bb=score(b);for(let i=0;i<aa.length;i++){if(aa[i]<bb[i]-EPS)return true;if(aa[i]>bb[i]+EPS)return false;}return false;};
+ let best=null;
+ const publish=r=>{if(!best||better(r,best))best=r;if(controls.onProgress)controls.onProgress({...bundle,optimized:best});};
+ bundle.baseline=solveInternal(d,'baseline',null,{deadline:Math.min(deadline,Date.now()+5000),packingMemo});publish(bundle.baseline);
+ const optimized=solveInternal(d,'optimized',null,{deadline,packingMemo,onProgress:publish});publish(optimized);
+ for(const mode of ['nearest','deadline'])if(Date.now()+250<deadline){bundle[mode]=solveInternal(d,mode,null,{deadline,packingMemo});publish(bundle[mode]);}
+ bundle.optimized=best===optimized?optimized:{...best,mode:'optimized',diagnostics:{...optimized.diagnostics,retained_reference:best.mode}};
+ const timeLimitHit=Date.now()>=deadline||Object.values(bundle).some(r=>r.diagnostics.time_limit_hit);
+ bundle.optimized.diagnostics={...bundle.optimized.diagnostics,time_limit_hit:timeLimitHit,total_duration_ms:Date.now()-started,search_status:'complete'};
+ return bundle;
 }
 function popcount(n){let c=0;while(n){n&=n-1;c++;}return c;}
 function simulate(catalog,seed=42,date="2026-10-12"){
@@ -360,6 +497,6 @@ function simulate(catalog,seed=42,date="2026-10-12"){
  const vehicles=Array.from({length:6},(_,i)=>{const [length,width,height,capacity_kg,name]=types[i%3];return {id:"V"+String(i+1).padStart(2,"0"),name,length,width,height,capacity_kg,...vehicleRates[i%3],shift_end:1140,enabled:true};});
  return {version:3,date,seed,orders,vehicles,start:480,depot:copy(catalog.depot),end_point:copy(catalog.parking),config:copy(defaults),provenance:catalog.note,travel:catalog.travel?copy(catalog.travel):undefined};
 }
-const api={defaults,skus,vehicleRates,validate,solve,verify,pack,unloadPlan,simulate,travel,service,schedule,blockers};
+const api={compare,analyzeService,defaults,skus,vehicleRates,validate,solve,verify,pack,unloadPlan,simulate,travel,service,schedule,blockers};
 if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.UrbanEngine=api;
 })(typeof self!=="undefined"?self:globalThis);

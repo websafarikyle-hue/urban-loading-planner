@@ -1,10 +1,14 @@
-# 城市共配 / Urban Flow — v0.9.2
+# 城市共配 / Urban Flow — v0.9.4
 
 杭州方太门店次日补货的派车、道路路线、三维装载与逐站装卸工作台。公开门店和模拟业务参数分别标注，大模型助手暂缓。
 
 **[直接打开配送工作台](https://websafarikyle-hue.github.io/urban-loading-planner/)**。电脑和手机浏览器均可访问，无需登录ChatGPT。计算在浏览器Worker中完成。
 
 ## 使用
+
+v0.9.4增加计算时间预算、校验过的进度方案保留、服务量上界与未安排原因分类。150箱场景单独运行约27.5秒降至14.6秒，服务量由16单提高到18单。[性能与服务量诊断](docs/performance-service-2026-10-12.md)。
+
+v0.9.3 修复有限搬移搜索预算导致服务量下降、特殊订单号缓存冲突、真实浏览器添加箱型失败、场景导入及过期执行单问题；增强结果校验与自动回归。[审计与修复记录](docs/audit-2026-10-12.md)。
 
 v0.9.2 合并了最新算法修复，并同步网页与单文件Demo。完整的45个场景由GitHub Actions分三组运行。[发布验证](docs/v092-validation.md)。
 
@@ -27,7 +31,7 @@ v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指�
 
 时间单位统一为min。总作业时间是所有车辆装车、行驶、等待、卸货和终点行程之和；整批任务历时另显示。当前时间目标优化前者。卸货时长包括准备、逐箱、易碎、重货及临时搬出恢复，按0.5 min向上取整，并计入卸货完成时间窗及人工费。
 
-服务量优先，然后优化所选目标。共享引擎采用多起点贪心插入、2-opt、跨车移单、整线换车、合单修复及可行路线池组合。每条候选联合检查装载、卸货及排程，独立验证器逐步重放操作并复核指标。最多2200条候选评估和1024个组合状态，前端45秒超时可停止重试。参考近期EJOR联合优化论文，未完整复现精确算法或证明全局最优；见[研究依据](docs/research.md)。
+服务量优先，然后优化所选目标。共享引擎采用多起点贪心插入、2-opt、跨车移单、整线换车、合单修复及可行路线池组合。每条候选联合检查装载、卸货及排程，独立验证器逐步重放操作并复核指标。直接卸货优化最多2200次候选检查；有限搬移额外预留500次检查，另行缓存并保留所有车辆上限的三种参考方案。参考方案检查次数单独显示；路线组合按每个车数分桶保留，总计约1024个状态，浏览器联合计算预算35秒；45秒保护保留最近校验通过的可行方案。参考近期EJOR联合优化论文，未完整复现精确算法或证明全局最优；见[研究依据](docs/research.md)。
 
 20家门店名称地址来自方太官网，坐标取门店或所在商场、楼宇的公开地图参考点，GCJ02近似转WGS84。[逐条来源](data/hangzhou-fotile-store-catalog.json)保留定位类型、查询日期及不确定性。营业和卸货入口未实地核验，模拟订单不代表真实传化客户。
 
@@ -39,7 +43,7 @@ v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指�
 
 打开standalone-demo.html即可使用内置算法、门店及道路缓存；手机文件预览器可能禁用JavaScript，请用系统浏览器打开。
 
-Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9.2。
+Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9.4。
 
 ```sh
 python scripts/build_standalone.py
@@ -59,6 +63,8 @@ node tests/v03-engine.cjs
 node tests/v03-ui.mjs
 node tests/v09-product.cjs
 node tests/v091-analysis.cjs
+node tests/dispatch-audit.cjs
+node tests/performance-service.cjs
 node tests/scenario-audit-cloud.cjs
 node tests/v09-browser.cjs
 ```
