@@ -6,7 +6,7 @@
 
 - [在线 Demo](https://websafarikyle-hue.github.io/urban-loading-planner/)：桌面或手机浏览器打开，确认并计算，依次查看路线方案、三维装载、逐站卸货和方案比较。也可下载 [单文件 Demo](standalone-demo.html) 本地打开。
 - [技术与约束审计](docs/audit-2026-10-12.md)、[150 箱性能与服务量诊断](docs/performance-service-2026-10-12.md)、[模型边界和论文关系](docs/research.md)、[场景回归记录](docs/v092-validation.md)。
-- 初赛材料包含代码、运行说明、测试和可交互 Demo。仓库链接须通过赛事指定渠道另行提交，并邀请官方账号 `DsChHack` 访问提交的私有仓库。公开 Demo 方便试用。
+- 初赛材料包含代码、运行说明、测试和可交互 Demo。仓库链接须通过赛事指定渠道另行提交，并邀请官方账号 `DsChHack` 访问私有仓库。若将本仓库直接改为私有，GitHub Free 的 Pages 在线 Demo 会下线；评审可在仓库内下载 `standalone-demo.html` 本地打开，或按下文启动本地服务。若需同时保留在线 Demo，可另建私有提交仓库并保留当前公开演示仓库。
 
 ## 场景、方案与应用价值
 
