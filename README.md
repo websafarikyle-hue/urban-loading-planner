@@ -1,6 +1,6 @@
 # 城市共配 / Urban Flow — v0.9.4
 
-面向「AI＋物流 / 城市配送智能配载」赛题的可运行原型。项目作者：柯浩涵（Kyle），GitHub：[@websafarikyle-hue](https://github.com/websafarikyle-hue)。业务设定为杭州中心仓向方太门店次日配送，订单、箱件规格、运力与费用均为**模拟假设**。门店位置与普通驾车路线基于公开资料，尚未接入企业内部系统或真实业务数据。
+面向「AI＋物流 / 城市配送智能配载」赛题的可运行原型。项目作者：Kyle ，GitHub：[@websafarikyle-hue](https://github.com/websafarikyle-hue)。业务设定为杭州中心仓向方太门店次日配送，订单、箱件规格、运力与费用均为**模拟假设**。门店位置与普通驾车路线基于公开资料，尚未接入企业内部系统或真实业务数据。
 
 ## 评审快速入口
 
