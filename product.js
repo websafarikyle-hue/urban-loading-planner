@@ -6,6 +6,16 @@ const copy=x=>JSON.parse(JSON.stringify(x));
 const escape=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clock=x=>{const n=Math.round(x);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');};
 const headers=['订单号','门店编号','开始收货','完成截止','箱型编号','数量'];
+function normalizeScenario(data,catalog,date){
+ const config=E.validate(data),next=copy(data);next.config=config;
+ if(!next.end_point)next.end_point=copy(catalog.parking);
+ if(typeof next.end_point.name!=='string'||!next.end_point.name||typeof next.end_point.id!=='string'||!Number.isFinite(next.end_point.lon)||!Number.isFinite(next.end_point.lat))throw Error('停车点信息无效');
+ if(next.date===undefined)next.date=date;
+ if(typeof next.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(next.date)||!Number.isFinite(Date.parse(next.date))||new Date(next.date).toISOString().slice(0,10)!==next.date)throw Error('配送日期无效');
+ if(next.seed===undefined)next.seed=42;
+ if(next.provenance!==undefined&&typeof next.provenance!=='string')throw Error('数据来源说明需为文本');
+ return next;
+}
 function csv(rows){return '\ufeff'+rows.map(row=>row.map(value=>{let s=String(value??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(',')).join('\r\n');}
 function parseCSV(text){
  if(typeof text!=='string'||text.length>3000000)throw Error('CSV 文件过大或无效');
@@ -70,11 +80,12 @@ function patchTravel(d,segments){
 }
 function printPlan(d,result){
  const f=n=>Number(n).toFixed(1),table=(h,rows)=>'<table><thead><tr>'+h.map(x=>'<th>'+escape(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(x=>'<td>'+escape(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
- let body='<h1>城市共配 · 配送执行单</h1><p>'+escape(d.date)+' · v0.9.2 · 目标：'+(d.config.objective==='time'?'总作业时间最小':'配送费用最低')+' · '+result.metrics.assigned+'/'+result.metrics.orders+' 单完成</p><p>路线为普通驾车计划；卸货时长、包装和费用按当前参数估计。以下内容绑定本次已确认方案。</p>';
+ let body='<h1>城市共配 · 配送执行单</h1><p>'+escape(d.date)+' · v0.9.4 · 目标：'+(d.config.objective==='time'?'总作业时间最小':'配送费用最低')+' · '+result.metrics.assigned+'/'+result.metrics.orders+' 单完成</p><p>路线为普通驾车计划；卸货时长、包装和费用按当前参数估计。以下内容绑定本次已确认方案。</p>';
+ if(result.service_bound){const b=result.service_bound;body+='<p>服务量：已完成 '+b.assigned+' 单；必要条件上界 '+b.upper_bound+' 单；'+(b.proven?'服务数量已达到上界。':'最多还有 '+b.gap+' 单改善空间。')+' 时间及费用仍采用有限搜索。</p>';}
  for(const r of result.routes){body+='<section><h2>'+escape(r.vehicle.id+' · '+r.vehicle.name)+'</h2><p>总作业 '+f(r.work_minutes)+' min；路线 '+f(r.km)+' km；费用 ¥'+f(r.cost)+'；任务结束 '+clock(r.end)+'</p><p>发货仓：'+escape(d.depot.name)+'；'+clock(d.start)+' 开始装车，'+clock(d.start+r.time_parts.loading)+' 出发；装车 '+f(r.time_parts.loading)+' min。</p><h3>配送顺序</h3>'+table(['站','门店','收货时间窗','到达','卸货开始','卸货完成','路段 km','路段 min'],r.stops.map((s,i)=>[i+1,s.name,clock(s.ready)+"—"+clock(s.due),clock(s.arrival),clock(s.service_start),clock(s.service_end),f(s.leg_km),f(s.travel_minutes)]))+'<p>终点：'+escape(r.endpoint.name)+'；最后行程 '+f(r.final_leg.km)+' km / '+f(r.final_leg.minutes)+' min。</p><h3>装车顺序</h3>'+table(['步','箱件','货物','配送站','位置 cm','层'],r.packing.loading.map((op,i)=>{const b=r.packing.layout.find(b=>b.id===op.box_id);return [i+1,b.id,b.sku,b.stop,op.position.join(', '),b.z>0?2:1];}));
   for(const step of r.packing.unloading.steps){const stop=r.stops[step.stop-1];body+='<h3>第 '+step.stop+' 站 · '+escape(step.name)+'</h3><p>卸货 '+step.boxes.length+' 箱；临时搬出 '+step.rehandles+' 箱；准备 '+d.config.setup_minutes+' min；本站合计 '+f(stop.service_estimate.minutes)+' min。</p>'+table(['步','动作','箱件','位置 cm','动作 min','说明'],operations(step,d.config).map((o,i)=>[i+1,{unload:'卸下本站',move_out:'临时搬出',move_in:'恢复装入'}[o.type],o.box_id,o.position.join(', '),f(o.minutes),o.reason]));}body+='</section>';}
- if(result.unassigned.length)body+='<h2>未安排订单</h2>'+table(['订单','门店','原因'],result.unassigned.map(o=>[o.order_id,o.name,o.reasons.join('；')||'有限搜索未找到可行安排']));
+ if(result.unassigned.length)body+='<h2>未安排订单</h2>'+table(['订单','门店','原因'],result.unassigned.map(o=>[o.order_id,o.name,o.status==='proven_individually_infeasible'?'必要条件已证实单独不可行：'+o.proven_reasons.join('；'):'组合搜索尚未安排，可继续优化或调整资源']));
  return '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>配送执行单</title><style>body{font:14px system-ui;margin:32px;color:#173b36}table{width:100%;border-collapse:collapse;margin:16px 0}td,th{border:1px solid #cad6cd;padding:7px;text-align:left}section{break-before:page}h1{font-size:24px}h2{font-size:20px}p{line-height:1.8}@media print{button{display:none}body{margin:10mm}thead{display:table-header-group}tr{break-inside:avoid}}</style><button onclick="window.print()">打印 / 保存为 PDF</button>'+body+'</html>';
 }
-const api={headers,csv,parseCSV,importOrders,template,examples,operations,edgeKey,routePoints,roadSegments,cachedGeometry,patchTravel,printPlan};if(typeof module==='object'&&module.exports)module.exports=api;else root.UrbanProduct=api;
+const api={headers,normalizeScenario,csv,parseCSV,importOrders,template,examples,operations,edgeKey,routePoints,roadSegments,cachedGeometry,patchTravel,printPlan};if(typeof module==='object'&&module.exports)module.exports=api;else root.UrbanProduct=api;
 })(typeof self!=='undefined'?self:globalThis);

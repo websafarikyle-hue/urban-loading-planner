@@ -1,7 +1,9 @@
 name: Scenario audit
 on:
   push:
-    branches: [test/scenario-audit-cloud]
+    branches: [main, 'fix/**', test/scenario-audit-cloud]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 jobs:
@@ -20,6 +22,9 @@ jobs:
           git fetch --depth=1 origin "${GITHUB_SHA}"
           git checkout --detach FETCH_HEAD
           node --version
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Scenario and route audit
         env:
           SCENARIO_SHARD: ${{ matrix.shard }}
@@ -33,3 +38,14 @@ jobs:
           node tests/v09-product.cjs
           node tests/v03-ui.mjs
           node tests/v091-analysis.cjs
+          node tests/dispatch-audit.cjs
+          node tests/performance-service.cjs
+          python -m unittest discover -s tests -v
+          node tests/ui-smoke.mjs
+      - name: Generated assets and real browser regression
+        if: matrix.shard == 0
+        run: |
+          python scripts/build_standalone.py
+          python scripts/prepare_github_pages.py
+          git diff --exit-code -- index.html app.js engine.js product.js worker.js standalone-demo.html
+          node tests/v09-browser.cjs
