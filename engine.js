@@ -190,81 +190,155 @@ function verify(result,d){
 }
 function solve(d,mode="optimized"){
  const started=Date.now(),c=validate(d),vehicles=d.vehicles.filter(v=>v.enabled),orders=d.orders,index=new Map(orders.map((o,i)=>[o.id,i]));
- const cache=new Map(),columns=new Map();let checks=0,rejected=0,improvements=0,budgetHit=false;const evaluationLimit=2200;
- const value=r=>c.objective==="time"?r.work_minutes:r.cost;
- const mask=r=>r.reduce((m,o)=>m|(1<<index.get(o.id)),0);
- function evaluate(i,route){if(!route.length)return null;const key=i+":"+route.map(o=>o.id).join(">");if(cache.has(key))return cache.get(key);
-  if(checks>=evaluationLimit){budgetHit=true;return null;}checks++;
-  const packing=pack(route,vehicles[i],c),result=packing.feasible?schedule(route,vehicles[i],d,c,packing):packing;
-  cache.set(key,result);if(!result.feasible){rejected++;return result;}
-  const colkey=i+":"+mask(route),old=columns.get(colkey);if(!old||value(result)<value(old.result)-EPS)columns.set(colkey,{vehicle:i,mask:mask(route),route:route.slice(),result});return result;
- }
- function score(routes){let assigned=0,primary=0,secondary=0,count=0;routes.forEach((r,i)=>{if(r.length){const e=evaluate(i,r);if(!e?.feasible){primary=Infinity;return;}assigned+=r.length;primary+=value(e);secondary+=c.objective==="time"?e.cost:e.work_minutes;count++;}});return [-assigned,primary,secondary,count];}
+ const optimized=!['baseline','nearest','deadline'].includes(mode),cache=new Map(),columns=new Map(),incumbents=new Map();
+ let checks=0,rejected=0,improvements=0,budgetHit=false,best,poolInfo,candidateCap=optimized?vehicles.length:c.max_vehicles,objective=optimized?'time':c.objective;
+ const evaluationLimit=2200;
+ let packingConfig=optimized&&c.unload==='limited'?{...c,unload:'direct'}:c;
+ const primary=r=>objective==='time'?r.work_minutes:r.cost,secondary=r=>objective==='time'?r.cost:r.work_minutes;
+ const mask=route=>route.reduce((m,o)=>m|(1<<index.get(o.id)),0);
  const better=(a,b)=>{for(let i=0;i<a.length;i++){if(a[i]<b[i]-EPS)return true;if(a[i]>b[i]+EPS)return false;}return false;};
+ function evaluate(i,route){
+  if(!route.length)return null;
+  const key=i+':'+route.map(o=>o.id).join('>');if(cache.has(key))return cache.get(key);
+  if(checks>=evaluationLimit){budgetHit=true;return null;}checks++;
+  const packing=pack(route,vehicles[i],packingConfig),r=packing.feasible?schedule(route,vehicles[i],d,c,packing):packing;
+  cache.set(key,r);if(!r.feasible){rejected++;return r;}
+  // Retain the best time and best cost ordering for each vehicle and order set.
+  for(const goal of ['time','cost']){
+   const key=i+':'+mask(route)+':'+goal,old=columns.get(key),first=x=>goal==='time'?x.work_minutes:x.cost,second=x=>goal==='time'?x.cost:x.work_minutes;
+   if(!old||first(r)<first(old.result)-EPS||(Math.abs(first(r)-first(old.result))<=EPS&&second(r)<second(old.result)-EPS))columns.set(key,{vehicle:i,mask:mask(route),route:route.slice(),result:r});
+  }
+  return r;
+ }
+ function score(routes){
+  let assigned=0,value=0,other=0,count=0;
+  routes.forEach((route,i)=>{if(route.length){const r=evaluate(i,route);if(!r?.feasible){value=Infinity;return;}assigned+=route.length;value+=primary(r);other+=secondary(r);count++;}});
+  return [-assigned,value,other,count];
+ }
+ function remember(routes){
+  const count=routes.filter(r=>r.length).length,s=score(routes);
+  if(!Number.isFinite(s[1]))return;
+  for(let cap=Math.max(1,count);cap<=vehicles.length;cap++){const old=incumbents.get(cap);if(!old||better(s,score(old)))incumbents.set(cap,routes.map(r=>r.slice()));}
+ }
  function insert(routes,o,baseline=false,vehicleOrder=vehicles.map((v,i)=>i)){
   const used=routes.filter(r=>r.length).length,options=[];
-  for(const i of vehicleOrder){const r=routes[i];if(!r.length&&used>=c.max_vehicles)continue;const old=r.length?value(evaluate(i,r)):0;
-   for(const p of baseline?[r.length]:Array.from({length:r.length+1},(_,i)=>i)){const trial=[...r.slice(0,p),o,...r.slice(p)],e=evaluate(i,trial);if(e?.feasible){options.push({delta:value(e)-old,i,p,trial});if(baseline)break;}}
+  for(const i of vehicleOrder){
+   const route=routes[i];if(!route.length&&used>=candidateCap)continue;
+   const old=route.length?primary(evaluate(i,route)):0;
+   for(const position of baseline?[route.length]:Array.from({length:route.length+1},(_,i)=>i)){
+    const trial=[...route.slice(0,position),o,...route.slice(position)],r=evaluate(i,trial);
+    if(r?.feasible){options.push({delta:primary(r)-old,i,position,trial});if(baseline)break;}
+   }
    if(baseline&&options.length)break;
   }
-  if(!options.length)return false;if(!baseline)options.sort((a,b)=>a.delta-b.delta||a.i-b.i||a.p-b.p);const chosen=options[0];routes[chosen.i]=chosen.trial;return true;
+  if(!options.length)return false;
+  if(!baseline)options.sort((a,b)=>a.delta-b.delta||a.i-b.i||a.position-b.position);
+  const chosen=options[0];routes[chosen.i]=chosen.trial;return true;
  }
- function construct(sequence,baseline=false,vehicleOrder){const routes=vehicles.map(()=>[]);sequence.forEach(o=>insert(routes,o,baseline,vehicleOrder));return routes;}
- const nearest=[];let cursor=d.depot,remainingOrders=orders.slice();while(remainingOrders.length){remainingOrders.sort((a,b)=>(travel(cursor,a,d,c)?.minutes??Infinity)-(travel(cursor,b,d,c)?.minutes??Infinity)||a.id.localeCompare(b.id));cursor=remainingOrders.shift();nearest.push(cursor);}
- const sequence=mode==='nearest'?nearest:mode==='deadline'?orders.slice().sort((a,b)=>a.due-b.due||a.id.localeCompare(b.id)):orders;
- const baseline=construct(sequence,true);let best=baseline;
- if(!['baseline','nearest','deadline'].includes(mode)){
-  for(const ordered of [nearest,orders.slice().sort((a,b)=>a.due-b.due||a.id.localeCompare(b.id))]){const trial=construct(ordered,true);if(better(score(trial),score(best)))best=trial;}
+ function construct(sequence,baseline=false,vehicleOrder){const routes=vehicles.map(()=>[]);for(const o of sequence)insert(routes,o,baseline,vehicleOrder);return routes;}
+ const nearest=[];let cursor=d.depot,remaining=orders.slice();
+ while(remaining.length){remaining.sort((a,b)=>(travel(cursor,a,d,c)?.minutes??Infinity)-(travel(cursor,b,d,c)?.minutes??Infinity)||a.id.localeCompare(b.id));cursor=remaining.shift();nearest.push(cursor);}
+ const deadline=orders.slice().sort((a,b)=>a.due-b.due||a.id.localeCompare(b.id));
+ const sequence=mode==='nearest'?nearest:mode==='deadline'?deadline:orders;
+ best=construct(sequence,true);
+ if(optimized){
+  remember(best);
+  // Seed complete inexpensive plans before time-based search consumes the budget.
+  const initialTime=new Map(incumbents);objective='cost';candidateCap=Math.min(3,vehicles.length);
+  const cheapSeeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
+  for(const ordered of cheapSeeds)remember(construct(ordered,false));
+  const initialCost=new Map(incumbents);objective='time';incumbents.clear();for(const [cap,routes] of initialTime)incumbents.set(cap,routes);for(const routes of initialCost.values())remember(routes);
+
+  // Pool generation is independent of the user's selected cap and objective.
+  const capOrder=[2,3,1,...Array.from({length:Math.max(0,vehicles.length-3)},(_,i)=>i+4)].filter(cap=>cap<=vehicles.length);
   const seeds=[orders.slice().sort((a,b)=>a.due-b.due||a.ready-b.ready||a.id.localeCompare(b.id)),orders.slice().sort((a,b)=>Math.atan2(a.lat-d.depot.lat,a.lon-d.depot.lon)-Math.atan2(b.lat-d.depot.lat,b.lon-d.depot.lon))];
-  for(const sequence of seeds){let routes=construct(sequence,false,vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width*vehicles[b].height-vehicles[a].length*vehicles[a].width*vehicles[a].height));
-   for(let pass=0;pass<2&&!budgetHit;pass++){
-    for(let i=0;i<routes.length;i++){let improved=false;for(let a=0;a<routes[i].length-1&&!improved;a++)for(let b=a+2;b<=routes[i].length;b++){const r=routes[i],trial=[...r.slice(0,a),...r.slice(a,b).reverse(),...r.slice(b)],e=evaluate(i,trial);if(e?.feasible&&value(e)<value(evaluate(i,r))-EPS){routes[i]=trial;improved=true;improvements++;break;}}}
-    let changed=false;for(let a=0;a<routes.length&&!changed;a++)for(let pos=0;pos<routes[a].length&&!changed;pos++)for(let b=0;b<routes.length&&!changed;b++){
-     if(a===b)continue;if(!routes[b].length&&routes.filter(r=>r.length).length>=c.max_vehicles&&routes[a].length>1)continue;
-     const ra=routes[a].filter((_,i)=>i!==pos),ea=ra.length?evaluate(a,ra):null;if(ra.length&&!ea?.feasible)continue;
-     for(let q=0;q<=routes[b].length;q++){const rb=[...routes[b].slice(0,q),routes[a][pos],...routes[b].slice(q)],eb=evaluate(b,rb);if(!eb?.feasible)continue;
-      const before=value(evaluate(a,routes[a]))+(routes[b].length?value(evaluate(b,routes[b])):0),after=(ea?value(ea):0)+value(eb);
-      if(after<before-EPS){routes[a]=ra;routes[b]=rb;changed=true;improvements++;break;}}
-    }
-    const used=new Set(routes.flatMap(r=>r.map(o=>o.id)));for(const o of orders)if(!used.has(o.id)&&insert(routes,o))improvements++;
-   }
-   if(better(score(routes),score(best)))best=routes;
-  }
-  // Repair service gaps by replacing a used vehicle from the whole enabled pool.
-  // A larger/cheaper vehicle may enable insertions that a time-only relocation misses.
-  for(let pass=0;pass<2&&!budgetHit;pass++){
-   let improved=false;
-   for(let a=0;a<vehicles.length&&!budgetHit;a++)if(best[a].length)for(let b=0;b<vehicles.length&&!budgetHit;b++)if(!best[b].length){
-    const e=evaluate(b,best[a]);if(!e?.feasible)continue;
-    const trial=best.map(r=>r.slice());trial[b]=trial[a];trial[a]=[];
-    for(let other=0;other<vehicles.length&&!budgetHit;other++)if(other!==b)for(const o of trial[other].slice()){
-     const reduced=trial[other].filter(x=>x.id!==o.id),er=reduced.length?evaluate(other,reduced):null;
-     if(reduced.length&&!er?.feasible)continue;
-     for(let p=0;p<=trial[b].length;p++){
-      const merged=[...trial[b].slice(0,p),o,...trial[b].slice(p)],em=evaluate(b,merged);if(!em?.feasible)continue;
-      const current=value(evaluate(b,trial[b]))+(trial[other].length?value(evaluate(other,trial[other])):0);
-      if(value(em)+(er?value(er):0)<current-EPS){trial[b]=merged;trial[other]=reduced;break;}
+  for(const cap of capOrder){
+   if(budgetHit)break;candidateCap=cap;remember(construct(orders,true));
+   for(const ordered of [nearest,deadline])remember(construct(ordered,true));
+   for(const ordered of seeds){
+    const routes=construct(ordered,false,vehicles.map((v,i)=>i).sort((a,b)=>vehicles[b].length*vehicles[b].width*vehicles[b].height-vehicles[a].length*vehicles[a].width*vehicles[a].height));
+    for(let pass=0;pass<2&&!budgetHit;pass++){
+     for(let i=0;i<routes.length;i++){
+      let improved=false;
+      for(let a=0;a<routes[i].length-1&&!improved;a++)for(let b=a+2;b<=routes[i].length;b++){
+       const old=routes[i],trial=[...old.slice(0,a),...old.slice(a,b).reverse(),...old.slice(b)],r=evaluate(i,trial);
+       if(r?.feasible&&primary(r)<primary(evaluate(i,old))-EPS){routes[i]=trial;improved=true;improvements++;break;}
+      }
      }
+     let changed=false;
+     for(let a=0;a<routes.length&&!changed;a++)for(let position=0;position<routes[a].length&&!changed;position++)for(let b=0;b<routes.length&&!changed;b++){
+      if(a===b||(!routes[b].length&&routes.filter(r=>r.length).length>=candidateCap&&routes[a].length>1))continue;
+      const reduced=routes[a].filter((_,i)=>i!==position),ra=reduced.length?evaluate(a,reduced):null;if(reduced.length&&!ra?.feasible)continue;
+      for(let q=0;q<=routes[b].length;q++){
+       const trial=[...routes[b].slice(0,q),routes[a][position],...routes[b].slice(q)],rb=evaluate(b,trial);if(!rb?.feasible)continue;
+       const before=primary(evaluate(a,routes[a]))+(routes[b].length?primary(evaluate(b,routes[b])):0),after=(ra?primary(ra):0)+primary(rb);
+       if(after<before-EPS){routes[a]=reduced;routes[b]=trial;changed=true;improvements++;break;}
+      }
+     }
+     const used=new Set(routes.flatMap(r=>r.map(o=>o.id)));for(const o of orders)if(!used.has(o.id)&&insert(routes,o))improvements++;
     }
-    const used=new Set(trial.flatMap(r=>r.map(o=>o.id)));
-    for(const o of orders)if(!used.has(o.id))insert(trial,o);
-    if(better(score(trial),score(best))){best=trial;improvements++;improved=true;}
+    remember(routes);
    }
-   if(!improved)break;
-  }
-  // Every enabled vehicle can participate; the cap is on selected routes, not first K vehicles.
-  for(let v=0;v<vehicles.length&&!budgetHit;v++)for(const o of orders)evaluate(v,[o]);
-  let states=new Map([["0:0",{mask:0,count:0,value:0,routes:vehicles.map(()=>[])}]]),pruned=false,peak=1;
-  for(let v=0;v<vehicles.length;v++){
-   let next=new Map(states);const options=[...columns.values()].filter(col=>col.vehicle===v);
-   for(const st of states.values())if(st.count<c.max_vehicles)for(const col of options)if(!(st.mask&col.mask)){
-    const m=st.mask|col.mask,count=st.count+1,key=m+":"+count,total=st.value+value(col.result),old=next.get(key);
-    if(!old||total<old.value-EPS){const routes=st.routes.map(r=>r.slice());routes[v]=col.route;next.set(key,{mask:m,count,value:total,routes});}
+   best=incumbents.get(cap)||vehicles.map(()=>[]);
+   for(let pass=0;pass<2&&!budgetHit;pass++){
+    let improved=false;
+    for(let a=0;a<vehicles.length&&!budgetHit;a++)if(best[a].length)for(let b=0;b<vehicles.length&&!budgetHit;b++)if(!best[b].length){
+     const r=evaluate(b,best[a]);if(!r?.feasible)continue;
+     const trial=best.map(r=>r.slice());trial[b]=trial[a];trial[a]=[];
+     for(let other=0;other<vehicles.length&&!budgetHit;other++)if(other!==b)for(const o of trial[other].slice()){
+      const reduced=trial[other].filter(x=>x.id!==o.id),ro=reduced.length?evaluate(other,reduced):null;if(reduced.length&&!ro?.feasible)continue;
+      for(let p=0;p<=trial[b].length;p++){
+       const merged=[...trial[b].slice(0,p),o,...trial[b].slice(p)],rb=evaluate(b,merged);if(!rb?.feasible)continue;
+       const before=primary(evaluate(b,trial[b]))+(trial[other].length?primary(evaluate(other,trial[other])):0);
+       if(primary(rb)+(ro?primary(ro):0)<before-EPS){trial[b]=merged;trial[other]=reduced;break;}
+      }
+     }
+     const used=new Set(trial.flatMap(r=>r.map(o=>o.id)));for(const o of orders)if(!used.has(o.id))insert(trial,o);
+     if(better(score(trial),score(best))){best=trial;remember(best);improvements++;improved=true;}
+    }
+    if(!improved)break;
    }
-   peak=Math.max(peak,next.size);if(next.size>1024){pruned=true;next=new Map([...next].sort((a,b)=>popcount(b[1].mask)-popcount(a[1].mask)||a[1].value-b[1].value||a[1].count-b[1].count).slice(0,1024));}states=next;
   }
-  for(const st of states.values())if(better(score(st.routes),score(best)))best=st.routes;
-  var poolInfo={pool_pruned:pruned,pool_states_peak:peak};
+  // Spend the remaining budget on cost-driven partitions as well.
+  const generatedTime=new Map(incumbents);objective='cost';
+  for(const cap of [...new Set([Math.min(3,vehicles.length),Math.min(2,vehicles.length)])]){
+   if(budgetHit)break;candidateCap=cap;
+   for(const ordered of [deadline,nearest]){if(budgetHit)break;remember(construct(ordered,false));}
+  }
+  const generatedCost=new Map(incumbents);objective='time';incumbents.clear();for(const [cap,routes] of generatedTime)incumbents.set(cap,routes);for(const routes of generatedCost.values())remember(routes);
+  candidateCap=vehicles.length;for(let v=0;v<vehicles.length&&!budgetHit;v++)for(const o of orders)evaluate(v,[o]);
+  function selectPool(){
+   let states=new Map([['0:0',{mask:0,count:0,value:0,secondary:0,routes:vehicles.map(()=>[])}]]),pruned=false,peak=1;
+   const perCountLimit=Math.max(1,Math.floor(1024/vehicles.length));
+   for(let v=0;v<vehicles.length;v++){
+    const next=new Map(states),options=[...columns.values()].filter(col=>col.vehicle===v);
+    for(const st of states.values())if(st.count<vehicles.length)for(const col of options)if(!(st.mask&col.mask)){
+     const mask=st.mask|col.mask,count=st.count+1,key=mask+':'+count,value=st.value+primary(col.result),other=st.secondary+secondary(col.result),old=next.get(key);
+     if(!old||value<old.value-EPS||(Math.abs(value-old.value)<=EPS&&other<old.secondary-EPS)){const routes=st.routes.map(r=>r.slice());routes[v]=col.route;next.set(key,{mask,count,value,secondary:other,routes});}
+    }
+    peak=Math.max(peak,next.size);const kept=[];
+    for(let count=0;count<=vehicles.length;count++){
+     const bucket=[...next].filter(([,st])=>st.count===count);if(bucket.length>perCountLimit)pruned=true;
+     bucket.sort((a,b)=>popcount(b[1].mask)-popcount(a[1].mask)||a[1].value-b[1].value||a[1].secondary-b[1].secondary);kept.push(...bucket.slice(0,perCountLimit));
+    }
+    states=new Map(kept);
+   }
+   for(const st of states.values())remember(st.routes);
+   poolInfo={pool_pruned:pruned,pool_states_peak:peak};
+  }
+  selectPool();const strictTime=new Map(incumbents);objective='cost';selectPool();const strictCost=new Map(incumbents);
+  objective='time';incumbents.clear();for(const [cap,routes] of strictTime)incumbents.set(cap,routes);
+  if(c.unload==='limited'&&!budgetHit){
+   packingConfig=c;for(const [key,r] of cache)if(!r.feasible)cache.delete(key);
+   for(let cap=1;cap<=vehicles.length&&!budgetHit;cap++){
+    candidateCap=cap;const trial=(incumbents.get(cap)||vehicles.map(()=>[])).map(r=>r.slice()),used=new Set(trial.flatMap(r=>r.map(o=>o.id)));
+    for(const o of orders)if(!used.has(o.id))insert(trial,o);remember(trial);
+   }
+   selectPool();
+  }
+  const finalTime=new Map(incumbents);objective='cost';for(const routes of strictCost.values())remember(routes);selectPool();const finalCost=new Map(incumbents);
+  objective=c.objective;incumbents.clear();for(const routes of [...finalTime.values(),...finalCost.values()])remember(routes);
+  best=incumbents.get(c.max_vehicles)||vehicles.map(()=>[]);
  }
  const routes=best.map((r,i)=>r.length?evaluate(i,r):null).filter(Boolean),served=new Set(routes.flatMap(r=>r.order_ids));
  const unassigned=orders.filter(o=>!served.has(o.id)).map(o=>({order_id:o.id,name:o.name,reasons:[...new Set([...cache.entries()].filter(([k,r])=>k.split(":")[1].split(">").includes(o.id)&&!r.feasible).map(([k,r])=>r.reason))].slice(0,4)}));
@@ -273,7 +347,7 @@ function solve(d,mode="optimized"){
   time_parts:Object.fromEntries(["loading","driving","waiting","unloading"].map(k=>[k,round(sum(routes,r=>r.time_parts[k]))]))};
  metrics.stacked_boxes=sum(routes,r=>r.packing.layout.filter(b=>b.z>EPS).length);
  metrics.elapsed_minutes=round(metrics.finish-d.start);
- const result={version:"0.9",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
+ const result={version:"0.9.2",mode,config:c,routes,unassigned,metrics,diagnostics:{packing_checks:checks,packing_rejections:rejected,local_search_improvements:improvements,route_pool_columns:columns.size,evaluation_limit_hit:budgetHit,...poolInfo,duration_ms:Date.now()-started,optimality:"有限启发式搜索；无联合全局最优证明"}};
  verify(result,d);return result;
 }
 function popcount(n){let c=0;while(n){n&=n-1;c++;}return c;}

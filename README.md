@@ -1,10 +1,12 @@
-# 城市共配 / Urban Flow — v0.9.1
+# 城市共配 / Urban Flow — v0.9.2
 
 杭州方太门店次日补货的派车、道路路线、三维装载与逐站装卸工作台。公开门店和模拟业务参数分别标注，大模型助手暂缓。
 
 **[直接打开配送工作台](https://websafarikyle-hue.github.io/urban-loading-planner/)**。电脑和手机浏览器均可访问，无需登录ChatGPT。计算在浏览器Worker中完成。
 
 ## 使用
+
+v0.9.2 合并了最新算法修复，并同步网页与单文件Demo。完整的45个场景由GitHub Actions分三组运行。[发布验证](docs/v092-validation.md)。
 
 v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指南。方案分析增加四种方案的时间、费用构成图，可切换对照方案的差异解读、交互车辆时间轴，以及装载率和收货余量。总工时与整批结束时刻分别展示；服务订单集合一致时才显示节省百分比。详细验证见 [v0.9.1 检查记录](docs/v091-validation.md)。
 
@@ -29,7 +31,7 @@ v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指�
 
 20家门店名称地址来自方太官网，坐标取门店或所在商场、楼宇的公开地图参考点，GCJ02近似转WGS84。[逐条来源](data/hangzhou-fotile-store-catalog.json)保留定位类型、查询日期及不确定性。营业和卸货入口未实地核验，模拟订单不代表真实传化客户。
 
-道路为免费OSRM/OpenStreetMap普通驾车估计，本版不把拥堵或货车限行纳入优化。已有26段路径缓存覆盖默认方案及验证样例，自定义方案可在线补查。路径必须与坐标及计划分段时间匹配；更新提示确认重算，缺少匹配数据时显示虚线示意。网络失败保留已有缓存或明确标为估算。免费公共服务无可用性保证。
+道路为免费OSRM/OpenStreetMap普通驾车估计，本版不把拥堵或货车限行纳入优化。已有54段路径缓存覆盖默认方案及验证样例，自定义方案可在线补查。路径必须与坐标及计划分段时间匹配；更新提示确认重算，缺少匹配数据时显示虚线示意。网络失败保留已有缓存或明确标为估算。免费公共服务无可用性保证。
 
 输入限30单、150箱、6辆车，单仓单日、一次出车、一单同车完成。CSV导入失败保持原场景；导出的执行单绑定本次已确认方案。
 
@@ -37,7 +39,7 @@ v0.9.1 调整了按钮间距和手机布局，使用说明单独显示操作指�
 
 打开standalone-demo.html即可使用内置算法、门店及道路缓存；手机文件预览器可能禁用JavaScript，请用系统浏览器打开。
 
-Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9.1。
+Python 3.10+执行 `python server.py --open`，或Windows双击start-demo.cmd。网页不需要Node；可选/api/v03/solve接口需Node.js 18+。内部目录保留兼容命名，页面版本为v0.9.2。
 
 ```sh
 python scripts/build_standalone.py
@@ -57,6 +59,7 @@ node tests/v03-engine.cjs
 node tests/v03-ui.mjs
 node tests/v09-product.cjs
 node tests/v091-analysis.cjs
+node tests/scenario-audit-cloud.cjs
 node tests/v09-browser.cjs
 ```
 

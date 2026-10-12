@@ -7,12 +7,12 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));let ws,id=0,pending=new Map(),e
 async function command(method,params={}){return new Promise((resolve,reject)=>{const key=++id;pending.set(key,{resolve,reject});ws.send(JSON.stringify({id:key,method,params}));});}
 async function evaluate(expression){const x=await command('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(x.exceptionDetails)throw Error(JSON.stringify(x.exceptionDetails));return x.result.value;}
 async function waitFor(expression,timeout=50000){const until=Date.now()+timeout;while(Date.now()<until){if(await evaluate(expression))return;await sleep(300);}throw Error('Timed out '+expression);}
-(async()=>{let targets;for(let i=0;i<50;i++){try{targets=await fetch('http://127.0.0.1:9236/json').then(x=>x.json());break;}catch{await sleep(300);}}
+(async()=>{let targets;for(let i=0;i<50;i++){for(const host of ['127.0.0.1','[::1]']){try{targets=await fetch('http://'+host+':9236/json').then(x=>x.json());break;}catch{}}if(targets)break;await sleep(300);}
  if(!targets)throw Error('Browser debugging port unavailable: '+stderr.slice(-1500));
  ws=new WebSocket(targets.find(x=>x.type==='page').webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);ws.onmessage=e=>{const x=JSON.parse(e.data);if(x.id){const p=pending.get(x.id);pending.delete(x.id);if(x.error)p.reject(Error(JSON.stringify(x.error)));else p.resolve(x.result);}else if(x.method==='Runtime.exceptionThrown')errors.push(x.params);};
  await command('Runtime.enable');await command('Page.enable');await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await command('Page.navigate',{url:'http://127.0.0.1:8768/'});
  await waitFor('!!window.UrbanUI',10000);await evaluate("document.getElementById('solve').click()");await waitFor('!!window.UrbanUI.getPlan()');
- assert.equal(await evaluate('window.UrbanUI.getPlan().metrics.assigned'),16);assert.equal(await evaluate('Object.keys(window.UrbanUI.getGeometry()).length'),2);assert.equal(await evaluate('window.UrbanUI.getComparisons().length'),3);
+ assert.equal(await evaluate('window.UrbanUI.getPlan().version'),'0.9.2');assert.equal(await evaluate('window.UrbanUI.getPlan().metrics.assigned'),16);assert.equal(await evaluate('Object.keys(window.UrbanUI.getGeometry()).length'),2);assert.equal(await evaluate('window.UrbanUI.getComparisons().length'),3);
  assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth'));fs.writeFileSync(path.join(artifacts,'v09-desktop.png'),Buffer.from((await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
 
  // Inspect the revised comparison and the exact button spacing reported by the user.

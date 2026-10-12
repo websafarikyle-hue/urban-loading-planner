@@ -1,2 +1,2 @@
-importScripts("engine.js?v=0.9.1");
+importScripts("engine.js?v=0.9.2");
 self.onmessage=e=>{try{const {data,mode="compare",request_id}=e.data;const result=mode==="compare"?{baseline:UrbanEngine.solve(data,"baseline"),nearest:UrbanEngine.solve(data,"nearest"),deadline:UrbanEngine.solve(data,"deadline"),optimized:UrbanEngine.solve(data)}:UrbanEngine.solve(data,mode);self.postMessage({request_id,result});}catch(error){self.postMessage({request_id:e.data.request_id,error:error.message});}};
