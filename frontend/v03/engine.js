@@ -256,6 +256,14 @@ function analyzeService(d,c){
  const budgets={mass:top(v=>v.capacity_kg),volume:top(v=>v.length*v.width*v.height),floor:top(v=>v.length*v.width),work:top(v=>Math.max(0,v.shift_end-d.start-c.loading_setup))};
  const bounds={individual:eligible.length};
  for(const k of Object.keys(budgets)){let used=0,n=0;for(const value of eligible.map(r=>r[k]).sort((a,b)=>a-b)){if(used+value>budgets[k]+EPS)break;used+=value;n++;}bounds[k]=n;}
+ // Orders cannot be split between trucks: round each truck's relaxed capacity
+ // separately before summing the largest K. Each resource remains a necessary
+ // condition; allowing the same smallest orders on every truck only relaxes it.
+ const perVehicle=vs.map(v=>{
+  const capacity={mass:v.capacity_kg,volume:v.length*v.width*v.height,floor:v.length*v.width,work:Math.max(0,v.shift_end-d.start-c.loading_setup)};
+  return Math.min(...Object.keys(capacity).map(k=>{let used=0,n=0;for(const value of eligible.map(r=>r[k]).sort((a,b)=>a-b)){if(used+value>capacity[k]+EPS)break;used+=value;n++;}return n;}));
+ });
+ bounds.vehicle_capacity=Math.min(eligible.length,sum(perVehicle.sort((a,b)=>b-a).slice(0,c.max_vehicles)));
  return {upper_bound:Math.min(...Object.values(bounds)),bounds,budgets,orders:rows,method:'必要条件放松：独立可达性、尺寸、载重、容积、必落地面积与作业时间'};
 }
 
