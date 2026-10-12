@@ -106,6 +106,13 @@ footer { font-size:11px; line-height:1.8; text-align:center; padding:14px 0 25px
 [hidden] { display:none!important; }
 .reference-control { width:175px; flex-shrink:0; }
 .comparison-intro { border-top:3px solid var(--green); }
+.comparison-guide { margin:16px 0 18px; padding:14px 16px; background:#f5f8f2; border:1px solid var(--line); border-radius:11px; font-size:12px; line-height:1.7; }
+.comparison-guide>p { margin:0; }
+.comparison-guide-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:12px 0; }
+.comparison-guide-grid p { margin:0; padding:10px 12px; background:#fff; border-radius:8px; min-width:0; }
+.comparison-guide-grid b,.comparison-guide-grid span { display:block; }
+.comparison-guide-grid b { color:var(--ink); margin-bottom:3px; }
+.comparison-guide-note { color:var(--muted); }
 .analysis-summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
 .analysis-metric { padding:16px; background:#f5f8f2; border:1px solid var(--line); border-radius:11px; min-width:0; }
 .analysis-metric>span { font-size:12px; color:var(--muted); }
@@ -170,6 +177,7 @@ footer { font-size:11px; line-height:1.8; text-align:center; padding:14px 0 25px
  .status { max-width:230px; }
 }
 @media(max-width:700px) {
+ .comparison-guide-grid { grid-template-columns:1fr; }
  .intro { display:block; padding-bottom:20px; }
  .status { margin:16px 0 0; max-width:none; }
  .intro h1 { font-size:27px; }
@@ -237,7 +245,7 @@ footer { font-size:11px; line-height:1.8; text-align:center; padding:14px 0 25px
 <section id="orders-panel" class="panel" hidden><article class="card"><div class="section-head"><div><h2>次日配送订单</h2><p class="muted">门店是真实公开记录；商品、包装、数量与收货时间窗为模拟。时间窗约束卸货完成时刻。</p></div><button id="add-order" class="secondary">＋ 门店补单</button></div><div class="button-row"><button id="csv-template" class="secondary">下载订单 CSV 模板</button><button id="csv-import" class="secondary">导入订单 CSV</button><button id="store-list" class="secondary">下载门店编号表</button><input id="csv-file" type="file" accept=".csv,text/csv" hidden></div><div id="order-list"></div></article><article class="card"><h2>可用车辆与费用</h2><p class="muted">从可用车辆池中选择最多指定数量的车；车厢单位 cm、载重单位 kg。</p><div id="fleet"></div></article></section>
 <section id="cargo-panel" class="panel" hidden><div class="grid-two"><article class="card"><div class="section-head"><div><h2>三维装载布局</h2><p id="cargo-heading" class="muted">拖动旋转 · 双指或滚轮缩放</p></div><div class="button-row"><button id="top-view" class="secondary">俯视图</button><button id="reset-view" class="secondary">重置视角</button></div></div><div id="cargo-vehicles" class="button-row"></div><canvas id="cargo-canvas" aria-label="三维箱件布局"></canvas><div id="cargo-stats" class="muted"></div><div class="fields"><label>展示模式<select id="operation-mode"><option value="overview">完整初始装载</option><option value="loading">逐箱装车</option><option value="unloading">逐站卸货与搬移</option></select></label><label>配送站点<select id="cargo-stop"></select></label></div><div class="button-row"><button id="op-prev" class="secondary">上一步</button><button id="op-next" class="primary">下一步</button><button id="op-all" class="secondary">完成本段</button><button id="next-stop" class="secondary">下一站</button></div><p id="operation-note" aria-live="polite"></p><label>箱件详情<select id="box-picker"></select></label><p id="box-info" class="muted"></p></article><article class="card"><h2>装卸执行步骤</h2><p class="muted">车门位于 x=0。按步骤取货；临时搬出的货物会恢复到经过校验的位置。</p><div id="operation-list"></div><div id="service-breakdown"></div></article></div></section>
 <section id="compare-panel" class="panel" hidden>
-<article class="card comparison-intro"><div class="section-head"><div><p class="eyebrow">方案分析</p><h2>这份计划改善了什么？</h2><p id="comparison-context" class="muted">生成方案后，查看服务量、时间、费用和装载之间的取舍。</p></div><label class="reference-control">对照方案<select id="compare-reference" disabled><option value="0">输入顺序</option><option value="1" selected>最近门店</option><option value="2">最早截止</option></select></label></div><div id="comparison-summary" class="analysis-summary"></div><div id="comparison-insights" class="insights"></div></article>
+<article class="card comparison-intro"><div class="section-head"><div><p class="eyebrow">方案分析</p><h2>这份计划改善了什么？</h2><p id="comparison-context" class="muted">生成方案后，查看服务量、时间、费用和装载之间的取舍。</p></div><label class="reference-control">对照方案<select id="compare-reference" disabled><option value="0">输入顺序</option><option value="1" selected>最近门店</option><option value="2">最早截止</option></select></label></div><div class="comparison-guide" aria-label="三个对照方案的含义"><p><b>这三个是同一批订单的三种简易排单规则，供你看联合优化的改善。</b>它们不是不同的业务案例，也都要通过相同的车辆、时间窗、装载和卸货检查。</p><div class="comparison-guide-grid"><p><b>输入顺序</b><span>按订单录入先后，逐车尝试安排。相当于按接单顺序派车。</span></p><p><b>最近门店</b><span>从当前位置优先找预计行驶时间最近的未送门店，再尝试分车。</span></p><p><b>最早截止</b><span>优先安排最早需要完成卸货的订单，再尝试分车。</span></p></div><p class="comparison-guide-note">下方「联合优化」会同时调整分车和路线。先看按时完成单数，再比较工时或费用；计算时间不足时，只显示已经算出的对照方案。</p></div><div id="comparison-summary" class="analysis-summary"></div><div id="comparison-insights" class="insights"></div></article>
 <div class="grid-two analysis-charts"><article class="card"><h2>作业时间花在哪里</h2><p class="muted">四种方案使用相同刻度；每辆车的作业时间相加，单位 min。</p><div id="time-chart"></div></article><article class="card"><h2>费用由哪些部分构成</h2><p class="muted">固定费、行驶里程费和完整作业人工费，单位元。</p><div id="cost-chart"></div></article></div>
 <article class="card"><div class="section-head"><div><h2>车辆时间轴</h2><p class="muted">同一时间刻度下对比两套方案。点击色块查看该段作业。</p></div><span class="tag">装车 · 行驶 · 等待 · 卸货</span></div><div id="timeline-chart"></div><label class="timeline-picker">查看作业段<select id="timeline-event" disabled></select></label><p id="timeline-detail" class="timeline-detail" aria-live="polite">生成计划后，可查看车辆并行作业和最后结束时刻。</p></article>
 <article class="card"><h2>装载与收货余量</h2><p class="muted">查看本次联合优化的车辆空间、重量和时间窗余量。</p><div id="load-analysis" class="load-grid"></div><div id="window-analysis" class="window-note"></div></article>

@@ -17,6 +17,7 @@ async function waitFor(expression,timeout=50000){const until=Date.now()+timeout;
 
  // Inspect the revised comparison and the exact button spacing reported by the user.
  await evaluate("document.querySelector('[data-tab=compare]').click()");
+ assert.ok(await evaluate('(()=>{const e=document.querySelector(".comparison-guide");return e&&e.getBoundingClientRect().height>0&&["输入顺序","最近门店","最早截止"].every(x=>e.textContent.includes(x))})()'));
  assert.equal(await evaluate('document.querySelectorAll(".bar-row").length'),2*(await evaluate('window.UrbanUI.getComparisons().length')+1));
  assert.ok(await evaluate('document.querySelectorAll(".timeline-segment").length>10'));
  assert.ok(await evaluate('document.getElementById("comparison-insights").textContent.includes("结束")'));
